@@ -75,8 +75,8 @@ if (process.env.DOCS_SOURCE) {
 try {
   if (!(await exists(path.join(source.website, 'sidebar.json')))) {
     throw new Error(
-      `${source.label} has no website/sidebar.json. It arrives with the next release; until then ` +
-        'use DOCS_REF=main (once pushed) or DOCS_SOURCE=../EasyCMS.',
+      `${source.label} has no website/sidebar.json (added in the docs/shared-sidebar branch of ` +
+        `${REPO}). Set DOCS_REF to a branch or commit that has it, or DOCS_SOURCE to a local checkout.`,
     )
   }
   await rm(contentDir, { recursive: true, force: true })
