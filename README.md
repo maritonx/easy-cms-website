@@ -69,9 +69,10 @@ before each build.
    | `SITE_URL` | the deployment's address |
    | `DOCS_REF` | `main`, until an Easy CMS release includes `website/sidebar.json` |
 
-3. After the first deploy, fill it once from your machine:
-   `DATABASE_URL=libsql://… DATABASE_AUTH_TOKEN=… NODE_ENV=production pnpm seed`.
-   Open `/admin` to create the first admin.
+3. Put `DATABASE_URL` and `DATABASE_AUTH_TOKEN` in `.env.turso` (not committed), then fill the
+   database once from your machine with `pnpm seed:turso`. `pnpm migrate:turso` runs pending
+   migrations against it. Keep these out of `.env`: `pnpm dev` reads `.env` and would push the
+   development schema into the Turso database. Open `/admin` to create the first admin.
 
 Limits of the trial: uploads are not kept between deploys (add `@easy-cms/storage-s3` for that),
 and Vercel Hobby crons run once a day, so scheduled publishing isn't on time.
@@ -97,5 +98,6 @@ Scheduled publishing works because the server keeps running.
 | `pnpm build` / `pnpm start` | Production build and server |
 | `pnpm docs:fetch` | Fetch the docs again |
 | `pnpm seed` | Starting content for an empty database |
+| `pnpm migrate:turso` / `pnpm seed:turso` | The same against the Turso database in `.env.turso` |
 | `pnpm typecheck` | Route types and `tsc` |
 | `pnpm lint` | ESLint |

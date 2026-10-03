@@ -11,7 +11,9 @@
     "lint": "eslint",
     "docs:fetch": "node --env-file-if-exists=.env.local scripts/fetch-docs.mjs",
     "seed": "node --env-file-if-exists=.env --import tsx scripts/seed.mts",
-    "typecheck": "node --env-file-if-exists=.env.local scripts/fetch-docs.mjs --if-missing && next typegen && tsc --noEmit"
+    "typecheck": "node --env-file-if-exists=.env.local scripts/fetch-docs.mjs --if-missing && next typegen && tsc --noEmit",
+    "migrate:turso": "NODE_ENV=production node --env-file-if-exists=.env --env-file=.env.turso node_modules/easy-cms/bin/easy-cms.js migrate",
+    "seed:turso": "NODE_ENV=production node --env-file-if-exists=.env --env-file=.env.turso --import tsx scripts/seed.mts"
   },
   "dependencies": {
     "@easy-cms/admin": "0.22.1",
