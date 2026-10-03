@@ -2,10 +2,12 @@ import { withEasyCMS } from '@easy-cms/next/config'
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  // Markdown versions of the docs: /docs.md and /docs/next.md (app/docs-md).
+  // Markdown versions of the docs: /docs.md, /docs/next.md, /th/docs/next.md (app/docs-md).
   async rewrites() {
     return [
       { source: '/docs.md', destination: '/docs-md' },
+      { source: '/th/docs.md', destination: '/docs-md/th' },
+      { source: '/th/docs/:path((?:.*/)?[^/]+)\\.md', destination: '/docs-md/th/:path' },
       { source: '/docs/:path((?:.*/)?[^/]+)\\.md', destination: '/docs-md/:path' },
     ]
   },

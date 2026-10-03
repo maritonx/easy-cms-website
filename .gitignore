@@ -53,3 +53,4 @@ uploads/
 
 # Search index, written by pnpm build (pagefind)
 /public/pagefind/
+/public/pagefind-th/

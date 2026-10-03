@@ -4,5 +4,5 @@ import { renderDocFile } from './render'
 
 export type { RenderedDoc, TocItem } from './render'
 
-/** One docs page as HTML, rendered once per request. */
+/** One docs page as HTML in a locale, rendered once per request. */
 export const renderDoc = cache(renderDocFile)

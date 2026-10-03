@@ -19,6 +19,7 @@ const COLUMNS = [
       ['/docs/next', 'Next.js'],
       ['/docs/nuxt', 'Nuxt'],
       ['/docs/reference/config', 'Reference'],
+      ['/th/docs', 'เอกสารภาษาไทย'],
     ],
   },
   {

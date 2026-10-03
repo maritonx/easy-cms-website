@@ -6,7 +6,7 @@ and showcase. It is a Next.js 16 app that runs Easy CMS itself.
 | Part | Where the content lives |
 |---|---|
 | Home | `app/page.tsx`; the announcement badge and latest posts come from the CMS |
-| Docs | Markdown in `content/docs/en`, built into static pages |
+| Docs | Markdown from the Easy CMS repo, English at `/docs` and Thai at `/th/docs`, built into static pages |
 | Blog, Changelog, Showcase | Easy CMS collections `posts`, `releases`, `showcase`, edited at `/admin` |
 
 ## Run it
@@ -38,10 +38,13 @@ The docs are written in the Easy CMS repo, next to the code: `website/guide`, `w
 
 Rendering:
 
-- `lib/docs/sidebar.ts` maps each file in `sidebar.json` to its URL (`guide/next` → `/docs/next`).
+- `lib/docs/sidebar.ts` maps each file in `sidebar.json` to its URL in each language (`guide/next` → `/docs/next` and `/th/docs/next`). `components/docs/doc-page.tsx` renders both; `lib/docs/i18n.ts` has the page's own words.
 - `lib/docs/content.ts` turns VitePress syntax into HTML: `::: info|tip|warning|details`,
   `::: code-group`, `bash [pm]` blocks (one tab per package manager), `<Screenshot>`, fence titles
-  and highlighted lines. Links between pages are rewritten to site URLs.
+  and highlighted lines, and `{#id}` heading anchors (the Thai pages keep the English anchors).
+  Links between pages are rewritten to site URLs in the page's language.
+- `scripts/build-search.mts` builds the search indexes before `next build`: `public/pagefind`
+  (English) and `public/pagefind-th` (Thai); the search dialog uses the one for the page's language.
 - `lib/docs/commands.ts` is copied from `create-easy-cms`, so the docs translate npm commands the
   same way the scaffolder does.
 

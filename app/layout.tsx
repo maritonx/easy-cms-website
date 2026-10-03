@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { jsonLdScript, siteJsonLd } from '@easy-cms/plugin-seo'
-import { Bricolage_Grotesque, Geist, Geist_Mono } from 'next/font/google'
+import { Bricolage_Grotesque, Geist, Geist_Mono, IBM_Plex_Sans_Thai } from 'next/font/google'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
 import { themeScript } from '@/components/theme-toggle'
@@ -11,6 +11,8 @@ import './globals.css'
 const bricolage = Bricolage_Grotesque({ variable: '--font-bricolage', subsets: ['latin'] })
 const geist = Geist({ variable: '--font-geist', subsets: ['latin'] })
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] })
+// Thai glyphs, after the Latin faces in each stack (Geist and Bricolage have none).
+const thai = IBM_Plex_Sans_Thai({ variable: '--font-thai', subsets: ['thai'], weight: ['400', '500', '600', '700'] })
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -28,7 +30,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="en"
-      className={`${bricolage.variable} ${geist.variable} ${geistMono.variable}`}
+      className={`${bricolage.variable} ${geist.variable} ${geistMono.variable} ${thai.variable}`}
       suppressHydrationWarning
     >
       <head>

@@ -16,9 +16,9 @@ import { unified } from 'unified'
 import { visit } from 'unist-util-visit'
 import { CODE_THEME } from '../code-theme'
 import { PACKAGE_MANAGERS, translateCommands } from './commands'
-import { hrefForFile } from './sidebar'
+import { hrefForFile, type Locale } from './sidebar'
 
-const ROOT = path.join(process.cwd(), 'content/docs/en')
+const contentRoot = (locale: Locale) => path.join(process.cwd(), 'content/docs', locale)
 
 export type TocItem = { id: string; text: string; depth: 2 | 3 }
 export type RenderedDoc = { title: string; html: string; toc: TocItem[] }
@@ -55,7 +55,7 @@ const CALLOUT_TITLES: Record<string, string> = { info: 'Info', tip: 'Tip', warni
  * `::: info|tip|warning|details|code-group` containers, `<Screenshot>`, and fence titles
  * (```ts [file.ts]) and line highlights (```ts{2,4}).
  */
-function vitepressToMarkdown(source: string) {
+function vitepressToMarkdown(source: string, locale: Locale) {
   const out: string[] = []
   let fence: string | null = null
   const open: string[] = []
@@ -108,7 +108,7 @@ function vitepressToMarkdown(source: string) {
     if (shot) {
       const [, name, alt = ''] = shot
       out.push(
-        `<p class="screenshot"><img class="only-dark" src="/screenshots/${name}-en-dark.webp" alt="${escapeHtml(alt)}" loading="lazy"><img class="only-light" src="/screenshots/${name}-en-light.webp" alt="${escapeHtml(alt)}" loading="lazy"></p>`,
+        `<p class="screenshot"><img class="only-dark" src="/screenshots/${name}-${locale}-dark.webp" alt="${escapeHtml(alt)}" loading="lazy"><img class="only-light" src="/screenshots/${name}-${locale}-light.webp" alt="${escapeHtml(alt)}" loading="lazy"></p>`,
       )
       continue
     }
@@ -117,24 +117,43 @@ function vitepressToMarkdown(source: string) {
   return out.join('\n')
 }
 
+/**
+ * VitePress custom anchors: `## เวอร์ชัน {#versions}` becomes an h2 with id "versions", so the
+ * Thai pages keep the English pages' anchors. Runs before rehype-slug, which skips set ids.
+ */
+function rehypeHeadingIds() {
+  return (tree: Root) => {
+    visit(tree, 'element', (node) => {
+      if (!/^h[1-6]$/.test(node.tagName)) return
+      const last = node.children.at(-1)
+      if (last?.type !== 'text') return
+      const match = /\s*\{#([\w-]+)\}\s*$/.exec(last.value)
+      if (!match) return
+      last.value = last.value.slice(0, match.index)
+      node.properties.id = match[1]
+    })
+  }
+}
+
 const textOf = (node: Element | Root): string =>
   node.children
     .map((child) => (child.type === 'text' ? child.value : 'children' in child ? textOf(child as Element) : ''))
     .join('')
 
 /** Links between docs pages (./local-api, ../next, /guide/x) → site URLs; tables get a scroller. */
-function rehypeDocs(file: string, toc: TocItem[]) {
+function rehypeDocs(file: string, locale: Locale, toc: TocItem[]) {
   return () => (tree: Root) => {
     visit(tree, 'element', (node, index, parent) => {
       if (node.tagName === 'a' && typeof node.properties.href === 'string') {
         const href = node.properties.href
         if (!/^(https?:|mailto:|#)/.test(href)) {
           const [target, hash] = href.split('#')
+          // Absolute links name the locale (/th/guide/x); relative ones stay in it.
           const resolved = target.startsWith('/')
-            ? target.slice(1)
+            ? target.slice(1).replace(/^th\//, '')
             : path.posix.normalize(path.posix.join(path.posix.dirname(file), target))
           const clean = resolved.replace(/\.(md|html)$/, '').replace(/\/$/, '/index')
-          const site = hrefForFile(clean) ?? hrefForFile(`${clean}/index`)
+          const site = hrefForFile(clean, locale) ?? hrefForFile(`${clean}/index`, locale)
           if (site) node.properties.href = hash ? `${site}#${hash}` : site
         }
       }
@@ -153,15 +172,15 @@ function rehypeDocs(file: string, toc: TocItem[]) {
   }
 }
 
-/** One docs page (`guide/next`) as HTML, its title and its table of contents. */
-export async function renderDocFile(file: string): Promise<RenderedDoc | null> {
+/** One docs page (`guide/next`) in a locale as HTML, its title and its table of contents. */
+export async function renderDocFile(file: string, locale: Locale = 'en'): Promise<RenderedDoc | null> {
   let source: string
   try {
-    source = await readFile(path.join(ROOT, `${file}.md`), 'utf8')
+    source = await readFile(path.join(contentRoot(locale), `${file}.md`), 'utf8')
   } catch {
     return null
   }
-  const title = /^#\s+(.+)$/m.exec(source)?.[1]?.trim() ?? file
+  const title = (/^#\s+(.+)$/m.exec(source)?.[1] ?? file).replace(/\s*\{#[\w-]+\}\s*$/, '').trim()
   const toc: TocItem[] = []
   const html = await unified()
     .use(remarkParse)
@@ -170,9 +189,10 @@ export async function renderDocFile(file: string): Promise<RenderedDoc | null> {
     // Before rehype-raw, which drops the fence meta (titles, highlighted lines) it reads.
     .use(rehypePrettyCode, { theme: CODE_THEME, keepBackground: false, defaultLang: 'txt' })
     .use(rehypeRaw)
+    .use(rehypeHeadingIds)
     .use(rehypeSlug)
-    .use(rehypeDocs(file, toc))
+    .use(rehypeDocs(file, locale, toc))
     .use(rehypeStringify)
-    .process(vitepressToMarkdown(source))
+    .process(vitepressToMarkdown(source, locale))
   return { title: title.replace(/`/g, ''), html: String(html), toc }
 }

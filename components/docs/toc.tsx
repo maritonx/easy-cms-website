@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import type { TocItem } from '@/lib/docs/content'
 
 /** "On this page", highlighting the heading the reader is in. */
-export function Toc({ items }: { items: TocItem[] }) {
+export function Toc({ items, label = 'On this page' }: { items: TocItem[]; label?: string }) {
   const [active, setActive] = useState(items[0]?.id)
 
   useEffect(() => {
@@ -22,8 +22,8 @@ export function Toc({ items }: { items: TocItem[] }) {
 
   if (items.length === 0) return null
   return (
-    <aside className="toc" aria-label="On this page">
-      <h5>On this page</h5>
+    <aside className="toc" aria-label={label}>
+      <h5>{label}</h5>
       <ul>
         {items.map((item) => (
           <li key={item.id} className={`depth-${item.depth}`}>

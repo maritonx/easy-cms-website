@@ -24,9 +24,9 @@
   --code-line: #1b2c27;
   --code-fg: #d5e4de;
   --code-dim: #5d756c;
-  --font-display: var(--font-bricolage), "Avenir Next", "Segoe UI", system-ui, sans-serif;
-  --font-body: var(--font-geist), "Segoe UI", system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-geist-mono), "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-display: var(--font-bricolage), var(--font-thai), "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-body: var(--font-geist), var(--font-thai), "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), "SFMono-Regular", var(--font-thai), Menlo, Consolas, monospace;
   --wrap: 1180px;
   --radius: 10px;
   --header-h: 64px;
@@ -477,3 +477,12 @@ code, kbd, pre { font-family: var(--font-mono); }
 .search-sub a { padding: 5px 10px; font-size: 13.5px; color: var(--muted); }
 .search-note { padding: 18px 12px; color: var(--muted); font-size: 14px; }
 .search-note code { font-size: 0.9em; color: var(--fg); }
+
+/* ---------- docs language switch ---------- */
+.lang-switch { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg-2); margin-bottom: 22px; font-size: 13px; }
+.lang-switch a { padding: 5px 12px; border-radius: 6px; color: var(--muted); }
+.lang-switch a[aria-current="true"] { background: var(--surface-2); color: var(--fg); box-shadow: 0 0 0 1px var(--line-strong); }
+.mobile-docnav .lang-switch { margin: 6px 0 14px; }
+/* Thai reads better with a little more line height and no negative tracking. */
+[lang="th"] .prose { line-height: 1.75; }
+[lang="th"] h1, [lang="th"] h2, [lang="th"] h3 { letter-spacing: 0; line-height: 1.3; }

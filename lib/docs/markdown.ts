@@ -2,14 +2,13 @@ import 'server-only'
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { SITE_URL } from '@/easy-cms.config'
-import { ALL_DOCS } from './sidebar'
+import { ALL_DOCS, type Locale } from './sidebar'
 
-const ROOT = path.join(process.cwd(), 'content/docs/en')
 
 /** A docs page's markdown as written, for /docs/….md and llms-full.txt. */
-export async function docSource(file: string) {
+export async function docSource(file: string, locale: Locale = 'en') {
   try {
-    return await readFile(path.join(ROOT, `${file}.md`), 'utf8')
+    return await readFile(path.join(process.cwd(), 'content/docs', locale, `${file}.md`), 'utf8')
   } catch {
     return null
   }

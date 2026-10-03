@@ -21,7 +21,7 @@ export function SiteHeader() {
             <Link
               key={item.href}
               href={item.href}
-              aria-current={pathname.startsWith(item.href) ? 'page' : undefined}
+              aria-current={pathname.startsWith(item.href) || pathname.startsWith(`/th${item.href}`) ? 'page' : undefined}
             >
               {item.label}
             </Link>

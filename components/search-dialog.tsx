@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { SearchIcon } from './icons'
 
@@ -21,24 +21,48 @@ type PagefindData = {
 /** Pagefind writes /docs/next.html; the site's address is /docs/next. */
 const clean = (url: string) => url.replace(/\.html(?=$|#)/, '').replace(/^\/index$/, '/')
 
-let pagefind: Promise<Pagefind | null> | undefined
+const loaded = new Map<string, Promise<Pagefind | null>>()
 
-/** The index scripts/build-search.mts writes to public/pagefind. */
-function loadPagefind() {
-  const url = '/pagefind/pagefind.js'
-  pagefind ??= import(/* webpackIgnore: true */ /* turbopackIgnore: true */ url)
-    .then(async (module: Pagefind) => {
-      await module.options({ excerptLength: 18 })
-      return module
-    })
-    .catch(() => null)
-  return pagefind
+/** The index scripts/build-search.mts writes: public/pagefind (English), public/pagefind-th (Thai). */
+function loadPagefind(locale: 'en' | 'th') {
+  const url = locale === 'th' ? '/pagefind-th/pagefind.js' : '/pagefind/pagefind.js'
+  let pf = loaded.get(url)
+  if (!pf) {
+    pf = import(/* webpackIgnore: true */ /* turbopackIgnore: true */ url)
+      .then(async (module: Pagefind) => {
+        await module.options({ excerptLength: 18 })
+        return module
+      })
+      .catch(() => null)
+    loaded.set(url, pf)
+  }
+  return pf
+}
+
+const LABELS = {
+  en: {
+    button: 'Search docs',
+    placeholder: 'Search the docs',
+    missing: 'The search index isn’t built yet: run pnpm docs:fetch.',
+    none: (q: string) => `Nothing in the docs matches “${q}”.`,
+    hint: 'Search every guide, recipe and reference page.',
+  },
+  th: {
+    button: 'ค้นหาเอกสาร',
+    placeholder: 'ค้นหาในเอกสาร',
+    missing: 'ยังไม่ได้สร้างดัชนีค้นหา: รัน pnpm docs:fetch',
+    none: (q: string) => `ไม่พบ “${q}” ในเอกสาร`,
+    hint: 'ค้นหาทุกหน้าคู่มือ สูตรสำเร็จ และข้อมูลอ้างอิง',
+  },
 }
 
 export function SearchDialog() {
   const dialog = useRef<HTMLDialogElement>(null)
   const input = useRef<HTMLInputElement>(null)
   const router = useRouter()
+  // Thai pages search the Thai docs; everything else the English ones.
+  const locale = usePathname().startsWith('/th/') ? 'th' : 'en'
+  const t = LABELS[locale]
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<Result[]>([])
   const [state, setState] = useState<'idle' | 'loading' | 'ready' | 'unavailable'>('idle')
@@ -48,8 +72,8 @@ export function SearchDialog() {
     dialog.current?.showModal()
     input.current?.select()
     setState((s) => (s === 'idle' ? 'loading' : s))
-    void loadPagefind().then((pf) => setState(pf ? 'ready' : 'unavailable'))
-  }, [])
+    void loadPagefind(locale).then((pf) => setState(pf ? 'ready' : 'unavailable'))
+  }, [locale])
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -67,7 +91,7 @@ export function SearchDialog() {
     if (state !== 'ready') return
     let cancelled = false
     void (async () => {
-      const pf = await loadPagefind()
+      const pf = await loadPagefind(locale)
       const search = pf && query.trim() ? await pf.debouncedSearch(query) : null
       if (cancelled || (query.trim() && search === null)) return
       const data = search ? await Promise.all(search.results.slice(0, 8).map((r) => r.data())) : []
@@ -75,7 +99,7 @@ export function SearchDialog() {
       setResults(
         data.map((d) => ({
           url: clean(d.url),
-          title: d.meta.title?.replace(/ · Easy CMS$/, '') ?? clean(d.url),
+          title: d.meta.title ?? clean(d.url),
           excerpt: d.excerpt,
           // Headings inside the page; the page's own title is the result itself.
           subResults: d.sub_results
@@ -89,7 +113,7 @@ export function SearchDialog() {
     return () => {
       cancelled = true
     }
-  }, [query, state])
+  }, [query, state, locale])
 
   function go(url: string) {
     dialog.current?.close()
@@ -111,15 +135,15 @@ export function SearchDialog() {
 
   return (
     <>
-      <button className="search-btn" type="button" onClick={open} aria-label="Search docs">
+      <button className="search-btn" type="button" onClick={open} aria-label={t.button}>
         <SearchIcon width={15} height={15} />
-        <span>Search docs</span>
+        <span>{t.button}</span>
         <kbd>⌘K</kbd>
       </button>
       <dialog
         ref={dialog}
         className="search-dialog"
-        aria-label="Search docs"
+        aria-label={t.button}
         onClick={(e) => e.target === dialog.current && dialog.current?.close()}
       >
         <div className="search-box">
@@ -129,7 +153,7 @@ export function SearchDialog() {
               ref={input}
               id="docs-search"
               type="search"
-              placeholder="Search the docs"
+              placeholder={t.placeholder}
               autoComplete="off"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -140,13 +164,13 @@ export function SearchDialog() {
           </div>
           <div className="search-results" id="search-results">
             {state === 'unavailable' && (
-              <p className="search-note">The search index isn&apos;t built yet: run <code>pnpm docs:fetch</code>.</p>
+              <p className="search-note">{t.missing}</p>
             )}
             {state === 'ready' && query.trim() && results.length === 0 && (
-              <p className="search-note">Nothing in the docs matches &ldquo;{query}&rdquo;.</p>
+              <p className="search-note">{t.none(query)}</p>
             )}
             {state === 'ready' && !query.trim() && (
-              <p className="search-note">Search every guide, recipe and reference page.</p>
+              <p className="search-note">{t.hint}</p>
             )}
             <ul>
               {results.map((r, i) => (
