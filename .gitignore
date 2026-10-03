@@ -39,3 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# Easy CMS
+.env
+cms.db*
+uploads/
+.pglite/
+# Docs and screenshots come from the Easy CMS repo (scripts/fetch-docs.mjs)
+/content/docs/
+/public/screenshots/
+
+# Claude Code launch config (local)
+/.claude/

@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      # Docs come from the latest Easy CMS release unless the repository variable DOCS_REF
+      # names a branch, tag or commit of maritonx/easy-cms (see scripts/fetch-docs.mjs).
+      DOCS_REF: ${{ vars.DOCS_REF }}
+      # Only for the build; the CMS pages render on request, not at build time.
+      EASY_CMS_SECRET: ci-build-only-not-a-real-secret-0123456789
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm docs:fetch
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm build
