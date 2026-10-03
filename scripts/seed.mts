@@ -5,7 +5,7 @@
  *   pnpm seed            releases missing from the changelog; posts and showcase if empty
  *   pnpm seed --reset    delete what is there first
  */
-import { createEasyCMS } from '@easy-cms/core'
+import { createEasyCMS, slugify } from '@easy-cms/core'
 import configModule from '../easy-cms.config'
 
 // The config is a CommonJS module to Node here (the package isn't "type": "module").
@@ -142,6 +142,11 @@ const releases = [
 const posts = [
   {
     title: 'One installer for npm, pnpm, Yarn and Bun',
+    // SEO fields (plugin-seo): 50–60 and 100–150 characters.
+    meta: {
+      title: 'Easy CMS 0.22: one installer for npm, pnpm, Yarn and Bun',
+      description: 'create-easy-cms now detects your package manager, prints next steps in its own commands, and sets up Yarn 2+ for you.',
+    },
     category: 'Release', publishedAt: '2026-10-01', coverText: '--pm bun', featured: true,
     excerpt: 'Easy CMS 0.22 picks your package manager from the lockfile or the --pm flag, prints the next steps in its own commands, and the docs remember the one you chose.',
     body: `Until 0.22, \`create-easy-cms\` assumed npm. It installed packages with npm and told you to run \`npx easy-cms migrate\`, even inside a pnpm workspace or a Bun project. Now it works in the package manager you already use.
@@ -170,6 +175,11 @@ Every command in the docs now has a tab for npm, pnpm, Yarn and Bun, translated 
   },
   {
     title: 'Nested pages, with paths and breadcrumbs',
+    // SEO fields (plugin-seo): 50–60 and 100–150 characters.
+    meta: {
+      title: 'Nested pages with paths and breadcrumbs in Easy CMS 0.21',
+      description: 'The nested-docs plugin gives each page a parent, a full path and breadcrumbs, and updates the pages below when one moves.',
+    },
     category: 'Release', publishedAt: '2026-09-30', coverText: '/about/team',
     excerpt: 'About → Team → Engineering. The new plugin keeps every path and breadcrumb up to date when a page moves, in every language.',
     body: `Most sites have pages inside pages: About, then Team under it. Easy CMS 0.21 adds \`@easy-cms/plugin-nested-docs\` for that.
@@ -201,6 +211,11 @@ Give a page a new slug or a new parent and the pages under it get new paths too,
   },
   {
     title: 'Forms and email, built in',
+    // SEO fields (plugin-seo): 50–60 and 100–150 characters.
+    meta: {
+      title: 'Forms and email built into Easy CMS 0.20: no third party',
+      description: 'Editors build forms in the admin; submissions are validated, exported as CSV and kept from bots, and emails retry for a day.',
+    },
     category: 'Release', publishedAt: '2026-09-29', coverText: '<easy-form>',
     excerpt: 'Editors build forms in the admin. Submissions are validated on the server, emails retry for a day, and bots meet a honeypot.',
     body: `A contact form shouldn't need a third-party service. Easy CMS 0.20 adds email to the core and a form builder plugin.
@@ -221,6 +236,11 @@ Both packages add tables, so create a migration after installing them.`,
   },
   {
     title: 'Why we put the CMS inside your app',
+    // SEO fields (plugin-seo): 50–60 and 100–150 characters.
+    meta: {
+      title: 'Why Easy CMS runs inside your Next.js or Nuxt app server',
+      description: 'A headless CMS without a second server: one deployment, one database, a typed Local API, and the trade-offs that come with it.',
+    },
     category: 'Engineering', publishedAt: '2026-09-24', coverText: 'in-process',
     excerpt: 'A hosted headless CMS is a second service with its own deploy and database. Easy CMS is a package your app mounts instead. Here is what that changes.',
     body: `Most headless CMSs are a separate service. Your site calls it over HTTPS with a token, and you keep two deployments, two databases and two sets of credentials in step. Easy CMS takes the other route: it is an npm package that runs inside your Nuxt or Next.js server.
@@ -253,6 +273,11 @@ If you build with Vite, React, Vue or a static site generator, the same core run
   },
   {
     title: 'Moving from SQLite to Postgres',
+    // SEO fields (plugin-seo): 50–60 and 100–150 characters.
+    meta: {
+      title: 'Move Easy CMS from SQLite to Postgres with easy-cms copy',
+      description: 'Start on a SQLite file and move to Postgres later: one CLI command copies documents, versions and users, keeping every id.',
+    },
     category: 'Guide', publishedAt: '2026-09-21', coverText: 'easy-cms copy',
     excerpt: 'Start on a SQLite file, grow into Postgres. One CLI command copies every document, version and user between the two.',
     body: `SQLite is a fine choice for one server with a disk. Move to Postgres when you deploy to serverless, run several servers, or your host offers managed Postgres with backups.
@@ -280,6 +305,11 @@ The recipe Move from SQLite to Postgres in the docs has every step.`,
   },
   {
     title: 'Rebuild a static site when an editor publishes',
+    // SEO fields (plugin-seo): 50–60 and 100–150 characters.
+    meta: {
+      title: 'Rebuild a static site when an editor publishes in Easy CMS',
+      description: 'Point an Easy CMS webhook at your host\'s deploy hook to rebuild only on publish, with signed requests and a day of retries.',
+    },
     category: 'Guide', publishedAt: '2026-09-17', coverText: 'webhook ✓',
     excerpt: 'Point a webhook at your host\'s deploy hook and the site rebuilds when content goes live, and only then.',
     body: `A site generated at build time (Astro, Nuxt generate, a Next.js export, Hugo) can rebuild by itself when content is published.
@@ -364,6 +394,25 @@ if (reset) {
   console.log(`releases: ${missing.length ? missing.map((r) => r.version).join(', ') + ' added' : 'up to date'}`)
 }
 await fill('posts', posts, (p) => ({ ...p, body: richText(p.body) }))
+
+// SEO fields for posts that already exist (by slug), where they are still empty; what editors
+// wrote in the admin stays.
+{
+  const { docs } = await cms.find('posts', { limit: 1000, draft: true })
+  const bySlug = new Map(posts.map((p) => [slugify(p.title), p.meta]))
+  let filled = 0
+  for (const doc of docs) {
+    const seo = bySlug.get(String(doc.slug))
+    const meta = (doc as { meta?: { title?: string | null; description?: string | null } }).meta ?? {}
+    if (!seo || (meta.title && meta.description)) continue
+    await cms.update('posts', doc.id, {
+      meta: { ...meta, title: meta.title || seo.title, description: meta.description || seo.description },
+      status: doc.status,
+    } as never)
+    filled++
+  }
+  console.log(`posts: SEO fields filled on ${filled}`)
+}
 await fill('showcase', showcase, (s) => s)
 
 await cms.updateGlobal('site', {
