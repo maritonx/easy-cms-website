@@ -14,6 +14,7 @@
     "typecheck": "node --env-file-if-exists=.env.local scripts/fetch-docs.mjs --if-missing && next typegen && tsc --noEmit"
   },
   "dependencies": {
+    "@easy-cms/admin": "0.22.1",
     "@easy-cms/core": "^0.22.1",
     "@easy-cms/db-sqlite": "^0.22.1",
     "@easy-cms/next": "^0.22.1",
