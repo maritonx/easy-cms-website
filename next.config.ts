@@ -2,9 +2,10 @@ import { withEasyCMS } from '@easy-cms/next/config'
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  // The admin route finds the admin app through @easy-cms/next's package.json at runtime; when
-  // Next bundles the adapter that file isn't deployed and /admin fails on Vercel.
-  serverExternalPackages: ['@easy-cms/next'],
+  // The admin app the /admin route serves (appDir in app/admin/[[...path]]/route.ts).
+  outputFileTracingIncludes: {
+    '/admin/**': ['./node_modules/@easy-cms/admin/dist/app/**'],
+  },
 }
 
 export default withEasyCMS(nextConfig)

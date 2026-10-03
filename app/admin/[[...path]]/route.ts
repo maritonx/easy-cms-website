@@ -1,8 +1,12 @@
+import { join } from 'node:path'
 import { createAdminRouteHandlers } from '@easy-cms/next'
 import config from '../../../easy-cms.config'
 
-// The Easy CMS admin UI (admin.path in easy-cms.config.ts).
-const handlers = createAdminRouteHandlers(config)
+// The Easy CMS admin UI (admin.path in easy-cms.config.ts). The app's directory is given here, and
+// traced in next.config.ts, because Vercel only deploys traced files.
+const handlers = createAdminRouteHandlers(config, {
+  appDir: join(process.cwd(), 'node_modules/@easy-cms/admin/dist/app'),
+})
 
 // TEMPORARY: show why /admin fails on Vercel; remove once found.
 function debug(handler: (req: Request) => Promise<Response>) {
