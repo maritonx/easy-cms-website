@@ -37,10 +37,34 @@ function inline(text: string): Node[] {
     )
 }
 
+/** Blocks separated by blank lines; a fenced code block is one block, blank lines and all. */
+function blocks(source: string) {
+  const out: string[] = []
+  let current: string[] = []
+  let inCode = false
+  const flush = () => {
+    if (current.length) out.push(current.join('\n'))
+    current = []
+  }
+  for (const line of source.trim().split('\n')) {
+    if (line.startsWith('```')) {
+      if (!inCode) flush()
+      current.push(line)
+      inCode = !inCode
+      if (!inCode) flush()
+    } else if (!inCode && line.trim() === '') {
+      flush()
+    } else {
+      current.push(line)
+    }
+  }
+  flush()
+  return out
+}
+
 function richText(source: string) {
   const content: Node[] = []
-  const blocks = source.trim().split(/\n{2,}(?![^`]*```)/)
-  for (const block of blocks) {
+  for (const block of blocks(source)) {
     if (block.startsWith('```')) {
       const [, language = '', code = ''] = /^```(\w*)\n([\s\S]*?)\n?```$/.exec(block) ?? []
       content.push({ type: 'codeBlock', attrs: { language }, content: [{ type: 'text', text: code }] })
@@ -111,27 +135,35 @@ const posts = [
     title: 'One installer for npm, pnpm, Yarn and Bun',
     category: 'Release', publishedAt: '2026-10-01', coverText: '--pm bun', featured: true,
     excerpt: 'Easy CMS 0.22 picks your package manager from the lockfile or the --pm flag, prints the next steps in its own commands, and the docs remember the one you chose.',
-    body: `Until now, \`create-easy-cms\` assumed npm. It installed with npm and told you to run \`npx easy-cms migrate\`, even in a pnpm workspace. 0.22 fixes that.
+    body: `Until 0.22, \`create-easy-cms\` assumed npm. It installed packages with npm and told you to run \`npx easy-cms migrate\`, even inside a pnpm workspace or a Bun project. Now it works in the package manager you already use.
 
 ## How it picks
 
 - \`--pm npm|pnpm|yarn|bun\` when you pass it.
-- Otherwise the \`packageManager\` field in package.json, then the lockfile.
+- Otherwise the project's \`packageManager\` field, then its lockfile.
 - Otherwise the one you ran it with, so \`bun create easy-cms\` uses Bun.
 
 \`\`\`bash
 pnpm create easy-cms --db sqlite
 \`\`\`
 
+## Next steps in your own commands
+
+The steps it prints at the end use that package manager: \`pnpm exec easy-cms migrate\`, \`yarn easy-cms migrate\`, \`bunx easy-cms migrate\`, \`bun run dev\`. When the package manager isn't installed, it says how to get it and prints the install commands instead of failing halfway.
+
+## Yarn 2 and later
+
+Easy CMS doesn't support Plug'n'Play, so with Yarn 2 or later the scaffolder writes \`.yarnrc.yml\` with \`nodeLinker: node-modules\` for you.
+
 ## The docs follow
 
-Every command in the docs now has a tab for each package manager, and the one you pick sticks on every page.`,
+Every command in the docs now has a tab for npm, pnpm, Yarn and Bun, translated the same way the scaffolder prints them. Pick one once and every page shows it.`,
   },
   {
     title: 'Nested pages, with paths and breadcrumbs',
     category: 'Release', publishedAt: '2026-09-30', coverText: '/about/team',
     excerpt: 'About → Team → Engineering. The new plugin keeps every path and breadcrumb up to date when a page moves, in every language.',
-    body: `\`@easy-cms/plugin-nested-docs\` gives each document a \`parent\`, its full \`path\` and its \`breadcrumbs\`.
+    body: `Most sites have pages inside pages: About, then Team under it. Easy CMS 0.21 adds \`@easy-cms/plugin-nested-docs\` for that.
 
 \`\`\`ts
 import { nestedDocsPlugin } from '@easy-cms/plugin-nested-docs'
@@ -139,49 +171,133 @@ import { nestedDocsPlugin } from '@easy-cms/plugin-nested-docs'
 plugins: [nestedDocsPlugin({ collections: ['pages'] })]
 \`\`\`
 
-When a page gets a new slug or parent, the pages under it are updated when it is published. With the redirects plugin, their old addresses redirect.`,
+## What each page gets
+
+- A \`parent\` field to pick the page above it.
+- Its full \`path\`, such as \`/about/team\`, per language when the slug is localized.
+- Its \`breadcrumbs\`, ready for navigation and for BreadcrumbList structured data.
+
+## When a page moves
+
+Give a page a new slug or a new parent and the pages under it get new paths too, when it is published. With the redirects plugin, their old addresses redirect to the new ones. A page can't be moved under itself, \`maxDepth\` limits how deep the tree goes, and a page with pages under it can't be deleted unless you choose \`onDeleteParent: 'orphan'\`.
+
+## Reading the tree
+
+\`findByPath()\` finds the page for an address, \`getTree()\` builds menus, and \`GET /api/cms/tree/:collection\` gives the same to other frontends. For pages that existed before the plugin, \`npx easy-cms nested:rebuild\` works out their paths. The plugin adds fields, so create a migration after installing it.
+
+## Also in 0.21
+
+- Relationship \`filterOptions\`: which documents a relationship may point to, checked on the server; the admin's picker offers only those.
+- Slug \`uniqueWithin\`: slugs unique only among documents with the same value of another field, such as the same parent.`,
   },
   {
     title: 'Forms and email, built in',
     category: 'Release', publishedAt: '2026-09-29', coverText: '<easy-form>',
     excerpt: 'Editors build forms in the admin. Submissions are validated on the server, emails retry for a day, and bots meet a honeypot.',
-    body: `Two packages land together: \`@easy-cms/email-smtp\` and \`@easy-cms/plugin-form-builder\`.
+    body: `A contact form shouldn't need a third-party service. Easy CMS 0.20 adds email to the core and a form builder plugin.
 
-- Editors build forms from field blocks: text, email, number, choice, date and more.
-- Submissions are validated on the server and exported as CSV.
-- A honeypot, a minimum time, a rate limit and optional Cloudflare Turnstile keep bots out.
+## Email
 
-Render a form on any page with \`<easy-form form="contact">\`.`,
+Set \`email\` in the config: \`smtp()\` from the new \`@easy-cms/email-smtp\` works with Gmail, SES, Resend, Mailgun or any SMTP server, \`consoleEmail()\` prints messages during development, or write your own adapter. \`cms.sendEmail()\` queues each message in the database and retries for about a day if sending fails. On serverless hosts, \`flushEmails()\` waits for them before the request ends.
+
+## Forms
+
+With \`@easy-cms/plugin-form-builder\`, editors build forms in the admin from field blocks: text, long text, email, number, phone, choice, checkbox, date and message. Each form has a confirmation message or a redirect, and notification emails that can include the answers.
+
+- Submissions are validated on the server, stored without IP addresses and exported as CSV.
+- A honeypot, a minimum time, a rate limit per visitor and optional Cloudflare Turnstile keep bots out.
+- \`<easy-form form="contact">\` renders a form on any page; \`getForm()\` and \`submitForm()\` are there for your own components.
+
+Both packages add tables, so create a migration after installing them.`,
   },
   {
     title: 'Why we put the CMS inside your app',
     category: 'Engineering', publishedAt: '2026-09-24', coverText: 'in-process',
-    excerpt: 'A second service means a second deploy, a second database and a network hop on every render. Here is what we gained by removing it.',
-    body: `Most headless CMSs are a separate service. Your site calls it over HTTPS with a token, and you keep two deployments and two databases in step.
+    excerpt: 'A hosted headless CMS is a second service with its own deploy and database. Easy CMS is a package your app mounts instead. Here is what that changes.',
+    body: `Most headless CMSs are a separate service. Your site calls it over HTTPS with a token, and you keep two deployments, two databases and two sets of credentials in step. Easy CMS takes the other route: it is an npm package that runs inside your Nuxt or Next.js server.
 
-## One deployment
+## One app, one database
 
-Easy CMS is a package. The admin and the REST API are route handlers in your app, and your pages read content with an in-process call.
+The admin at \`/admin\` and the REST API at \`/api/cms\` are routes of your app. Your pages read content with the Local API, a function call in the same process, with no HTTP involved. Content lives in your database, SQLite or Postgres, in real tables and columns with an \`ecms_\` prefix, so you can still query it with SQL.
 
-## Types from the config
+## The content model is code
 
-Because the content model is TypeScript in your repo, \`cms.find('posts')\` returns typed documents with no generation step.`,
+Collections, fields, access rules and hooks go in \`easy-cms.config.ts\`. You review changes in pull requests, and production gets them as migrations you can read before they run.
+
+\`\`\`ts
+const cms = await getEasyCMS(config)
+const { docs } = await cms.find('posts', { limit: 10 })
+// docs[0].title is a string, typed from the config
+\`\`\`
+
+## Typed without a build step
+
+Because the config is TypeScript, \`cms.find('posts')\` returns typed documents straight from it. There is no schema to download and no code generation to keep up to date.
+
+## The trade-offs
+
+- Editors can't change the content model themselves; a developer changes the config.
+- It needs Node.js 22.12 or newer, so no edge runtimes.
+- There is no GraphQL, and the plugin ecosystem is young.
+
+If you build with Vite, React, Vue or a static site generator, the same core runs as a standalone server with REST.`,
   },
   {
     title: 'Moving from SQLite to Postgres',
     category: 'Guide', publishedAt: '2026-09-21', coverText: 'easy-cms copy',
-    excerpt: 'Start on a SQLite file, grow into Postgres. The CLI copies every collection, version and upload between databases.',
-    body: `Start with a SQLite file in development and on a small site. When you outgrow it, copy everything to Postgres with the CLI.
+    excerpt: 'Start on a SQLite file, grow into Postgres. One CLI command copies every document, version and user between the two.',
+    body: `SQLite is a fine choice for one server with a disk. Move to Postgres when you deploy to serverless, run several servers, or your host offers managed Postgres with backups.
 
-The full steps are in the recipe **Move from SQLite to Postgres** in the docs.`,
+## Before launch
+
+If the content so far is test content, switch the adapter to \`postgres()\`, replace the migrations with \`npx easy-cms migrate:create init\`, and start fresh. Migrations are written in one database's SQL, so the SQLite ones don't carry over.
+
+## With content to keep
+
+\`easy-cms copy\` moves documents, versions, users (logins keep working), globals and scheduled jobs. Ids stay the same, so relationships still point to the right documents.
+
+- Back up first with \`npx easy-cms backup\`.
+- Keep a second config for the old SQLite database next to the main one.
+- Point the main config at Postgres, create its migrations and run them.
+- Copy while nobody is editing, then check the admin, a few documents and a login.
+
+\`\`\`bash
+npx easy-cms copy --from easy-cms.old.config.ts
+\`\`\`
+
+The target must be empty, so running it twice by accident changes nothing. Uploads stay where they are, in \`uploads/\` or your bucket. The same command works from Postgres back to SQLite.
+
+The recipe Move from SQLite to Postgres in the docs has every step.`,
   },
   {
     title: 'Rebuild a static site when an editor publishes',
     category: 'Guide', publishedAt: '2026-09-17', coverText: 'webhook ✓',
-    excerpt: 'Signed webhooks trigger a deploy the moment content goes live, and only then.',
-    body: `Webhooks are signed, so the receiver can check they came from your CMS. Point one at your host's deploy hook and filter on publish events.
+    excerpt: 'Point a webhook at your host\'s deploy hook and the site rebuilds when content goes live, and only then.',
+    body: `A site generated at build time (Astro, Nuxt generate, a Next.js export, Hugo) can rebuild by itself when content is published.
 
-The recipe **Rebuild a static site on publish** in the docs has the whole setup.`,
+## 1. Get a deploy hook
+
+Netlify, Vercel and Cloudflare Pages each give you a URL that starts a build when it receives a POST. Keep it in an environment variable.
+
+## 2. Call it when something goes live
+
+\`\`\`ts
+webhooks: [
+  {
+    url: process.env.DEPLOY_HOOK_URL as string,
+    events: ['publish', 'unpublish', 'delete'],
+    collections: ['posts', 'pages'],
+  },
+],
+\`\`\`
+
+Only changes visitors can see start a build, not every draft save. For collections without drafts, add \`update\` and \`create\`.
+
+## Reliable delivery
+
+Easy CMS sends the request after the change is saved and retries for about a day if the host is down, even across restarts. Every request is signed, so a receiver of your own can check it came from your CMS. Scheduled publishing sends \`publish\` too, so a post set for 9:00 rebuilds the site at 9:00.
+
+The recipe Rebuild a static site on publish in the docs has the details.`,
   },
 ]
 
