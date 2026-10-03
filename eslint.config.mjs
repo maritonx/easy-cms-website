@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Generated: the search index (scripts/build-search.mts) and the docs fetched from Easy CMS.
+    "public/pagefind/**",
+    "content/**",
   ]),
 ]);
 

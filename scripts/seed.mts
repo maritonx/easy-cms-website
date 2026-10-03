@@ -2,7 +2,7 @@
  * Fills an empty database with the site's starting content: releases from the Easy CMS
  * changelog, blog posts, showcase entries and the home page announcement.
  *
- *   pnpm seed            only collections that are still empty
+ *   pnpm seed            releases missing from the changelog; posts and showcase if empty
  *   pnpm seed --reset    delete what is there first
  */
 import { createEasyCMS } from '@easy-cms/core'
@@ -87,6 +87,15 @@ function richText(source: string) {
 
 // ---------- content ----------
 const releases = [
+  {
+    version: '0.22.2', title: 'The admin on Vercel', date: '2026-10-03', kind: 'patch',
+    summary: 'The admin works on Vercel and other hosts that deploy only the files the build traces.',
+    changes: [
+      '`createAdminRouteHandlers()` looked for the admin app through `@easy-cms/next/package.json`, which Vercel doesn\'t deploy, so `/admin` answered 500 with "Cannot find module \'@easy-cms/next/package.json\'".',
+      'It now uses the path `@easy-cms/admin` reports for itself, which the build traces, and falls back to the old lookup when that package was bundled.',
+    ],
+    packages: ['@easy-cms/next'], needsMigration: false,
+  },
   {
     version: '0.22.1', title: 'Package READMEs', date: '2026-10-02', kind: 'patch',
     summary: 'Every package now explains what it does, how to install it with npm, pnpm, Yarn or Bun, and links to its guide.',
@@ -339,11 +348,21 @@ async function fill<T>(collection: 'posts' | 'releases' | 'showcase', rows: T[],
   console.log(`${collection}: ${rows.length} added`)
 }
 
-await fill('releases', releases, (r) => ({
+const releaseData = (r: (typeof releases)[number]) => ({
   ...r,
   changes: r.changes.map((text) => ({ text })),
   packages: r.packages.map((name) => ({ name })),
-}))
+})
+if (reset) {
+  await fill('releases', releases, releaseData)
+} else {
+  // Releases come from the changelog: add the versions that aren't there yet, keep the rest.
+  const { docs } = await cms.find('releases', { limit: 1000, draft: true })
+  const known = new Set(docs.map((d) => d.version))
+  const missing = releases.filter((r) => !known.has(r.version))
+  for (const r of missing) await cms.create('releases', { ...releaseData(r), status: 'published' } as never)
+  console.log(`releases: ${missing.length ? missing.map((r) => r.version).join(', ') + ' added' : 'up to date'}`)
+}
 await fill('posts', posts, (p) => ({ ...p, body: richText(p.body) }))
 await fill('showcase', showcase, (s) => s)
 
