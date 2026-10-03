@@ -1,5 +1,9 @@
 import { defineConfig } from '@easy-cms/core'
 import { sqlite } from '@easy-cms/db-sqlite'
+import { seoPlugin } from '@easy-cms/plugin-seo'
+
+/** The public address: absolute links in the sitemap, share tags and llms.txt. */
+export const SITE_URL = process.env.SITE_URL ?? 'https://easy-cms.io'
 
 /** Visitors see published documents; logged-in editors see drafts too. */
 const publishedOrEditor = ({ user }: { user: unknown }) =>
@@ -12,7 +16,7 @@ export default defineConfig({
     url: process.env.DATABASE_URL ?? 'file:./cms.db',
     authToken: process.env.DATABASE_AUTH_TOKEN,
   }),
-  admin: { locale: 'en', menu: ['posts', 'releases', 'showcase', 'media'] },
+  admin: { locale: 'en', siteUrl: SITE_URL, menu: ['posts', 'releases', 'showcase', 'media'] },
   collections: [
     {
       slug: 'posts',
@@ -92,6 +96,20 @@ export default defineConfig({
         { name: 'order', type: 'number', defaultValue: 100 },
       ],
     },
+  ],
+  plugins: [
+    seoPlugin({
+      collections: ['posts'],
+      globals: ['site'],
+      position: 'sidebar',
+      generateTitle: ({ doc }) => (doc.title ? `${doc.title} · Easy CMS` : null),
+      generateDescription: ({ doc }) => (doc.excerpt as string | undefined) ?? null,
+      generateImage: ({ doc }) => (doc.cover as number | undefined) ?? null,
+      generateURL: ({ doc, collection }) =>
+        collection === 'posts' ? (doc.slug ? `${SITE_URL}/blog/${doc.slug}` : null) : `${SITE_URL}/`,
+      // app/llms.txt builds its own file with the docs; this keeps the plugin's routes quiet.
+      llms: false,
+    }),
   ],
   globals: [
     {

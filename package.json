@@ -16,10 +16,11 @@
     "seed:turso": "NODE_ENV=production node --env-file-if-exists=.env --env-file=.env.turso --import tsx scripts/seed.mts"
   },
   "dependencies": {
-    "@easy-cms/admin": "0.22.1",
+    "@easy-cms/admin": "^0.22.1",
     "@easy-cms/core": "^0.22.1",
     "@easy-cms/db-sqlite": "^0.22.1",
     "@easy-cms/next": "^0.22.1",
+    "@easy-cms/plugin-seo": "^0.22.1",
     "@easy-cms/richtext": "^0.22.1",
     "next": "16.3.8",
     "react": "19.2.8",
@@ -44,6 +45,7 @@
     "easy-cms": "^0.22.1",
     "eslint": "^9",
     "eslint-config-next": "16.3.8",
+    "pagefind": "^1.5.2",
     "tsx": "^4.23.15",
     "typescript": "^5"
   },

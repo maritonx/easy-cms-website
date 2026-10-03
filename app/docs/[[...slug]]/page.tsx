@@ -5,6 +5,7 @@ import { DocEnhancer } from '@/components/docs/doc-enhancer'
 import { DocsNav } from '@/components/docs/docs-nav'
 import { Toc } from '@/components/docs/toc'
 import { renderDoc } from '@/lib/docs/content'
+import { describe, docSource } from '@/lib/docs/markdown'
 import { ALL_DOCS, findDoc, SIDEBAR } from '@/lib/docs/sidebar'
 import { DOCS_SOURCE, editURL } from '@/lib/docs/source'
 import { VERSION } from '@/lib/site'
@@ -25,7 +26,13 @@ async function load(params: PageProps<'/docs/[[...slug]]'>['params']) {
 
 export async function generateMetadata({ params }: PageProps<'/docs/[[...slug]]'>): Promise<Metadata> {
   const page = await load(params)
-  return page ? { title: page.rendered.title } : {}
+  if (!page) return {}
+  const source = await docSource(page.doc.file)
+  return {
+    title: page.rendered.title,
+    description: (source && describe(source)) ?? undefined,
+    alternates: { canonical: page.doc.href, types: { 'text/markdown': `${page.doc.href}.md` } },
+  }
 }
 
 export default async function DocPage({ params }: PageProps<'/docs/[[...slug]]'>) {
@@ -39,7 +46,7 @@ export default async function DocPage({ params }: PageProps<'/docs/[[...slug]]'>
         <DocsNav groups={SIDEBAR} />
       </aside>
 
-      <article className="doc">
+      <article className="doc" data-pagefind-body>
         <details className="mobile-docnav">
           <summary>{doc.group} › {doc.title}</summary>
           <div className="docs-side-inner"><DocsNav groups={SIDEBAR} /></div>
