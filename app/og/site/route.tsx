@@ -1,11 +1,11 @@
 import { ImageResponse } from 'next/og'
+import { ogFonts } from '@/lib/og'
 
-// The share image for pages without their own (posts use their SEO image when set).
-export const alt = 'Easy CMS: the embedded, code-first headless CMS for Next.js and Nuxt'
-export const size = { width: 1200, height: 630 }
-export const contentType = 'image/png'
+// The share image for pages without their own (siteMetadata in components/site-shell.tsx).
+// A route with a fixed address: an opengraph-image file inside a route group gets a hashed one.
+export const dynamic = 'force-static'
 
-export default function OpengraphImage() {
+export async function GET() {
   const rule = (width: number) => (
     <div style={{ width, height: 14, borderRadius: 7, background: '#ffffff' }} />
   )
@@ -21,7 +21,7 @@ export default function OpengraphImage() {
           padding: 80,
           background: 'radial-gradient(70% 90% at 85% 0%, #1d3a31 0%, #0b1210 70%)',
           color: '#e4eee9',
-          fontFamily: 'sans-serif',
+          fontFamily: 'Plex',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 22 }}>
@@ -58,6 +58,6 @@ export default function OpengraphImage() {
         </div>
       </div>
     ),
-    size,
+    { width: 1200, height: 630, fonts: await ogFonts() },
   )
 }

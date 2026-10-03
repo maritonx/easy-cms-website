@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
+import { jsonLdScript } from '@easy-cms/plugin-seo'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { SITE_URL } from '@/easy-cms.config'
 import { renderDoc } from '@/lib/docs/content'
 import { DOC_LABELS } from '@/lib/docs/i18n'
 import { describe, docSource } from '@/lib/docs/markdown'
@@ -24,14 +26,31 @@ async function load(slug: string[] | undefined, locale: Locale) {
   return rendered && { ...found, rendered }
 }
 
+/** /docs/next → /og/docs/next, /th/docs/next → /og/docs/th/next (app/og/docs). */
+const ogImage = (href: string, locale: Locale) =>
+  locale === 'th' ? href.replace(/^\/th\/docs/, '/og/docs/th') : `/og${href}`
+
 export async function docMetadata(slug: string[] | undefined, locale: Locale): Promise<Metadata> {
   const page = await load(slug, locale)
   if (!page) return {}
   const source = await docSource(page.doc.file, locale)
+  const description = (source && describe(source)) ?? undefined
   const en = hrefFor(page.doc.file, 'en')
+  const image = { url: ogImage(page.doc.href, locale), width: 1200, height: 630, alt: page.rendered.title }
   return {
     title: page.rendered.title,
-    description: (source && describe(source)) ?? undefined,
+    description,
+    openGraph: {
+      type: 'article',
+      siteName: 'Easy CMS',
+      title: page.rendered.title,
+      description,
+      url: page.doc.href,
+      locale: locale === 'th' ? 'th_TH' : 'en_US',
+      alternateLocale: locale === 'th' ? 'en_US' : 'th_TH',
+      images: [image],
+    },
+    twitter: { card: 'summary_large_image', title: page.rendered.title, description, images: [image.url] },
     alternates: {
       canonical: page.doc.href,
       languages: { en, th: hrefFor(page.doc.file, 'th'), 'x-default': en },
@@ -57,8 +76,32 @@ export async function DocPage({ slug, locale }: { slug: string[] | undefined; lo
     </nav>
   )
 
+  // TechArticle and its place in the docs, for search results.
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'TechArticle',
+        headline: rendered.title,
+        inLanguage: locale,
+        url: `${SITE_URL}${doc.href}`,
+        isPartOf: { '@type': 'WebSite', name: 'Easy CMS', url: SITE_URL },
+        publisher: { '@type': 'Organization', name: 'Easy CMS', url: SITE_URL },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { name: t.docs, url: hrefFor('guide/what-is-easy-cms', locale) },
+          { name: doc.group, url: groups.find((g) => g.title === doc.group)?.items[0]?.href ?? doc.href },
+          { name: doc.title, url: doc.href },
+        ].map((item, i) => ({ '@type': 'ListItem', position: i + 1, name: item.name, item: `${SITE_URL}${item.url}` })),
+      },
+    ],
+  }
+
   return (
     <div className="wrap docs-layout" lang={locale}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
       <aside className="docs-side" aria-label={t.navigation}>
         {languages}
         <DocsNav groups={groups} />

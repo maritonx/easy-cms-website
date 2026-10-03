@@ -10,6 +10,7 @@ export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: 'Blog',
   description: 'Release write-ups, guides for real projects, and the reasoning behind Easy CMS.',
+  alternates: { canonical: '/blog' },
 }
 
 function initials(name: string) {

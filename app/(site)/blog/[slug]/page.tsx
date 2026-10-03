@@ -28,8 +28,8 @@ export async function generateMetadata({ params }: PageProps<'/blog/[slug]'>): P
   const meta = seo.next as Metadata
   // A meta title from the SEO fields is complete; the post title gets the site's template.
   const metaTitle = (post as { meta?: { title?: string | null } }).meta?.title
-  // Without a share image of its own, the post uses the site's (app/opengraph-image.tsx).
-  const images = seo.image ? meta.openGraph?.images : ['/opengraph-image']
+  // Without a share image of its own, the post uses the site's (app/og/site).
+  const images = seo.image ? meta.openGraph?.images : ['/og/site']
   return {
     ...meta,
     title: metaTitle ? { absolute: metaTitle } : post.title,

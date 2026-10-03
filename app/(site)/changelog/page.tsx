@@ -7,6 +7,7 @@ export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: 'Changelog',
   description: 'Every Easy CMS release, with the changes and the packages it touched.',
+  alternates: { canonical: '/changelog' },
 }
 
 /** `code` spans in changelog text, written with backticks in the CMS. */

@@ -1,4 +1,6 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
+import { jsonLdScript } from '@easy-cms/plugin-seo'
 import { AdminShowcase } from '@/components/home/admin-showcase'
 import { CodeSteps, type CodeStep } from '@/components/home/code-steps'
 import { InstallCommand } from '@/components/home/install-command'
@@ -6,10 +8,29 @@ import { ArrowIcon, FeatureIcon, GitHubIcon } from '@/components/icons'
 import { PostCard } from '@/components/post-card'
 import { getPosts, getSite } from '@/lib/cms'
 import { highlight } from '@/lib/highlight'
-import { GITHUB_URL } from '@/lib/site'
+import { SITE_URL } from '@/easy-cms.config'
+import { GITHUB_URL, NPM_URL, VERSION } from '@/lib/site'
 
 // Reads the latest posts and the announcement from the CMS on every request.
 export const dynamic = 'force-dynamic'
+
+export const metadata: Metadata = { alternates: { canonical: '/' } }
+
+/** What Easy CMS is, for search results: free, MIT-licensed developer software on Node.js. */
+const softwareJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Easy CMS',
+  description: 'The embedded, code-first headless CMS for Nuxt and Next.js.',
+  url: SITE_URL,
+  applicationCategory: 'DeveloperApplication',
+  operatingSystem: 'Node.js 22.12 or later',
+  softwareVersion: VERSION,
+  license: 'https://opensource.org/licenses/MIT',
+  downloadUrl: NPM_URL,
+  sameAs: [GITHUB_URL],
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+}
 
 const CONFIG_CODE = `
 import { defineConfig } from '@easy-cms/core'
@@ -137,6 +158,7 @@ export default async function Home() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(softwareJsonLd) }} />
       <section className="hero">
         <div className="wrap">
           <div className="hero-copy">

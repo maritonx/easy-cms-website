@@ -7,6 +7,7 @@ export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: 'Showcase',
   description: 'Sites and starters built with Easy CMS.',
+  alternates: { canonical: '/showcase' },
 }
 
 export default async function ShowcasePage() {
