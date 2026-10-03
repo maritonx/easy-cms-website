@@ -47,11 +47,47 @@ Rendering:
 
 ## Deploying
 
-- Set `EASY_CMS_SECRET` (at least 32 characters) and `DATABASE_URL` (a Turso/libSQL URL, or switch
-  to `@easy-cms/db-postgres`) in the host's environment, and `SITE_URL` to the public address.
-- Before the first deploy: `pnpm exec easy-cms migrate:create init`, commit `easy-cms/migrations`,
-  and run `pnpm exec easy-cms migrate` where you deploy.
-- Uploads go to `uploads/` on disk; use `@easy-cms/storage-s3` on serverless hosts.
+Schema changes ship as migrations: after changing `easy-cms.config.ts`, run
+`pnpm exec easy-cms migrate:create <name>` and commit `easy-cms/migrations`. Production runs
+`easy-cms migrate` before the new version starts. A database made by development push (your local
+`cms.db`) can't take migrations; production databases start empty and are migrated.
+
+### Vercel (trial)
+
+Uses a Turso database, since Vercel has no persistent disk. `vercel.json` runs the migrations
+before each build.
+
+1. Create a Turso database: `turso db create easy-cms-io`, then `turso db show --url easy-cms-io`
+   and `turso db tokens create easy-cms-io`.
+2. Import `maritonx/easy-cms-website` in Vercel and add these environment variables:
+
+   | Variable | Value |
+   |---|---|
+   | `EASY_CMS_SECRET` | `openssl rand -hex 32` |
+   | `DATABASE_URL` | the `libsql://…` URL |
+   | `DATABASE_AUTH_TOKEN` | the Turso token |
+   | `SITE_URL` | the deployment's address |
+   | `DOCS_REF` | `main`, until an Easy CMS release includes `website/sidebar.json` |
+
+3. After the first deploy, fill it once from your machine:
+   `DATABASE_URL=libsql://… DATABASE_AUTH_TOKEN=… NODE_ENV=production pnpm seed`.
+   Open `/admin` to create the first admin.
+
+Limits of the trial: uploads are not kept between deploys (add `@easy-cms/storage-s3` for that),
+and Vercel Hobby crons run once a day, so scheduled publishing isn't on time.
+
+### VPS (production)
+
+One Node process with the SQLite file and uploads on the server's disk; no Turso or S3 needed.
+Scheduled publishing works because the server keeps running.
+
+- Node 22.12 or later; build on the server (or the same OS and architecture), since SQLite uses
+  a native driver.
+- `.env` with `EASY_CMS_SECRET` and `SITE_URL`; `DATABASE_URL` defaults to `file:./cms.db`.
+- Deploy: `pnpm install --frozen-lockfile && pnpm exec easy-cms migrate && pnpm build`, then
+  `NODE_ENV=production pnpm start` from the project root, under systemd or pm2, behind Caddy or
+  nginx for HTTPS.
+- Back up `cms.db` and `uploads/` (see the Backups guide).
 
 ## Scripts
 

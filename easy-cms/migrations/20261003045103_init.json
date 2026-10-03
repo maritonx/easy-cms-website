@@ -1,0 +1,1072 @@
+{
+  "dialect": "sqlite",
+  "hash": "463a47ead280fa98",
+  "snapshot": {
+    "version": "6",
+    "dialect": "sqlite",
+    "tables": {
+      "ecms_users": {
+        "name": "ecms_users",
+        "columns": {
+          "id": {
+            "name": "id",
+            "type": "integer",
+            "primaryKey": true,
+            "notNull": true,
+            "autoincrement": true
+          },
+          "created_at": {
+            "name": "created_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "updated_at": {
+            "name": "updated_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "email": {
+            "name": "email",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "name": {
+            "name": "name",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "role": {
+            "name": "role",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "active": {
+            "name": "active",
+            "type": "integer",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "password_hash": {
+            "name": "password_hash",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          }
+        },
+        "indexes": {
+          "ecms_users_created_at_idx": {
+            "name": "ecms_users_created_at_idx",
+            "columns": [
+              "created_at"
+            ],
+            "isUnique": false
+          },
+          "ecms_users_email_unique": {
+            "name": "ecms_users_email_unique",
+            "columns": [
+              "email"
+            ],
+            "isUnique": true
+          }
+        },
+        "foreignKeys": {},
+        "compositePrimaryKeys": {},
+        "uniqueConstraints": {},
+        "checkConstraints": {}
+      },
+      "ecms_media": {
+        "name": "ecms_media",
+        "columns": {
+          "id": {
+            "name": "id",
+            "type": "integer",
+            "primaryKey": true,
+            "notNull": true,
+            "autoincrement": true
+          },
+          "created_at": {
+            "name": "created_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "updated_at": {
+            "name": "updated_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "filename": {
+            "name": "filename",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "original_name": {
+            "name": "original_name",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "mime_type": {
+            "name": "mime_type",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "filesize": {
+            "name": "filesize",
+            "type": "real",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "width": {
+            "name": "width",
+            "type": "real",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "height": {
+            "name": "height",
+            "type": "real",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "sizes": {
+            "name": "sizes",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "alt": {
+            "name": "alt",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          }
+        },
+        "indexes": {
+          "ecms_media_created_at_idx": {
+            "name": "ecms_media_created_at_idx",
+            "columns": [
+              "created_at"
+            ],
+            "isUnique": false
+          },
+          "ecms_media_filename_unique": {
+            "name": "ecms_media_filename_unique",
+            "columns": [
+              "filename"
+            ],
+            "isUnique": true
+          }
+        },
+        "foreignKeys": {},
+        "compositePrimaryKeys": {},
+        "uniqueConstraints": {},
+        "checkConstraints": {}
+      },
+      "ecms_posts": {
+        "name": "ecms_posts",
+        "columns": {
+          "id": {
+            "name": "id",
+            "type": "integer",
+            "primaryKey": true,
+            "notNull": true,
+            "autoincrement": true
+          },
+          "created_at": {
+            "name": "created_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "updated_at": {
+            "name": "updated_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "status": {
+            "name": "status",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false,
+            "default": "'draft'"
+          },
+          "title": {
+            "name": "title",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "slug": {
+            "name": "slug",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "excerpt": {
+            "name": "excerpt",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "category": {
+            "name": "category",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "published_at": {
+            "name": "published_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "author": {
+            "name": "author",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "cover_text": {
+            "name": "cover_text",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "cover": {
+            "name": "cover",
+            "type": "integer",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "featured": {
+            "name": "featured",
+            "type": "integer",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "body": {
+            "name": "body",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          }
+        },
+        "indexes": {
+          "ecms_posts_status_idx": {
+            "name": "ecms_posts_status_idx",
+            "columns": [
+              "status"
+            ],
+            "isUnique": false
+          },
+          "ecms_posts_created_at_idx": {
+            "name": "ecms_posts_created_at_idx",
+            "columns": [
+              "created_at"
+            ],
+            "isUnique": false
+          },
+          "ecms_posts_slug_unique": {
+            "name": "ecms_posts_slug_unique",
+            "columns": [
+              "slug"
+            ],
+            "isUnique": true
+          },
+          "ecms_posts_cover_idx": {
+            "name": "ecms_posts_cover_idx",
+            "columns": [
+              "cover"
+            ],
+            "isUnique": false
+          }
+        },
+        "foreignKeys": {},
+        "compositePrimaryKeys": {},
+        "uniqueConstraints": {},
+        "checkConstraints": {}
+      },
+      "ecms_releases": {
+        "name": "ecms_releases",
+        "columns": {
+          "id": {
+            "name": "id",
+            "type": "integer",
+            "primaryKey": true,
+            "notNull": true,
+            "autoincrement": true
+          },
+          "created_at": {
+            "name": "created_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "updated_at": {
+            "name": "updated_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "status": {
+            "name": "status",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false,
+            "default": "'draft'"
+          },
+          "version": {
+            "name": "version",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "title": {
+            "name": "title",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "date": {
+            "name": "date",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "kind": {
+            "name": "kind",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "summary": {
+            "name": "summary",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "needs_migration": {
+            "name": "needs_migration",
+            "type": "integer",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          }
+        },
+        "indexes": {
+          "ecms_releases_status_idx": {
+            "name": "ecms_releases_status_idx",
+            "columns": [
+              "status"
+            ],
+            "isUnique": false
+          },
+          "ecms_releases_created_at_idx": {
+            "name": "ecms_releases_created_at_idx",
+            "columns": [
+              "created_at"
+            ],
+            "isUnique": false
+          }
+        },
+        "foreignKeys": {},
+        "compositePrimaryKeys": {},
+        "uniqueConstraints": {},
+        "checkConstraints": {}
+      },
+      "ecms_releases__changes": {
+        "name": "ecms_releases__changes",
+        "columns": {
+          "id": {
+            "name": "id",
+            "type": "text",
+            "primaryKey": true,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "_parent_id": {
+            "name": "_parent_id",
+            "type": "integer",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "_order": {
+            "name": "_order",
+            "type": "integer",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "text": {
+            "name": "text",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          }
+        },
+        "indexes": {
+          "ecms_releases__changes__parent_id_idx": {
+            "name": "ecms_releases__changes__parent_id_idx",
+            "columns": [
+              "_parent_id"
+            ],
+            "isUnique": false
+          }
+        },
+        "foreignKeys": {},
+        "compositePrimaryKeys": {},
+        "uniqueConstraints": {},
+        "checkConstraints": {}
+      },
+      "ecms_releases__packages": {
+        "name": "ecms_releases__packages",
+        "columns": {
+          "id": {
+            "name": "id",
+            "type": "text",
+            "primaryKey": true,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "_parent_id": {
+            "name": "_parent_id",
+            "type": "integer",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "_order": {
+            "name": "_order",
+            "type": "integer",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "name": {
+            "name": "name",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          }
+        },
+        "indexes": {
+          "ecms_releases__packages__parent_id_idx": {
+            "name": "ecms_releases__packages__parent_id_idx",
+            "columns": [
+              "_parent_id"
+            ],
+            "isUnique": false
+          }
+        },
+        "foreignKeys": {},
+        "compositePrimaryKeys": {},
+        "uniqueConstraints": {},
+        "checkConstraints": {}
+      },
+      "ecms_showcase": {
+        "name": "ecms_showcase",
+        "columns": {
+          "id": {
+            "name": "id",
+            "type": "integer",
+            "primaryKey": true,
+            "notNull": true,
+            "autoincrement": true
+          },
+          "created_at": {
+            "name": "created_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "updated_at": {
+            "name": "updated_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "status": {
+            "name": "status",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false,
+            "default": "'draft'"
+          },
+          "name": {
+            "name": "name",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "url": {
+            "name": "url",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "description": {
+            "name": "description",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "image": {
+            "name": "image",
+            "type": "integer",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "order": {
+            "name": "order",
+            "type": "real",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          }
+        },
+        "indexes": {
+          "ecms_showcase_status_idx": {
+            "name": "ecms_showcase_status_idx",
+            "columns": [
+              "status"
+            ],
+            "isUnique": false
+          },
+          "ecms_showcase_created_at_idx": {
+            "name": "ecms_showcase_created_at_idx",
+            "columns": [
+              "created_at"
+            ],
+            "isUnique": false
+          },
+          "ecms_showcase_image_idx": {
+            "name": "ecms_showcase_image_idx",
+            "columns": [
+              "image"
+            ],
+            "isUnique": false
+          }
+        },
+        "foreignKeys": {},
+        "compositePrimaryKeys": {},
+        "uniqueConstraints": {},
+        "checkConstraints": {}
+      },
+      "ecms_showcase__stack": {
+        "name": "ecms_showcase__stack",
+        "columns": {
+          "id": {
+            "name": "id",
+            "type": "integer",
+            "primaryKey": true,
+            "notNull": true,
+            "autoincrement": true
+          },
+          "_parent_id": {
+            "name": "_parent_id",
+            "type": "integer",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "_order": {
+            "name": "_order",
+            "type": "integer",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "value": {
+            "name": "value",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          }
+        },
+        "indexes": {
+          "ecms_showcase__stack__parent_id_idx": {
+            "name": "ecms_showcase__stack__parent_id_idx",
+            "columns": [
+              "_parent_id"
+            ],
+            "isUnique": false
+          },
+          "ecms_showcase__stack_value_idx": {
+            "name": "ecms_showcase__stack_value_idx",
+            "columns": [
+              "value"
+            ],
+            "isUnique": false
+          }
+        },
+        "foreignKeys": {},
+        "compositePrimaryKeys": {},
+        "uniqueConstraints": {},
+        "checkConstraints": {}
+      },
+      "ecms_sessions": {
+        "name": "ecms_sessions",
+        "columns": {
+          "id": {
+            "name": "id",
+            "type": "integer",
+            "primaryKey": true,
+            "notNull": true,
+            "autoincrement": true
+          },
+          "created_at": {
+            "name": "created_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "updated_at": {
+            "name": "updated_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "token_hash": {
+            "name": "token_hash",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "user": {
+            "name": "user",
+            "type": "integer",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "expires_at": {
+            "name": "expires_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          }
+        },
+        "indexes": {
+          "ecms_sessions_created_at_idx": {
+            "name": "ecms_sessions_created_at_idx",
+            "columns": [
+              "created_at"
+            ],
+            "isUnique": false
+          },
+          "ecms_sessions_token_hash_unique": {
+            "name": "ecms_sessions_token_hash_unique",
+            "columns": [
+              "token_hash"
+            ],
+            "isUnique": true
+          },
+          "ecms_sessions_user_idx": {
+            "name": "ecms_sessions_user_idx",
+            "columns": [
+              "user"
+            ],
+            "isUnique": false
+          },
+          "ecms_sessions_expires_at_idx": {
+            "name": "ecms_sessions_expires_at_idx",
+            "columns": [
+              "expires_at"
+            ],
+            "isUnique": false
+          }
+        },
+        "foreignKeys": {},
+        "compositePrimaryKeys": {},
+        "uniqueConstraints": {},
+        "checkConstraints": {}
+      },
+      "ecms_login_attempts": {
+        "name": "ecms_login_attempts",
+        "columns": {
+          "id": {
+            "name": "id",
+            "type": "integer",
+            "primaryKey": true,
+            "notNull": true,
+            "autoincrement": true
+          },
+          "created_at": {
+            "name": "created_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "updated_at": {
+            "name": "updated_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "key": {
+            "name": "key",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          }
+        },
+        "indexes": {
+          "ecms_login_attempts_created_at_idx": {
+            "name": "ecms_login_attempts_created_at_idx",
+            "columns": [
+              "created_at"
+            ],
+            "isUnique": false
+          },
+          "ecms_login_attempts_key_idx": {
+            "name": "ecms_login_attempts_key_idx",
+            "columns": [
+              "key"
+            ],
+            "isUnique": false
+          }
+        },
+        "foreignKeys": {},
+        "compositePrimaryKeys": {},
+        "uniqueConstraints": {},
+        "checkConstraints": {}
+      },
+      "ecms_document_versions": {
+        "name": "ecms_document_versions",
+        "columns": {
+          "id": {
+            "name": "id",
+            "type": "integer",
+            "primaryKey": true,
+            "notNull": true,
+            "autoincrement": true
+          },
+          "created_at": {
+            "name": "created_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "updated_at": {
+            "name": "updated_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "parent": {
+            "name": "parent",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "doc": {
+            "name": "doc",
+            "type": "real",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "status": {
+            "name": "status",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "latest": {
+            "name": "latest",
+            "type": "integer",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "author": {
+            "name": "author",
+            "type": "real",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "snapshot": {
+            "name": "snapshot",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          }
+        },
+        "indexes": {
+          "ecms_document_versions_created_at_idx": {
+            "name": "ecms_document_versions_created_at_idx",
+            "columns": [
+              "created_at"
+            ],
+            "isUnique": false
+          },
+          "ecms_document_versions_parent_idx": {
+            "name": "ecms_document_versions_parent_idx",
+            "columns": [
+              "parent"
+            ],
+            "isUnique": false
+          },
+          "ecms_document_versions_doc_idx": {
+            "name": "ecms_document_versions_doc_idx",
+            "columns": [
+              "doc"
+            ],
+            "isUnique": false
+          },
+          "ecms_document_versions_latest_idx": {
+            "name": "ecms_document_versions_latest_idx",
+            "columns": [
+              "latest"
+            ],
+            "isUnique": false
+          }
+        },
+        "foreignKeys": {},
+        "compositePrimaryKeys": {},
+        "uniqueConstraints": {},
+        "checkConstraints": {}
+      },
+      "ecms_scheduled_jobs": {
+        "name": "ecms_scheduled_jobs",
+        "columns": {
+          "id": {
+            "name": "id",
+            "type": "integer",
+            "primaryKey": true,
+            "notNull": true,
+            "autoincrement": true
+          },
+          "created_at": {
+            "name": "created_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "updated_at": {
+            "name": "updated_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "parent": {
+            "name": "parent",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "doc": {
+            "name": "doc",
+            "type": "real",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "action": {
+            "name": "action",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "run_at": {
+            "name": "run_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "state": {
+            "name": "state",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "error": {
+            "name": "error",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "author": {
+            "name": "author",
+            "type": "real",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          }
+        },
+        "indexes": {
+          "ecms_scheduled_jobs_created_at_idx": {
+            "name": "ecms_scheduled_jobs_created_at_idx",
+            "columns": [
+              "created_at"
+            ],
+            "isUnique": false
+          },
+          "ecms_scheduled_jobs_parent_idx": {
+            "name": "ecms_scheduled_jobs_parent_idx",
+            "columns": [
+              "parent"
+            ],
+            "isUnique": false
+          },
+          "ecms_scheduled_jobs_doc_idx": {
+            "name": "ecms_scheduled_jobs_doc_idx",
+            "columns": [
+              "doc"
+            ],
+            "isUnique": false
+          },
+          "ecms_scheduled_jobs_run_at_idx": {
+            "name": "ecms_scheduled_jobs_run_at_idx",
+            "columns": [
+              "run_at"
+            ],
+            "isUnique": false
+          },
+          "ecms_scheduled_jobs_state_idx": {
+            "name": "ecms_scheduled_jobs_state_idx",
+            "columns": [
+              "state"
+            ],
+            "isUnique": false
+          }
+        },
+        "foreignKeys": {},
+        "compositePrimaryKeys": {},
+        "uniqueConstraints": {},
+        "checkConstraints": {}
+      },
+      "ecms_globals": {
+        "name": "ecms_globals",
+        "columns": {
+          "slug": {
+            "name": "slug",
+            "type": "text",
+            "primaryKey": true,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "data": {
+            "name": "data",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          },
+          "status": {
+            "name": "status",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": false,
+            "autoincrement": false
+          },
+          "updated_at": {
+            "name": "updated_at",
+            "type": "text",
+            "primaryKey": false,
+            "notNull": true,
+            "autoincrement": false
+          }
+        },
+        "indexes": {},
+        "foreignKeys": {},
+        "compositePrimaryKeys": {},
+        "uniqueConstraints": {},
+        "checkConstraints": {}
+      }
+    },
+    "views": {},
+    "enums": {},
+    "_meta": {
+      "tables": {},
+      "columns": {}
+    },
+    "internal": {
+      "indexes": {}
+    },
+    "id": "e647624f-0b33-4ec6-8020-73e2494a4c16",
+    "prevId": "00000000-0000-0000-0000-000000000000",
+    "easyCms": {
+      "localization": null
+    }
+  }
+}

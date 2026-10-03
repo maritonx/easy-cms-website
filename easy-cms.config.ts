@@ -7,8 +7,11 @@ const publishedOrEditor = ({ user }: { user: unknown }) =>
 
 export default defineConfig({
   secret: process.env.EASY_CMS_SECRET ?? '',
-  // A local SQLite file in development; a Turso/libSQL URL in production.
-  db: sqlite({ url: process.env.DATABASE_URL ?? 'file:./cms.db' }),
+  // A SQLite file (development, a VPS) or a Turso/libSQL URL with its token (serverless hosts).
+  db: sqlite({
+    url: process.env.DATABASE_URL ?? 'file:./cms.db',
+    authToken: process.env.DATABASE_AUTH_TOKEN,
+  }),
   admin: { locale: 'en', menu: ['posts', 'releases', 'showcase', 'media'] },
   collections: [
     {
