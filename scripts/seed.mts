@@ -13,6 +13,16 @@ const config = ((configModule as { default?: typeof configModule }).default ?? c
 
 const reset = process.argv.includes('--reset')
 
+// Outside production, Easy CMS pushes the config's schema into the database at startup, which can
+// drop columns. Only the local SQLite file may be seeded that way.
+const url = process.env.DATABASE_URL ?? 'file:./cms.db'
+if (!url.startsWith('file:') && process.env.NODE_ENV !== 'production') {
+  console.error(
+    `${url} is not a local file: run with NODE_ENV=production, after \`easy-cms migrate\`, so the schema isn't pushed into it.`,
+  )
+  process.exit(1)
+}
+
 // ---------- a tiny markdown-ish → Tiptap JSON, enough for seed posts ----------
 type Node = Record<string, unknown>
 
