@@ -46,7 +46,7 @@ export default async function DocPage({ params }: PageProps<'/docs/[[...slug]]'>
         <DocsNav groups={SIDEBAR} />
       </aside>
 
-      <article className="doc" data-pagefind-body>
+      <article className="doc">
         <details className="mobile-docnav">
           <summary>{doc.group} › {doc.title}</summary>
           <div className="docs-side-inner"><DocsNav groups={SIDEBAR} /></div>

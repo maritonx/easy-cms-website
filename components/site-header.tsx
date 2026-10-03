@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { GITHUB_URL, NAV, VERSION } from '@/lib/site'
-import { GitHubIcon, Logo, SearchIcon } from './icons'
+import { GitHubIcon, Logo } from './icons'
+import { SearchDialog } from './search-dialog'
 import { ThemeToggle } from './theme-toggle'
 
 export function SiteHeader() {
@@ -27,11 +28,7 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="header-tools">
-          <Link className="search-btn" href="/docs" aria-label="Search docs">
-            <SearchIcon width={15} height={15} />
-            <span>Search docs</span>
-            <kbd>⌘K</kbd>
-          </Link>
+          <SearchDialog />
           <ThemeToggle />
           <a className="gh-pill" href={GITHUB_URL}>
             <GitHubIcon />

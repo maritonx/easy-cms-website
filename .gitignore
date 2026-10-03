@@ -50,3 +50,6 @@ uploads/
 
 # Claude Code launch config (local)
 /.claude/
+
+# Search index, written by pnpm build (pagefind)
+/public/pagefind/

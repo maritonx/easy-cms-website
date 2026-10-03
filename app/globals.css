@@ -456,3 +456,24 @@ code, kbd, pre { font-family: var(--font-mono); }
   .header-tools { gap: 4px; }
   .search-btn { padding: 0 10px; }
 }
+
+/* ---------- docs search (Pagefind) ---------- */
+.search-btn { cursor: pointer; }
+.search-dialog { padding: 0; border: 0; background: transparent; width: min(640px, calc(100% - 32px)); max-height: min(560px, calc(100vh - 120px)); margin: 12vh auto auto; overflow: visible; color: var(--fg); }
+.search-dialog::backdrop { background: color-mix(in srgb, var(--bg) 70%, transparent); backdrop-filter: blur(4px); }
+.search-box { border: 1px solid var(--line-strong); border-radius: 14px; background: var(--surface); box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column; max-height: inherit; overflow: hidden; }
+.search-input { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--line); color: var(--muted); }
+.search-input input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--fg); font: 400 17px var(--font-body); }
+.search-input input::-webkit-search-cancel-button { display: none; }
+.search-input kbd { font-size: 11px; border: 1px solid var(--line-strong); border-radius: 4px; padding: 2px 6px; color: var(--muted); }
+.search-results { overflow-y: auto; padding: 8px; }
+.search-results > ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.search-results a { display: grid; gap: 4px; padding: 10px 12px; border-radius: 8px; }
+.search-results a.on, .search-results a:hover { background: var(--surface-2); }
+.search-results b { font-weight: 600; font-size: 15px; }
+.search-results span { font-size: 13.5px; color: var(--muted); line-height: 1.5; }
+.search-results mark { background: color-mix(in srgb, var(--accent) 25%, transparent); color: var(--fg); border-radius: 3px; padding: 0 2px; }
+.search-sub { list-style: none; margin: 0 0 4px 12px; padding: 0 0 0 10px; border-left: 1px solid var(--line); }
+.search-sub a { padding: 5px 10px; font-size: 13.5px; color: var(--muted); }
+.search-note { padding: 18px 12px; color: var(--muted); font-size: 14px; }
+.search-note code { font-size: 0.9em; color: var(--fg); }
