@@ -1,7 +1,7 @@
 /** Links and facts used across the site. */
 export const GITHUB_URL = 'https://github.com/maritonx/easy-cms'
 export const NPM_URL = 'https://www.npmjs.com/org/easy-cms'
-export const VERSION = '0.22'
+export const VERSION = '0.47'
 
 export const NAV = [
   { href: '/docs', label: 'Docs' },

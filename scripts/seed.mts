@@ -5,6 +5,7 @@
  *   pnpm seed            releases missing from the changelog; posts and showcase if empty
  *   pnpm seed --reset    delete what is there first
  */
+import { readFileSync } from 'node:fs'
 import { createEasyCMS, slugify } from '@easy-cms/core'
 import configModule from '../easy-cms.config'
 
@@ -86,7 +87,24 @@ function richText(source: string) {
 }
 
 // ---------- content ----------
-const releases = [
+type ReleaseSeed = {
+  version: string
+  title: string
+  date: string
+  kind: string
+  summary: string
+  changes: string[]
+  packages: string[]
+  needsMigration: boolean
+}
+
+// 0.23 to 0.47, taken from the packages' CHANGELOG.md files in the Easy CMS repo.
+const laterReleases: ReleaseSeed[] = JSON.parse(
+  readFileSync(new URL('./releases-0.23-0.47.json', import.meta.url), 'utf8'),
+)
+
+const releases: ReleaseSeed[] = [
+  ...laterReleases,
   {
     version: '0.22.2', title: 'The admin on Vercel', date: '2026-10-03', kind: 'patch',
     summary: 'The admin works on Vercel and other hosts that deploy only the files the build traces.',
@@ -417,7 +435,7 @@ await fill('showcase', showcase, (s) => s)
 
 await cms.updateGlobal('site', {
   siteName: 'Easy CMS',
-  announcement: { badge: '0.22', label: 'npm, pnpm, Yarn and Bun in one installer', href: '/changelog' },
+  announcement: { badge: '0.47', label: 'A new admin that grows with your plugins', href: '/changelog#v0.47.0' },
 })
 console.log('site: announcement set')
 

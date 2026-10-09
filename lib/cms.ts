@@ -24,9 +24,14 @@ export async function getPost(slug: string) {
   return docs[0] ?? null
 }
 
+/** Newest version first; several releases can share a date, so the version decides. */
 export async function getReleases() {
-  const { docs } = await (await cms()).find('releases', { sort: '-date', limit: 100 })
-  return docs
+  const { docs } = await (await cms()).find('releases', { limit: 500 })
+  const parts = (v: string) => v.split('.').map(Number)
+  return docs.sort((a, b) => {
+    const [x, y] = [parts(a.version), parts(b.version)]
+    return y[0] - x[0] || y[1] - x[1] || y[2] - x[2]
+  })
 }
 
 export async function getShowcase() {

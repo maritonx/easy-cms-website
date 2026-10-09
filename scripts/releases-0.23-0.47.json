@@ -1,0 +1,499 @@
+[
+  {
+    "version": "0.47.1",
+    "title": "Ecommerce plugin installs again",
+    "date": "2026-10-09",
+    "kind": "patch",
+    "summary": "Republished so its peer dependency on `@easy-cms/core` is a version range: 0.45.0 and 0.47.0 went out with `workspace:^` and can't be installed.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/plugin-ecommerce"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.47.0",
+    "title": "The admin grows with your plugins",
+    "date": "2026-10-09",
+    "kind": "minor",
+    "summary": "The admin grows with your plugins. The menu has groups that fold, two levels deep (`admin.nav`, and `admin.group` on collections, globals and pages): Content, the media library, each plugin's group (Shop › Catalog, Sales, Customers; Forms) and Settings › Site, Users & access, System. Each person can fold groups, pin items and collapse the menu to icons. Badges show what needs attention (`admin.badge`, e.g. orders to send), and a + creates a document from the menu.",
+    "changes": [
+      "⌘K opens search and commands: go anywhere, create, find documents by title in every collection, reopen recent ones, and run commands, plugins' too (`admin.commands`). Shortcuts: ⌘S saves, ⌘⇧P publishes, `[` collapses the menu, `?` lists them.",
+      "Edit pages take tabs, sections that fold and rows (`admin.layout`, by field name), help below fields (`admin.description`), widths (`admin.width`) and fields shown only when they apply (`admin.condition`, which the server reads too: a hidden field isn't required). A failed save lists what to fix and opens the right tab; unsaved changes are kept in the browser and offered back. The SEO plugin puts its fields in an SEO tab (`tab: false` keeps them below). Lists remember their filters and scroll, and say what a collection is for while empty (`admin.empty`).",
+      "Configs keep working as they are; nothing changes in the database."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/plugin-seo"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.46.0",
+    "title": "A shop: the ecommerce plugin",
+    "date": "2026-10-09",
+    "kind": "minor",
+    "summary": "A shop: `@easy-cms/plugin-ecommerce`. Products with variants and prices in several currencies, carts that guests keep too, checkout with Stripe (card, PromptPay) or bank transfer, orders made exactly once however often a payment is confirmed, stock taken safely and put back on cancel or refund, customer accounts, order emails, `order.*` events, a dashboard panel, and a client for pages with React hooks and Vue composables. With the multi-tenant plugin, each tenant is a shop of its own.",
+    "changes": [
+      "New in the core, for other uses too: site members (`auth.members`) who sign in on the site and never get into the admin, with sign-up, email confirmation and the site's own pages for email links (`isLoggedIn` no longer counts them; `isSignedIn` does); `update()` with `where` (compare and set) and `cms.increment()`; `jobs` that run with the scheduled jobs; `events` and `cms.emit()` for webhooks; menu headings of your own (`admin.group` with a label); list cells get their row's `doc`; plugin collections are typed in configs without `collections`. The form builder's spam checks moved to the core (`formToken`, `checkFormToken`, `rateKeys`, `honeypotName`, `verifyTurnstile`).",
+      "Signing up adds an `emailVerified` field to users: create a migration (`easy-cms migrate:create`) before deploying."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/plugin-ecommerce"
+    ],
+    "needsMigration": true
+  },
+  {
+    "version": "0.45.0",
+    "title": "Multi-tenant, more complete",
+    "date": "2026-10-09",
+    "kind": "minor",
+    "summary": "Multi-tenant, more complete. Uploads accept only the tenant's files, and media folders opened by an upload field's `folder` key are each tenant's own. Nested pages, redirects and forms work per tenant: paths, redirects and form slugs only differ within a tenant, `findByPath()`, `getTree()` and `resolveRedirect()` take a `context`, and documents a plugin writes take the tenant of what they point to. Admins of a tenant see its audit log. Deleting a tenant shows what goes with it and asks for its name. New documents start in the chosen tenant, and lists show a Tenant column while all tenants are shown.",
+    "changes": [
+      "New in the core, for other uses too: `filterOptions` on upload fields; `uniqueWithin` with several fields; `cms.uniqueScope()`; `audit.scope`; `admin.confirmDelete` on collections; `admin.defaultValue`, `admin.column` and `admin.allowCreate` on fields; relationship columns in lists.",
+      "Projects with `audit` get a `scope` column: create a migration (`easy-cms migrate:create`) before deploying."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/plugin-multi-tenant"
+    ],
+    "needsMigration": true
+  },
+  {
+    "version": "0.44.0",
+    "title": "Multi-tenant",
+    "date": "2026-10-09",
+    "kind": "minor",
+    "summary": "New plugin: `@easy-cms/plugin-multi-tenant`, several sites or clients in one CMS. A `tenants` collection, a `tenant` on the documents of the collections you name, members with a role in each tenant (Settings → Members), globals with a value per tenant, a tenant switcher in the admin, frontends that name their tenant by header, `?tenant=` or domain, API keys that keep their tenant, and `easy-cms tenants:assign`. New guide: Multi-tenant.",
+    "changes": [
+      "The core gains what it is built on, for other uses too: `onRequest` in the config gives each request a `context` (and may change its user), which access rules, hooks, `filterOptions` and the Local API (`context`, `cms.forRequest(request)`) receive; `scoped` users and `isSystemAdmin()`; globals with a value per `scope`; `uniqueWithin` on any unique field, with a unique index per scope; and `admin.switcher`.",
+      "The SEO plugin's sitemap and llms.txt read in the request's context (e.g. the tenant of the domain); `sitemap()`, `sitemapXml()`, `llmsTxt()` and `llmsFullTxt()` take a `context`.",
+      "Projects with the nested-docs plugin get a unique index on `(parent, slug)`: create a migration (`easy-cms migrate:create`) before deploying."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/plugin-multi-tenant",
+      "@easy-cms/plugin-seo"
+    ],
+    "needsMigration": true
+  },
+  {
+    "version": "0.43.0",
+    "title": "GraphQL API",
+    "date": "2026-10-08",
+    "kind": "minor",
+    "summary": "New plugin: a GraphQL API at `/api/cms/graphql`. A type, queries and mutations for every collection and global, through the Local API with the same access rules as REST (sessions, Bearer tokens, API keys); typed `where` and `sort`, locales and drafts; relationships loaded in batches; limits on depth (7) and documents per request (2000); `extend` for your own queries, mutations and fields; `easy-cms generate:graphql` for codegen; GraphiQL outside production. New guide: GraphQL.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/plugin-graphql"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.42.0",
+    "title": "A kit for other frameworks",
+    "date": "2026-10-08",
+    "kind": "minor",
+    "summary": "A kit for running Easy CMS inside any framework that handles Web `Request`s: `sharedEasyCMS(config)` (one instance per server, compared by structure, kept across hot reloads), `createApiHandler(config, { trustProxy })` (the REST API on it), `cms.auth.userFromHeaders(headers)`, and `adminHandlerFor(resolvedConfig)` in `@easy-cms/admin`. The Next.js and Nuxt packages and the standalone server now use it; Nuxt compares configs by structure like Next.js. New guide: Other frameworks.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/next",
+      "@easy-cms/nuxt"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.41.0",
+    "title": "Large files straight to the storage",
+    "date": "2026-10-08",
+    "kind": "minor",
+    "summary": "Large files straight to the storage: with S3 (R2, MinIO) or Vercel Blob, the admin sends files over 4 MB from the browser to the storage (`POST <api>/media/uploads` for a signed ticket and a presigned URL or client token, then `/media/uploads/complete`), past hosts' request limits (about 4.5 MB on Vercel); the server still checks each file's size and type from its contents, and deletes what fails. Storage adapters can add `uploadURL()` and `getStart()`. `cms.createUpload()` and `cms.completeUpload()` do the same from code. Making a media folder private or public (moving or deleting it) now refuses to move more than 200 files at once.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/storage-s3",
+      "@easy-cms/storage-vercel-blob"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.40.0",
+    "title": "Private folders",
+    "date": "2026-10-07",
+    "kind": "minor",
+    "summary": "Private folders: admins tick Private on a media folder, and its files (and subfolders') are kept apart (`upload.privateStorage`, or the storage itself when it has no public URLs), served only at `<api>/media/private/<name>` to users who may see them or with `cms.signedMediaURL(doc, { expiresIn })` (at most 7 days), and hidden from requests that are not signed in. Files move between storages, renamed, when they or their folders change; the admin asks first, with how many documents use them. Upload fields take a folder by key (`folder: 'banners'`, made when first needed), with `folderOnly` to allow no other. API keys can be limited to some media folders.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.39.0",
+    "title": "Upload several files at once",
+    "date": "2026-10-07",
+    "kind": "minor",
+    "summary": "Media: upload several files at once (three at a time, each with its progress; cancel or retry a file; files over `maxFileSize` refused before sending; the new files stay selected) — the Media page only uploaded the first of several dropped files before. New file types detected from their contents: Word, Excel, PowerPoint, OpenDocument, zip, MP3, WAV, Ogg, M4A, WebM, MOV and CSV, with `mimeTypes` groups `documents`, `office` and `archives`. Files show an icon in their type's color; the Media page has a grid view; a file's page previews it by type (players for audio and video, the browser's PDF viewer, the start of text and CSV files). PDFs are served without the sandbox CSP so browsers can show them.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.38.0",
+    "title": "Media folders",
+    "date": "2026-10-07",
+    "kind": "minor",
+    "summary": "Media folders (`upload.folders: true`): nested folders in the media library (`media-folders`, each file in one `folder`), a folder tree, path and subfolders on the Media page, drag files onto folders or \"Move to…\", uploads into the open folder, and folders in upload fields' pickers. Deleting a folder moves what it holds up to its parent. With `auth.rbac`, admins choose which roles may view, edit or manage each folder (inherited by subfolders; it only narrows the role's Media permissions; recorded in the audit log). Files stay public: folders sort the team's work.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.37.2",
+    "title": "Admin writes behind proxies",
+    "date": "2026-10-06",
+    "kind": "patch",
+    "summary": "The CSRF check also accepts an Origin matching the request's public host (`x-forwarded-host` or `host`), so admin writes work behind proxies whose request URL names an internal host, like Netlify's (the first-admin setup said \"CSRF check failed: untrusted origin\").",
+    "changes": [],
+    "packages": [
+      "@easy-cms/core"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.37.1",
+    "title": "Clearer errors without a Blob store",
+    "date": "2026-10-06",
+    "kind": "patch",
+    "summary": "Without a Blob store (`BLOB_READ_WRITE_TOKEN`), uploads now fail with a message the admin shows (connect a Blob store, then redeploy) instead of an error in the server log, and pages that show images still render. The starter template uses Vercel Blob whenever it runs on Vercel, instead of falling back to the disk, which Vercel doesn't keep.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/storage-vercel-blob"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.37.0",
+    "title": "One-click deploy",
+    "date": "2026-10-06",
+    "kind": "minor",
+    "summary": "To Vercel and Netlify, with a setup code for the first admin.",
+    "changes": [
+      "Deploy buttons (README, docs): a Next.js blog with its admin, from `templates/next-starter`, with a Neon Postgres database and file storage made by the platform, and sample posts. The only thing to fill in is a setup code.",
+      "`auth.setupCode` (default: the `EASY_CMS_SETUP_CODE` environment variable): creating the first admin needs this code, so nobody else can claim a freshly deployed site. Wrong codes are rate-limited. `GET <api>/users/init` says whether it is asked (`setupCode`), and the admin's setup page asks for it.",
+      "New package `@easy-cms/storage-vercel-blob`: `vercelBlobStorage()` keeps uploads in Vercel Blob (`BLOB_READ_WRITE_TOKEN`), public on the CDN, or private behind the API (`access: 'private'`, e.g. for backups).",
+      "New package `@easy-cms/storage-netlify-blobs`: `netlifyBlobsStorage()` keeps uploads in Netlify Blobs, served through the API."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/storage-vercel-blob",
+      "@easy-cms/storage-netlify-blobs"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.36.1",
+    "title": "Audit log: one row per language",
+    "date": "2026-10-06",
+    "kind": "patch",
+    "summary": "Audit log: a translated field's change shows one row per language that changed (`title · en: — → Contact`), not the raw values of every language.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.36.0",
+    "title": "Audit log",
+    "date": "2026-10-05",
+    "kind": "minor",
+    "summary": "Who changed what and when, sign-ins, and admin actions.",
+    "changes": [
+      "Turn it on with `audit: true` (or `{ keep: 365, values: true, failedLogins: 20 }`). It adds the internal `audit-logs` table: create a migration (`easy-cms migrate:create audit`).",
+      "Recorded: creating, changing, publishing, unpublishing, restoring and deleting documents and globals (with each changed field's value before and after; hidden fields never, the password only as changed), scheduling; logins, failed logins, lock-outs, logouts, password links and single sign-on; roles, backups, test emails and deliveries. Each entry has who (their email then), how (signed in, API key, code, scheduled job), the IP address and the browser.",
+      "Settings → Audit log (admins, and roles given it): filters, each change's fields, CSV export and an integrity check. A document's page shows its Activity.",
+      "Tamper evidence: entries can't be changed or deleted through Easy CMS (only older than `keep` days, oldest first), and each is signed with the secret; the check finds edited and missing entries, daily with scheduled jobs.",
+      "The dashboard warns about many failed logins within an hour, entries that couldn't be written, and a failed check.",
+      "`cms.audit.record({ action, target, doc })` writes your own entries. New endpoints: `GET <api>/admin/audit`, `/admin/audit.csv`, `POST /admin/audit/verify`."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": true
+  },
+  {
+    "version": "0.35.0",
+    "title": "Single sign-on",
+    "date": "2026-10-05",
+    "kind": "minor",
+    "summary": "Google, Microsoft (Entra ID), GitHub or any OpenID Connect provider for the admin.",
+    "changes": [
+      "New package `@easy-cms/auth-oauth`: `google()`, `microsoft()`, `github()` and `oidc({ issuer, clientId, clientSecret })`, with the Authorization Code flow, PKCE, `state` and `nonce` (oauth4webapi). Client IDs and secrets come from environment variables.",
+      "`auth.providers` adds \"Sign in with …\" to the login page. People are matched to users by the provider's id for them, or the first time by their verified email. `auth.allowSignUp: { domains, role }` gives people from your domains an account on their first sign-in; nobody else gets in without one.",
+      "`auth.password: false`: only admins sign in with a password (a way in if the provider is down). Invitations then tell people to sign in with the provider.",
+      "Account lists the outside accounts you sign in with: link another, unlink one (never the last way in). Admins see a user's on their page. Settings → Single sign-on shows each provider's callback URL to give it.",
+      "New endpoints under `<api>/auth/` and `GET <api>/admin/sso`; the `auth` slug and endpoint root are reserved.",
+      "With providers, the internal `user-identities` table is added: create a migration (`easy-cms migrate:create sso`)."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/auth-oauth"
+    ],
+    "needsMigration": true
+  },
+  {
+    "version": "0.34.0",
+    "title": "Own documents and field permissions",
+    "date": "2026-10-05",
+    "kind": "minor",
+    "summary": "Roles (`auth.rbac`): own documents only, field permissions, and who gets a deleted user's documents.",
+    "changes": [
+      "Own documents only: next to a ticked Read, Update, Delete or Publish, Settings → Roles can limit it to the role's own documents, e.g. writers read every post but change, publish and delete only theirs.",
+      "Who owns a document: with roles on, every collection but Users gets `createdBy`, set when a document is created (requests can't set it; trusted Local API calls can, for imports). Or name an owner field with `admin.ownerField`, e.g. `'author'`: filled with the creator when empty, and read-only for roles limited to their own documents. Lists get a Mine filter. Documents from before get `createdBy` from their first version's author, where there is history.",
+      "Field permissions: per role, each top-level field can be Can edit, Read only or Hidden; others follow the row. Required fields stay editable for roles that create documents.",
+      "Hidden fields can't be used to filter or sort (403), for role rules and for `access.read` in the code, which before only hid the value. The admin schema leaves out fields the user can't read.",
+      "Deleting a user in the admin asks who gets the documents they own. REST: `DELETE <api>/users/:id?transferTo=<id>` (or `none`); Local API: `cms.delete('users', id, { transferTo })`. New admin endpoint: `GET <api>/admin/owned/:userId`.",
+      "Projects with `auth.rbac` get a `created_by` column in every collection: create a migration (`easy-cms migrate:create owners`).",
+      "Backups: older backups are removed before a new one is marked done, so the list never shows more than `keep` finished backups (it briefly showed one more)."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": true
+  },
+  {
+    "version": "0.33.0",
+    "title": "Roles from the admin (RBAC)",
+    "date": "2026-10-05",
+    "kind": "minor",
+    "summary": "Admins add roles and tick what each may do, without code.",
+    "changes": [
+      "Turn it on with `auth: { rbac: true }`. Admins get Settings → Roles: add, rename, copy and delete roles, and tick Read, Create, Update, Delete and Publish per collection and global, plus admin pages (the system status, Deliveries, and plugin pages and dashboard panels). Each role keeps a history of who changed it.",
+      "Permissions are checked on the server on top of access rules: both must allow. Admins may always do everything; requests that aren't logged in are left to access rules; everyone keeps their own account; API keys can do no more than their owner's role.",
+      "The roles in `auth.roles` always exist and can't be deleted. When roles are first turned on they get everything they could do before, so nothing changes until an admin unticks something. Collections added later are given to no role until ticked (marked New).",
+      "The admin hides what a role can't do: menus, buttons, Publish (the main button saves a draft instead), and relationship and upload fields pointing to collections the role can't read (shown as they are, kept on save). The API key permissions table only offers what you may do yourself.",
+      "`/admin/schema` now has `permissions.publish` and `views`; dashboard panels take an optional `label`, and with `rbac` each needs its own tag. New admin-only endpoints under `<api>/admin/roles`.",
+      "Adds the internal `user-roles` table when `rbac` is on: create a migration (`easy-cms migrate:create roles`). The `user-roles` slug is now reserved."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": true
+  },
+  {
+    "version": "0.32.0",
+    "title": "Database backups from the admin",
+    "date": "2026-10-04",
+    "kind": "minor",
+    "summary": "",
+    "changes": [
+      "Settings → Backups (admins): Back up now, the list of backups with who made and last downloaded each, Download and Delete.",
+      "`backups: { every, at, keep, dir, storage, sqlite }` in the config: back up every `day` or `week` at `at` (server time), keep the newest `keep` (7). Without `every`, back up by hand.",
+      "Each backup is one compressed SQLite file (`<site>-YYYY-MM-DD-HHmm.db.gz`) of the whole database. SQLite copies itself; Postgres is copied into a SQLite file with `backups.sqlite` (`sqlite` from `@easy-cms/db-sqlite`).",
+      "Stored privately: `backups/` by default (never the uploads folder, never served) or `backups.storage`, e.g. a private S3 bucket. Downloads go through the server, for admins only.",
+      "Scheduled backups run with scheduled jobs (every minute on a server, or from the `jobs/run` cron); one at a time. The dashboard's \"Needs attention\" warns when the last scheduled backup failed or none finished in two periods.",
+      "`easy-cms backup <file>` uses the same engine: it now backs up Postgres too, and compresses a `.gz` name.",
+      "Adds the internal `database-backups` table: create a migration (`easy-cms migrate:create backups`)."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "easy-cms"
+    ],
+    "needsMigration": true
+  },
+  {
+    "version": "0.31.0",
+    "title": "Settings → Email",
+    "date": "2026-10-04",
+    "kind": "minor",
+    "summary": "See the email settings in use, check the connection, send a test email.",
+    "changes": [
+      "Admins see the email adapter and its settings with where each comes from (`SMTP_HOST`, `smtp({ from })`…). Passwords only show as set or not.",
+      "Check the connection logs in to the SMTP server without sending; Send test email sends one now, not through the queue, to you or another address (5 in 10 minutes). Both show the server's answer with a hint for the usual mistakes (user or password, port and TLS, an unreachable server, a refused sender).",
+      "`EmailAdapter` gets two optional methods for this: `describe()` (never secrets) and `verify()`. `smtp()` and `consoleEmail()` have them.",
+      "New admin-only endpoints: `GET <api>/admin/email`, `POST <api>/admin/email/verify`, `POST <api>/admin/email/test`."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/email-smtp"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.30.0",
+    "title": "Failed webhooks and emails in the admin",
+    "date": "2026-10-04",
+    "kind": "minor",
+    "summary": "",
+    "changes": [
+      "Settings → Deliveries (admins): webhook deliveries and emails that failed or wait for another attempt. Webhooks show what changed, the address, the last error and the body sent; emails show who to and the subject, not the content.",
+      "Retry sends once now (removed when it goes through, kept with the new error when not), one at a time or all failed at once; Delete one or all failed.",
+      "Failed deliveries are deleted after 30 days, when scheduled jobs run.",
+      "The dashboard's \"Needs attention\" links failed webhooks and emails to this page.",
+      "New admin-only endpoints: `GET <api>/admin/deliveries`, `POST …/:kind/:id/retry`, `POST …/:kind/retry`, `DELETE …/:kind/:id`, `DELETE …/:kind`."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.29.0",
+    "title": "What needs attention, on the dashboard",
+    "date": "2026-10-04",
+    "kind": "minor",
+    "summary": "The dashboard tells admins what needs attention, and what the system is.",
+    "changes": [
+      "Needs attention (admins only, shown only when something is wrong): webhook deliveries that failed in the last 7 days, emails waiting over an hour or failed, scheduled publishing over 10 minutes late (nothing calls `jobs/run`), no `email`, and no `serverURL` in production. Each links to the new Health checks guide.",
+      "System (admins only): the Easy CMS version, database, file storage, email adapter, plugins with their versions, and field types.",
+      "Both come from the new `GET <api>/admin/status`, for admins only. Easy CMS doesn't check for new versions.",
+      "`definePlugin(plugin, { name, version })` names a plugin for the dashboard; the official plugins name themselves. `EmailAdapter` gets an optional `name` (`smtp`, `console`). Core exports `VERSION`.",
+      "In development, the admin's HTML is read on each request, so a rebuilt admin shows up without a restart."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.28.0",
+    "title": "Uploads from links",
+    "date": "2026-10-04",
+    "kind": "minor",
+    "summary": "",
+    "changes": [
+      "`upload.fromURL: { allowedHosts, allowPrivate? }` lets users upload a file by its link: the server downloads it, then checks it like any upload (type from the contents, `maxFileSize`, the right to create media). Off by default.",
+      "`cms.uploadFromURL(url, fields?, options?)` in code, and `POST <api>/media` with JSON `{ url, ...fields }` over REST.",
+      "Admin: a \"From a link\" field in the media library, the media picker and galleries. Links (or files) can also be pasted into the upload area, and images dragged from other pages dropped on it.",
+      "Safe by default: only `http(s)`; hosts must be in `allowedHosts` (also after redirects, three at most); private network addresses (`localhost`, `10.x`, `192.168.x`, `169.254.x`, IPv6 ones too) are refused after DNS resolution, unless `allowPrivate: true`; 15 seconds and `maxFileSize` at most.",
+      "Fix: a media document's page cut off large images; the whole image now shows, as big as fits (up to 70% of the screen's height), and a click opens the original.",
+      "Dashboard, regrouped: number tiles show content only, in menu order, each opening its list with a + to create; drafts to review come first, then recent edits; plugin panels (`width: 'half'`) sit in the side column beside them, `full` ones below."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.27.0",
+    "title": "Plugin pages and dashboard panels",
+    "date": "2026-10-04",
+    "kind": "minor",
+    "summary": "",
+    "changes": [
+      "`admin.pages`: pages of their own at `<admin>/p/<path>`, with a Web Component as the body. The admin draws the header. `group` puts them under Content or Settings in the menu, or leaves them out (`false`).",
+      "`admin.dashboard`: panels on the dashboard after the built-in ones, `half` or `full` width.",
+      "`access: ({ user }) => boolean` on both is checked on the server; what a user may not see is left out of their admin.",
+      "Admin components now also get `user`, and on pages `route` (`subpath`, `query`). They can send a `navigate` event to open an admin path, e.g. to keep a tab or date range in the address.",
+      "New menu icons: `chart-column` and `chart-line`.",
+      "Form builder: a \"Form overview\" page with submissions per day and per form over 7 or 30 days, and a dashboard panel for the last 7 days. Both read the new `GET <api>/form/stats.json`, which counts days in the editor's time zone."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/plugin-form-builder"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.26.0",
+    "title": "Custom field types",
+    "date": "2026-10-04",
+    "kind": "minor",
+    "summary": "",
+    "changes": [
+      "`fieldTypes` and `defineFieldType()` let packages add a field `type`: stored, queried and translated like a built-in base type (`text`, `number`, `json`…), with its own `validate`, `checkOptions`, input and list cell. Names that clash with built-in types or each other are config errors.",
+      "Types: packages extend `interface CustomFieldTypes` (module augmentation), so `type: 'color'` is accepted with its options and documents get the right value type. `generate:types` uses the type's `typescript`.",
+      "`admin.cell` on any field shows its value in the list's column with a Web Component; columns with a cell are shown by default.",
+      "New package `@easy-cms/fields` with `color`: `#rrggbb` (or `#rrggbbaa` with `alpha: true`), a picker with `presets`, and swatches in lists."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/fields"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.25.0",
+    "title": "Typed plugin fields",
+    "date": "2026-10-04",
+    "kind": "minor",
+    "summary": "",
+    "changes": [
+      "`definePlugin<T>(plugin)` tells the inferred document types what a plugin adds: fields on collections and globals, and whole collections. `CollectionDocument`, `cms.find()` and the rest then know them, with no command to run.",
+      "The official plugins declare theirs: `post.meta` (SEO), `page.parent`, `page.path` and `page.breadcrumbs` (nested pages, with the names you give), the `redirects` collection with its `to_<collection>` fields, and the `forms` and `form-submissions` collections.",
+      "`findByPath()` returns the page typed from your config; `getTree()` and `rebuildNestedDocs()` take your typed `cms`.",
+      "New types in core: `PluginTypes`, `TypedPlugin`, `DocumentOf` and `SlugOf` for helpers that take an `EasyCMS<C>`."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/plugin-seo",
+      "@easy-cms/plugin-nested-docs"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.24.0",
+    "title": "Forgotten passwords and invitations",
+    "date": "2026-10-03",
+    "kind": "minor",
+    "summary": "Password reset and invitation emails from the login page and the admin.",
+    "changes": [
+      "Forgot your password? on the login page emails a link that sets a new password: it works once, within an hour (`auth.resetPasswordExpiration`). The answer is the same whether or not the email has an account, and requests per email and IP are limited. Setting the password signs the account out everywhere, logs in on this browser and emails a \"your password was changed\" notice.",
+      "Invitations: admins create users without a password and they get an email to choose one (the link works for 7 days, `auth.inviteExpiration`). \"Email a link to set the password\" on a user's page sends an invitation or a reset link.",
+      "Emails are in English or Thai, or your own text with `auth.emails`. Links need `email` in the config, and `serverURL` in production (a request's Host could be forged); without them the admin doesn't offer them.",
+      "REST: `POST /users/forgot-password`, `GET` and `POST /users/reset-password`, `POST /users/:id/password-link`. Local API: `cms.auth.requestPasswordReset()`, `cms.auth.sendPasswordLink()`, `cms.auth.resetPassword()`.",
+      "`cms.create('users', …)` no longer requires a `password`: a user without one can't log in until they set it from an invitation."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.23.0",
+    "title": "Image galleries",
+    "date": "2026-10-03",
+    "kind": "minor",
+    "summary": "Upload fields with several files.",
+    "changes": [
+      "`upload` with `hasMany: true` keeps several files in the order editors arrange them, e.g. a gallery on a post. In the admin editors drop several files at once, pick several from the media library, drag them into order (or use the arrow buttons) and remove them. Reads return the media documents in order; it can be `localized`, and queries like `where: { gallery: { in: [id] } }` work. Needs a migration for the new field.",
+      "`mimeTypes` on upload fields, e.g. `['image/*']`: the media picker offers only those files, and saving refuses others (\"must be an image\").",
+      "`minRows` / `maxRows` on upload and relationship fields with `hasMany`.",
+      "An empty list now counts as fewer than `minRows` (arrays and blocks too); drafts may still be incomplete."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": true
+  }
+]
