@@ -1,5 +1,21 @@
 [
   {
+    "version": "0.47.2",
+    "title": "MCP security update, and safer packing",
+    "date": "2026-10-09",
+    "kind": "patch",
+    "summary": "",
+    "changes": [
+      "`@easy-cms/plugin-mcp` needs `@modelcontextprotocol/sdk` 1.31.0 or newer, which fixes an advisory where the OAuth client could send credentials to an authorization server chosen by the MCP server (GHSA-6qxp-vccf-f47h). The Next.js starter template now asks for Next.js 16.3.8 or newer.",
+      "Packing a package with npm or Yarn 1 now stops with a message when its `package.json` still has `workspace:` ranges, which those tools would publish as they are; pnpm, Yarn 2+ and Bun rewrite them and pass."
+    ],
+    "packages": [
+      "@easy-cms/plugin-mcp",
+      "@easy-cms/core"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "0.47.1",
     "title": "Ecommerce plugin installs again",
     "date": "2026-10-09",
