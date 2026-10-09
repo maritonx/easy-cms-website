@@ -15,6 +15,9 @@ export function generateStaticParams() {
 
 const clip = (text: string, max: number) => (text.length > max ? `${text.slice(0, max - 1).trimEnd()}…` : text)
 
+/** The font has no ⌘; spelled out, the image needs no font from the network. */
+const plain = (text: string) => text.replace(/⌘\s?/g, 'Cmd+')
+
 export async function GET(_req: Request, { params }: RouteContext<'/og/docs/[[...slug]]'>) {
   const slug = (await params).slug ?? []
   const locale: Locale = slug[0] === 'th' ? 'th' : 'en'
@@ -22,7 +25,7 @@ export async function GET(_req: Request, { params }: RouteContext<'/og/docs/[[..
   if (!found) return new Response('Not found', { status: 404 })
   const { doc } = found
   const source = await docSource(doc.file, locale)
-  const description = source ? describe(source) : null
+  const description = source ? plain(describe(source) ?? '') || null : null
 
   return new ImageResponse(
     (
@@ -72,7 +75,7 @@ export async function GET(_req: Request, { params }: RouteContext<'/og/docs/[[..
           >
             {doc.group}
           </div>
-          <div style={{ fontSize: doc.title.length > 30 ? 64 : 80, fontWeight: 700, lineHeight: 1.1 }}>{doc.title}</div>
+          <div style={{ fontSize: doc.title.length > 30 ? 64 : 80, fontWeight: 700, lineHeight: 1.1 }}>{plain(doc.title)}</div>
           {description && (
             <div style={{ fontSize: 28, color: '#8fa49c', lineHeight: 1.45, maxWidth: 1000 }}>{clip(description, 150)}</div>
           )}
