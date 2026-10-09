@@ -537,6 +537,11 @@ The Admin guide has every option.`,
 
 const showcase = [
   {
+    name: 'Next.js starter (one-click deploy)', url: 'https://github.com/maritonx/easy-cms/tree/main/templates/next-starter', order: 0,
+    description: 'A Next.js blog with its admin, roles and audit log. One button deploys it to Vercel or Netlify with a database and file storage.',
+    stack: ['Next.js', 'Postgres'],
+  },
+  {
     name: 'Next.js blog example', url: 'https://github.com/maritonx/easy-cms/tree/main/examples/next-blog', order: 1,
     description: 'Posts, pages, categories and forms in Thai and English, with SEO, redirects, nested pages and MCP.',
     stack: ['Next.js', 'Postgres'],
@@ -622,6 +627,14 @@ if (!reset) {
   console.log(`posts: SEO fields filled on ${filled}`)
 }
 await fill('showcase', showcase, (s) => s)
+if (!reset) {
+  // Entries added to the seed later, by address.
+  const { docs } = await cms.find('showcase', { limit: 1000, draft: true })
+  const known = new Set(docs.map((d) => d.url))
+  const missing = showcase.filter((s) => !known.has(s.url))
+  for (const s of missing) await cms.create('showcase', { ...s, status: 'published' } as never)
+  console.log(`showcase: ${missing.length ? missing.map((s) => s.name).join(', ') + ' added' : 'up to date'}`)
+}
 
 await cms.updateGlobal('site', {
   siteName: 'Easy CMS',

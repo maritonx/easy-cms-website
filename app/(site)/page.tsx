@@ -104,20 +104,23 @@ const { docs } = await cms.find('posts')
 const FEATURES = [
   ['history', 'Drafts and version history', 'Edit a published post without touching the live page. Compare versions and restore any of them.'],
   ['preview', 'Live preview', 'Your real page sits next to the form and updates as editors type, before anything is published.'],
-  ['calendar', 'Scheduled publishing', 'Publish or unpublish at a set time. Due jobs run every minute on the server you already have.'],
   ['language', 'Localized content', 'One value per language, with translation status in every list. The admin speaks English and Thai.'],
-  ['media', 'Media library', 'Uploads on disk or on S3, R2 and MinIO, with image sizes generated for you.'],
-  ['lock', 'Access control in code', 'Rules are functions per collection, document and field. API keys get per-collection permissions.'],
-  ['link', 'Signed webhooks', 'Tell your build, search index or Slack when content changes. Every request is signed.'],
+  ['lock', 'Roles and single sign-on', 'Tick what each role may do in the admin, down to fields. Sign in with Google, Microsoft or GitHub.'],
+  ['media', 'A media library with folders', 'Folders, many files at once, private files with signed links, and storage on S3, R2 or Vercel Blob.'],
+  ['shield', 'Audit log and backups', 'A signed record of who changed what, and database backups you start or schedule from the admin.'],
+  ['calendar', 'Scheduled publishing', 'Publish or unpublish at a set time. Due jobs run every minute on the server you already have.'],
   ['seo', 'SEO out of the box', 'Sitemaps, hreflang, JSON-LD and llms.txt from the content you already have.'],
-  ['chip', 'MCP for AI assistants', 'Let Claude and other assistants read and draft content through an MCP server, limited by API key.'],
+  ['chip', 'Typed API, REST and GraphQL', 'A typed Local API in your server code, REST for any client, and GraphQL and MCP as plugins.'],
 ] as const
 
 const PLUGINS = [
   ['@easy-cms/plugin-seo', 'Meta fields, sitemaps, hreflang and JSON-LD.', 'seo'],
-  ['@easy-cms/plugin-form-builder', 'Editors build forms; submissions are validated, stored and exported as CSV.', '0.20'],
-  ['@easy-cms/plugin-redirects', '301 to 308 redirects, created automatically when a page moves.', '0.19'],
-  ['@easy-cms/plugin-nested-docs', 'Pages inside pages, with paths and breadcrumbs per language.', '0.21'],
+  ['@easy-cms/plugin-form-builder', 'Editors build forms; submissions are validated, stored and exported as CSV.', 'forms'],
+  ['@easy-cms/plugin-redirects', '301 to 308 redirects, created automatically when a page moves.', 'seo'],
+  ['@easy-cms/plugin-nested-docs', 'Pages inside pages, with paths and breadcrumbs per language.', 'pages'],
+  ['@easy-cms/plugin-multi-tenant', 'Several sites or clients in one CMS, each with its own members and content.', '0.44'],
+  ['@easy-cms/plugin-ecommerce', 'Products, carts and checkout with Stripe, PromptPay or bank transfer.', '0.46'],
+  ['@easy-cms/plugin-graphql', 'A GraphQL API with the same access rules as REST.', '0.43'],
   ['@easy-cms/plugin-mcp', 'An MCP server so AI assistants can work with your content.', 'ai'],
 ] as const
 
@@ -219,7 +222,7 @@ export default async function Home() {
             <li>SQLite <small>· Turso</small></li>
             <li>PGlite</li>
             <li>S3 <small>· R2 · MinIO</small></li>
-            <li>Vercel</li>
+            <li>Vercel <small>· Netlify</small></li>
           </ul>
         </div>
       </div>
