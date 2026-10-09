@@ -1,9 +1,16 @@
 import { defineConfig } from '@easy-cms/core'
 import { sqlite } from '@easy-cms/db-sqlite'
 import { seoPlugin } from '@easy-cms/plugin-seo'
+import { vercelBlobStorage } from '@easy-cms/storage-vercel-blob'
 
 /** The public address: absolute links in the sitemap, share tags and llms.txt. */
 export const SITE_URL = process.env.SITE_URL ?? 'https://easy-cms.io'
+
+/**
+ * Where uploads go: Vercel Blob on Vercel, whose disk doesn't keep files (without a Blob store
+ * uploads fail saying to connect one); the `uploads` folder everywhere else, such as a VPS.
+ */
+const onVercel = Boolean(process.env.VERCEL || process.env.BLOB_READ_WRITE_TOKEN)
 
 /** Visitors see published documents; logged-in editors see drafts too. */
 const publishedOrEditor = ({ user }: { user: unknown }) =>
@@ -16,6 +23,7 @@ export default defineConfig({
     url: process.env.DATABASE_URL ?? 'file:./cms.db',
     authToken: process.env.DATABASE_AUTH_TOKEN,
   }),
+  ...(onVercel ? { upload: { storage: vercelBlobStorage() } } : {}),
   admin: { locale: 'en', siteUrl: SITE_URL, menu: ['posts', 'releases', 'showcase', 'media'] },
   collections: [
     {
