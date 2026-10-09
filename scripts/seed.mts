@@ -358,6 +358,183 @@ The recipe Rebuild a static site on publish in the docs has the details.`,
   },
 ]
 
+// Posts about 0.33 to 0.47, drafts until the author has read them.
+const newPosts = [
+  {
+    title: 'Roles, single sign-on and an audit log',
+    category: 'Release', publishedAt: '2026-10-05', coverText: 'auth.rbac', status: 'draft',
+    meta: {
+      title: 'Easy CMS roles, single sign-on and audit log for teams',
+      description: 'Roles you tick in the admin, sign-in with Google, Microsoft or GitHub, and a signed audit log of who changed what: Easy CMS 0.33 to 0.36.',
+    },
+    excerpt: 'Easy CMS 0.33 to 0.36 make it ready for teams: roles you set up in the admin, sign-in with your company account, and a record of who changed what.',
+    body: `A CMS for one developer can trust everyone who logs in. A CMS for a team can't. Four releases, 0.33 to 0.36, add what a team needs, and each is off until you turn it on.
+
+## Roles from the admin
+
+\`\`\`ts
+auth: { rbac: true },
+\`\`\`
+
+Admins get Settings → Roles: add a role and tick Read, Create, Update, Delete and Publish per collection and global, plus admin pages. Permissions are checked on the server on top of your access rules, so both must allow. When roles are first turned on, they keep everything they could do before; nothing changes until an admin unticks something.
+
+0.34 adds the details teams ask for next:
+
+- **Own documents only:** writers read every post but change, publish and delete only theirs.
+- **Field permissions:** per role, each field can be editable, read only or hidden.
+- **Deleting a user** asks who gets the documents they owned.
+
+## Single sign-on
+
+The new \`@easy-cms/auth-oauth\` package adds "Sign in with…" for Google, Microsoft (Entra ID), GitHub or any OpenID Connect provider.
+
+\`\`\`ts
+import { google } from '@easy-cms/auth-oauth'
+
+auth: { providers: [google()] }, // reads GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET
+\`\`\`
+
+\`auth.allowSignUp\` gives people from your domains an account on their first sign-in, and \`auth.password: false\` keeps passwords for admins only.
+
+## An audit log
+
+With \`audit: true\`, Easy CMS records changes to documents (each field's value before and after), sign-ins, failed logins, roles, backups and deliveries, with who, how and from where. Settings → Audit log has filters and CSV export. Entries can't be edited through Easy CMS, each is signed with the secret, and a daily check finds edited or missing ones.
+
+Each of these adds a table: create a migration when you turn it on. The Roles, Single sign-on and Audit log guides have the details.`,
+  },
+  {
+    title: 'A media library for real sites',
+    category: 'Release', publishedAt: '2026-10-08', coverText: 'upload.folders', status: 'draft',
+    meta: {
+      title: 'Easy CMS media library: folders, bulk upload, private files',
+      description: 'Folders, bulk upload, private files with signed links and large files straight to S3 or Vercel Blob: the media library in Easy CMS 0.38 to 0.41.',
+    },
+    excerpt: 'Folders, several files at a time, private folders and files too big for your host\'s request limit: the media library grew up in 0.38 to 0.41.',
+    body: `A blog's media library can be a flat list. A company site's can't: hundreds of images, PDFs for download, files only staff should see. Four releases changed that.
+
+## Folders (0.38)
+
+\`\`\`ts
+upload: { folders: true },
+\`\`\`
+
+The Media page gets a folder tree. Drag files onto folders or use Move to…, upload into the open folder, and browse folders from upload fields' pickers. Deleting a folder moves what it held up to its parent. With roles on, admins choose which roles may view, edit or manage each folder.
+
+## Several files at once (0.39)
+
+Drop many files and they upload three at a time, each with its progress, and each can be cancelled or retried. Files over the size limit are refused before they are sent. Easy CMS now recognises Word, Excel, PowerPoint, OpenDocument, zip, audio, video and CSV files from their contents, and a file's page previews it: players for audio and video, the browser's PDF viewer, the start of a text file.
+
+## Private folders (0.40)
+
+Tick Private on a folder and its files are kept apart. They are served only to users who may see them, or through a signed link from \`cms.signedMediaURL()\` that expires (at most 7 days). Upload fields can name a folder, such as \`folder: 'banners'\`, made the first time it is needed.
+
+## Large files straight to storage (0.41)
+
+Hosts limit request sizes, about 4.5 MB on Vercel. With S3, R2, MinIO or Vercel Blob, the admin now sends files over 4 MB from the browser straight to the storage. The server still checks each file's size and type from its contents, and deletes what fails.
+
+The Uploads & media guide covers every option.`,
+  },
+  {
+    title: 'Deploy Easy CMS in one click',
+    category: 'Release', publishedAt: '2026-10-06', coverText: 'deploy ✓', status: 'draft',
+    meta: {
+      title: 'Deploy Easy CMS to Vercel or Netlify with a single click',
+      description: 'A deploy button copies a Next.js starter with its admin, creates the database and file storage, and asks only for a setup code: Easy CMS 0.37.',
+    },
+    excerpt: 'A button that copies a Next.js blog with its admin to your GitHub and deploys it, database and file storage included. You type one thing: a setup code.',
+    body: `Trying a CMS used to mean cloning a repository, creating a database and setting environment variables. Since 0.37, the README and the docs have deploy buttons for Vercel and Netlify.
+
+## What the button does
+
+It copies the starter in \`templates/next-starter\` to a new repository of yours and deploys it: a Next.js blog with its admin, posts, categories, media, SEO, roles and an audit log, with sample posts.
+
+- **On Vercel:** a Neon Postgres database and a Vercel Blob store for uploads, both created by the button.
+- **On Netlify:** Netlify Database (Postgres) and Netlify Blobs, created on first use.
+
+## The setup code
+
+On a freshly deployed site, whoever opens \`/admin\` first could make themselves admin. So the only thing you fill in is a setup code, \`EASY_CMS_SETUP_CODE\`: any phrase you choose. Creating the first admin needs it, and wrong codes are rate-limited. The same setting, \`auth.setupCode\`, works on any host.
+
+## New storage packages
+
+The button needs somewhere to keep uploads on platforms without a disk, so 0.37 adds two packages:
+
+- \`@easy-cms/storage-vercel-blob\`: uploads in Vercel Blob, public on the CDN or private behind the API.
+- \`@easy-cms/storage-netlify-blobs\`: uploads in Netlify Blobs, served through the API.
+
+Then open \`/admin\`, create your admin with the code, and replace the sample posts with your own. The One-click deploy guide has the buttons and what to do if something doesn't work.`,
+  },
+  {
+    title: 'Multi-tenant sites and a shop',
+    category: 'Release', publishedAt: '2026-10-09', coverText: 'tenants', status: 'draft',
+    meta: {
+      title: 'Multi-tenant sites and an ecommerce shop in Easy CMS 0.46',
+      description: 'Run many sites or clients from one Easy CMS, and sell with products, carts and Stripe or PromptPay checkout: the multi-tenant and ecommerce plugins.',
+    },
+    excerpt: 'Two new plugins: run several sites or clients from one CMS, and sell from your site with carts, Stripe, PromptPay or bank transfer.',
+    body: `Agencies run many small sites; shops need more than posts. Two plugins arrived in 0.44 to 0.46, and they work together.
+
+## Multi-tenant
+
+\`\`\`ts
+import { multiTenantPlugin } from '@easy-cms/plugin-multi-tenant'
+
+plugins: [
+  multiTenantPlugin({
+    collections: ['posts', 'pages', 'media'], // each document belongs to one tenant
+    globals: ['site-settings'], // one value per tenant
+  }),
+],
+\`\`\`
+
+You get a \`tenants\` collection, members with a role in each tenant, a tenant switcher in the admin, and frontends that name their tenant by header, \`?tenant=\` or domain. Since 0.45, uploads, media folders, nested pages, redirects and forms work per tenant too, and admins of a tenant see its own audit log.
+
+## A shop
+
+\`@easy-cms/plugin-ecommerce\` adds products with variants and prices in several currencies, carts that guests keep, and checkout with Stripe (card and PromptPay) or bank transfer. Orders are made exactly once however often a payment is confirmed, and stock is taken safely and put back on a cancel or refund. Customers get accounts and order emails, and pages get a client with React hooks and Vue composables. With the multi-tenant plugin, each tenant is a shop of its own.
+
+## New in the core
+
+Both plugins are built on pieces you can use yourself: \`onRequest\` gives each request a \`context\` that access rules and hooks receive, site members (\`auth.members\`) sign in on the site and never get into the admin, and \`events\` with \`cms.emit()\` send your own webhooks. One change to note: \`isLoggedIn\` no longer counts members; \`isSignedIn\` does.
+
+The Multi-tenant, Ecommerce and Members guides have the setup.`,
+  },
+  {
+    title: 'The new admin',
+    category: 'Release', publishedAt: '2026-10-09', coverText: '⌘K', status: 'draft',
+    meta: {
+      title: 'The new Easy CMS admin: menu groups, ⌘K and edit layouts',
+      description: 'Menu groups that fold, ⌘K search and commands, tabs and conditional fields on edit pages: the Easy CMS 0.47 admin, with no database changes.',
+    },
+    excerpt: 'Easy CMS 0.47 rebuilds the admin around a growing site: menu groups, ⌘K, badges, and edit pages with tabs and fields that show when they apply.',
+    body: `With roles, media folders, a shop and multi-tenant sites, the admin's flat menu had grown long. 0.47 reorganises it, and your config keeps working as it is. Nothing changes in the database.
+
+## A menu that groups
+
+The menu has groups that fold, two levels deep: Content, the media library, each plugin's group (Shop › Catalog, Sales, Customers) and Settings. Each person can fold groups, pin items and collapse the menu to icons. Badges show what needs attention, such as orders to send, and a + creates a document from the menu.
+
+\`\`\`ts
+admin: {
+  badge: { where: { status: { equals: 'paid' } }, label: { en: 'to send', th: 'รอจัดส่ง' } },
+},
+\`\`\`
+
+## ⌘K
+
+Search and commands from anywhere: go to a page, create a document, find documents by title in every collection, reopen recent ones, and run commands, including plugins' own. ⌘S saves, ⌘⇧P publishes, and ? lists every shortcut.
+
+## Edit pages that fit the content
+
+- \`admin.layout\` arranges fields into tabs, sections that fold and rows.
+- \`admin.condition\` shows a field only when it applies; the server reads it too, so a hidden field isn't required.
+- \`admin.description\` puts help below a field, and \`admin.width\` sets its width.
+
+A failed save lists what to fix and opens the right tab, and unsaved changes are kept in the browser and offered back. The SEO plugin now puts its fields in an SEO tab.
+
+The Admin guide has every option.`,
+  },
+]
+
 const showcase = [
   {
     name: 'Next.js blog example', url: 'https://github.com/maritonx/easy-cms/tree/main/examples/next-blog', order: 1,
@@ -392,7 +569,10 @@ async function fill<T>(collection: 'posts' | 'releases' | 'showcase', rows: T[],
     console.log(`${collection}: has documents, skipped (use --reset to replace them)`)
     return
   }
-  for (const row of rows) await cms.create(collection, { ...toData(row), status: 'published' } as never)
+  for (const row of rows) {
+    const status = (row as { status?: string }).status ?? 'published'
+    await cms.create(collection, { ...toData(row), status } as never)
+  }
   console.log(`${collection}: ${rows.length} added`)
 }
 
@@ -411,13 +591,23 @@ if (reset) {
   for (const r of missing) await cms.create('releases', { ...releaseData(r), status: 'published' } as never)
   console.log(`releases: ${missing.length ? missing.map((r) => r.version).join(', ') + ' added' : 'up to date'}`)
 }
-await fill('posts', posts, (p) => ({ ...p, body: richText(p.body) }))
+const allPosts = [...newPosts, ...posts]
+await fill('posts', allPosts, (p) => ({ ...p, body: richText(p.body) }))
+
+// Posts added to the seed later: created by slug when missing, with their own status (drafts).
+if (!reset) {
+  const { docs } = await cms.find('posts', { limit: 1000, draft: true })
+  const known = new Set(docs.map((d) => d.slug))
+  const missing = newPosts.filter((p) => !known.has(slugify(p.title)))
+  for (const p of missing) await cms.create('posts', { ...p, body: richText(p.body) } as never)
+  console.log(`posts: ${missing.length ? `${missing.length} new as drafts` : 'no new posts'}`)
+}
 
 // SEO fields for posts that already exist (by slug), where they are still empty; what editors
 // wrote in the admin stays.
 {
   const { docs } = await cms.find('posts', { limit: 1000, draft: true })
-  const bySlug = new Map(posts.map((p) => [slugify(p.title), p.meta]))
+  const bySlug = new Map(allPosts.map((p) => [slugify(p.title), p.meta]))
   let filled = 0
   for (const doc of docs) {
     const seo = bySlug.get(String(doc.slug))
