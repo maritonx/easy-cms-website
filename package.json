@@ -16,6 +16,7 @@
     "seed:turso": "NODE_ENV=production node --env-file-if-exists=.env --env-file=.env.turso --import tsx scripts/seed.mts"
   },
   "dependencies": {
+    "@easy-cms/auth-oauth": "^0.68.4",
     "@easy-cms/core": "^0.68.4",
     "@easy-cms/db-sqlite": "^0.68.4",
     "@easy-cms/next": "^0.68.4",

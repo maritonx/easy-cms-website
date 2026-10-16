@@ -1,3 +1,4 @@
+import { google } from '@easy-cms/auth-oauth'
 import { defineConfig } from '@easy-cms/core'
 import { sqlite } from '@easy-cms/db-sqlite'
 import { seoPlugin } from '@easy-cms/plugin-seo'
@@ -15,6 +16,22 @@ export const SITE_URL = process.env.SITE_URL ?? 'https://easy-cms-website.vercel
  */
 const onVercel = Boolean(process.env.VERCEL || process.env.BLOB_READ_WRITE_TOKEN)
 
+/**
+ * Sign in to the admin with Google, configured by GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET
+ * (production). Only people who already have an account get in, after linking Google on their
+ * Account page; passwords stay for admins, as a way in when Google is down.
+ *
+ * The provider is always in the config, so the schema (its `user-identities` table) is the same
+ * everywhere: production refuses to start when the config and the migrations differ. Without the
+ * variables (development, previews, scripts) the Google button can't work, and everyone keeps
+ * signing in with a password.
+ */
+const googleConfigured = Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET)
+const googleProvider = google({
+  clientId: process.env.GOOGLE_CLIENT_ID || 'not-configured',
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'not-configured',
+})
+
 /** Visitors see published documents; logged-in editors see drafts too. */
 const publishedOrEditor = ({ user }: { user: unknown }) =>
   user ? true : { status: { equals: 'published' } }
@@ -30,6 +47,7 @@ export default defineConfig({
   // The public address: absolute media URLs, email links, the sitemap and robots.txt.
   serverURL: SITE_URL,
   admin: { locale: 'en', siteURL: SITE_URL },
+  auth: { providers: [googleProvider], ...(googleConfigured ? { password: false } : {}) },
   collections: [
     {
       slug: 'posts',
