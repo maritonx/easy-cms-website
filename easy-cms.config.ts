@@ -3,8 +3,11 @@ import { sqlite } from '@easy-cms/db-sqlite'
 import { seoPlugin } from '@easy-cms/plugin-seo'
 import { vercelBlobStorage } from '@easy-cms/storage-vercel-blob'
 
-/** The public address: absolute links in the sitemap, share tags and llms.txt. */
-export const SITE_URL = process.env.SITE_URL ?? 'https://easy-cms.io'
+/**
+ * The public address: absolute links in the sitemap, share tags and llms.txt. The Vercel address
+ * until the project has a domain of its own.
+ */
+export const SITE_URL = process.env.SITE_URL ?? 'https://easy-cms-website.vercel.app'
 
 /**
  * Where uploads go: Vercel Blob on Vercel, whose disk doesn't keep files (without a Blob store
@@ -24,12 +27,14 @@ export default defineConfig({
     authToken: process.env.DATABASE_AUTH_TOKEN,
   }),
   ...(onVercel ? { upload: { storage: vercelBlobStorage() } } : {}),
-  admin: { locale: 'en', siteUrl: SITE_URL, menu: ['posts', 'releases', 'showcase', 'media'] },
+  // The public address: absolute media URLs, email links, the sitemap and robots.txt.
+  serverURL: SITE_URL,
+  admin: { locale: 'en', siteURL: SITE_URL },
   collections: [
     {
       slug: 'posts',
       labels: { singular: 'Post', plural: 'Posts' },
-      icon: 'newspaper',
+      admin: { icon: 'newspaper', order: 1 },
       drafts: true,
       versions: true,
       schedule: true,
@@ -61,7 +66,7 @@ export default defineConfig({
     {
       slug: 'releases',
       labels: { singular: 'Release', plural: 'Releases' },
-      icon: 'tag',
+      admin: { icon: 'tag', order: 2 },
       drafts: true,
       useAsTitle: 'version',
       access: { read: publishedOrEditor },
@@ -85,7 +90,7 @@ export default defineConfig({
     {
       slug: 'showcase',
       labels: { singular: 'Showcase site', plural: 'Showcase' },
-      icon: 'star',
+      admin: { icon: 'star', order: 3 },
       drafts: true,
       useAsTitle: 'name',
       access: { read: publishedOrEditor },
@@ -109,7 +114,6 @@ export default defineConfig({
     seoPlugin({
       collections: ['posts'],
       globals: ['site'],
-      position: 'sidebar',
       generateTitle: ({ doc }) => (doc.title ? `${doc.title} · Easy CMS` : null),
       generateDescription: ({ doc }) => (doc.excerpt as string | undefined) ?? null,
       generateImage: ({ doc }) => (doc.cover as number | undefined) ?? null,

@@ -98,9 +98,9 @@ type ReleaseSeed = {
   needsMigration: boolean
 }
 
-// 0.23 to 0.47, taken from the packages' CHANGELOG.md files in the Easy CMS repo.
+// 0.23 onwards, taken from the packages' CHANGELOG.md files in the Easy CMS repo (newest first).
 const laterReleases: ReleaseSeed[] = JSON.parse(
-  readFileSync(new URL('./releases-0.23-0.47.json', import.meta.url), 'utf8'),
+  readFileSync(new URL('./releases.json', import.meta.url), 'utf8'),
 )
 
 const releases: ReleaseSeed[] = [
@@ -557,7 +557,7 @@ const showcase = [
     stack: ['Standalone', 'SQLite'],
   },
   {
-    name: 'easy-cms.io', url: 'https://easy-cms.io', order: 4,
+    name: 'Easy CMS website', url: 'https://easy-cms-website.vercel.app', order: 4,
     description: 'This site. The blog, changelog and showcase are Easy CMS collections in a Next.js app.',
     stack: ['Next.js', 'SQLite'],
   },
@@ -630,6 +630,16 @@ await fill('showcase', showcase, (s) => s)
 if (!reset) {
   // Entries added to the seed later, by address.
   const { docs } = await cms.find('showcase', { limit: 1000, draft: true })
+  // This site's entry was seeded with a domain the project doesn't have yet.
+  for (const doc of docs.filter((d) => d.url === 'https://easy-cms.io')) {
+    await cms.update('showcase', doc.id, {
+      name: 'Easy CMS website',
+      url: 'https://easy-cms-website.vercel.app',
+      status: 'published',
+    } as never)
+    doc.url = 'https://easy-cms-website.vercel.app'
+    console.log('showcase: this site now points to easy-cms-website.vercel.app')
+  }
   const known = new Set(docs.map((d) => d.url))
   const missing = showcase.filter((s) => !known.has(s.url))
   for (const s of missing) await cms.create('showcase', { ...s, status: 'published' } as never)
@@ -638,7 +648,7 @@ if (!reset) {
 
 await cms.updateGlobal('site', {
   siteName: 'Easy CMS',
-  announcement: { badge: '0.47', label: 'A new admin that grows with your plugins', href: '/changelog#v0.47.0' },
+  announcement: { badge: '0.68', label: 'Names and shapes for 1.0, and a security pass', href: '/changelog#v0.49.0' },
 })
 console.log('site: announcement set')
 

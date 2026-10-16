@@ -1,6 +1,7 @@
 import { ImageResponse } from 'next/og'
 import { describe, docSource } from '@/lib/docs/markdown'
 import { docsFor, findDoc, type Locale } from '@/lib/docs/sidebar'
+import { SITE_URL } from '@/easy-cms.config'
 import { ogFonts } from '@/lib/og'
 
 // The share image of each docs page: /og/docs/next, /og/docs/th/next. Rendered at build time.
@@ -80,7 +81,7 @@ export async function GET(_req: Request, { params }: RouteContext<'/og/docs/[[..
             <div style={{ fontSize: 28, color: '#8fa49c', lineHeight: 1.45, maxWidth: 1000 }}>{clip(description, 150)}</div>
           )}
         </div>
-        <div style={{ display: 'flex', fontSize: 24, color: '#5f746c' }}>easy-cms.io{doc.href}</div>
+        <div style={{ display: 'flex', fontSize: 24, color: '#5f746c' }}>{new URL(SITE_URL).host}{doc.href}</div>
       </div>
     ),
     { width: 1200, height: 630, fonts: await ogFonts() },

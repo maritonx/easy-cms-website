@@ -14,7 +14,7 @@ export async function docSource(file: string, locale: Locale = 'en') {
   }
 }
 
-/** `/docs/next` → `https://easy-cms.io/docs/next.md` */
+/** `/docs/next` → `<SITE_URL>/docs/next.md` */
 export const markdownURL = (href: string) => `${SITE_URL}${href}.md`
 
 /**

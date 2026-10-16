@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og'
+import { SITE_URL } from '@/easy-cms.config'
 import { ogFonts } from '@/lib/og'
 
 // The share image for pages without their own (siteMetadata in components/site-shell.tsx).
@@ -54,7 +55,7 @@ export async function GET() {
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 28, color: '#8fa49c' }}>
           <span>npm create easy-cms@latest</span>
-          <span>easy-cms.io</span>
+          <span>{new URL(SITE_URL).host}</span>
         </div>
       </div>
     ),

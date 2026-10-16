@@ -1,5 +1,305 @@
 [
   {
+    "version": "0.68.4",
+    "title": "Shop hooks handle failed address loads",
+    "date": "2026-10-16",
+    "kind": "patch",
+    "summary": "`useAddresses()` (React and Vue) no longer leaves an unhandled promise rejection when the addresses can't load as the customer signs in or out, e.g. with an expired session: the list stays empty. Calling `reload()` still throws. The React hooks and Vue composables now have tests.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/plugin-ecommerce"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.68.3",
+    "title": "Stripe client settings",
+    "date": "2026-10-16",
+    "kind": "patch",
+    "summary": "`stripeAdapter({ clientConfig })` passes more settings to the Stripe client the adapter makes, e.g. `{ maxNetworkRetries: 2 }`, or the host and port of stripe-mock in tests.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/plugin-ecommerce"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.68.2",
+    "title": "Form element survives production builds",
+    "date": "2026-10-16",
+    "kind": "patch",
+    "summary": "`import '@easy-cms/plugin-form-builder/element'` (and `element.css`) now survive production builds: the package declared no side effects, so Vite and other bundlers dropped the import and `<easy-form>` stayed empty on the site. Development servers don't tree-shake, which hid it.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/plugin-form-builder"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.68.1",
+    "title": "MCP: accurate draft wording",
+    "date": "2026-10-16",
+    "kind": "patch",
+    "summary": "In a collection or global with drafts but without versions, `update_*` now tells the assistant that changing a published document takes it off the site until it is published again (it said the live version stays, which is only true with `versions`). Every tool is now tested through the MCP SDK client, along with clients on protocol versions back to 2024-11-05; `@modelcontextprotocol/sdk` 1.32.1 or later is required.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/plugin-mcp"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.68.0",
+    "title": "graphql as a peer dependency",
+    "date": "2026-10-16",
+    "kind": "minor",
+    "summary": "`graphql` is now a peer dependency (16 or 17) instead of a dependency, so the plugin and the graphql-js objects you pass to `extend` are always the same copy; with two copies graphql-js refuses the schema. npm, pnpm and Bun install it for you; with Yarn, run `yarn add graphql`. The tests now run with graphql 16 and with 17.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/plugin-graphql"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.67.2",
+    "title": "A fixed Stripe API version",
+    "date": "2026-10-16",
+    "kind": "patch",
+    "summary": "The Stripe adapter asks for a fixed Stripe API version, `STRIPE_API_VERSION` (`2026-09-30.endive`), instead of the default of whichever `stripe` package is installed, so upgrading the package no longer changes Stripe's answers under a shop. `stripeAdapter({ apiVersion })` picks another. The `stripe` peer range is now 17 to 23, the majors that are tested; create the webhook endpoint in Stripe with the same API version. With `stripe` 17 to 22 installed, a shop now talks to this newer API version; the fields the adapter uses are the same in both.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/plugin-ecommerce"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.67.1",
+    "title": "Payment methods in the page's language",
+    "date": "2026-10-16",
+    "kind": "patch",
+    "summary": "Payment methods are named in the page's language: `GET <api>/shop/config?locale=th` (the shop client sends its `locale`) gives `โอนเงิน` instead of `Bank transfer`. Found testing the shop end to end with Stripe in test mode.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/plugin-ecommerce"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.67.0",
+    "title": "Large direct uploads from the browser",
+    "date": "2026-10-10",
+    "kind": "minor",
+    "summary": "Direct uploads of large files work from the admin in a real browser. Tested with real Vercel Blob stores, public and private.",
+    "changes": [
+      "The admin's Content-Security-Policy allowed requests to its own origin only, so the browser blocked sending files to the storage. Storage adapters now name where browsers send files (`uploadOrigins`: the bucket for S3, `https://vercel.com` for Blob), and the admin allows them in `connect-src` (`securityHeaders(connectSrc)`; `adminHandlerFor` and Nuxt fill it in from the config).",
+      "Vercel Blob: the upload no longer sends `x-add-random-suffix`, which the Blob API's CORS doesn't allow from browsers (the client token already disables the suffix)."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/storage-s3",
+      "@easy-cms/storage-vercel-blob"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.66.1",
+    "title": "Clearer single sign-on settings",
+    "date": "2026-10-10",
+    "kind": "patch",
+    "summary": "Settings → Single sign-on says what happens to people who already have an account: they link the provider on their Account page first, or are matched by verified email with `linkByEmail`.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.66.0",
+    "title": "Multi-tenant hygiene",
+    "date": "2026-10-10",
+    "kind": "minor",
+    "summary": "",
+    "changes": [
+      "Staff of a tenant see others' memberships in that tenant only; people still see all their own.",
+      "Checking the audit log's integrity is for admins of the whole system (not of one tenant); the admin hides the button for others.",
+      "A plugin's collections listed only partly per tenant (forms without their submissions, some of the shop's) log a warning on the first request.",
+      "`unique` on a field inside a group, array or block logs a config warning: it is enforced on top-level fields only."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/plugin-multi-tenant"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.65.0",
+    "title": "Operations: encrypted backups, STARTTLS, unpaid orders",
+    "date": "2026-10-10",
+    "kind": "minor",
+    "summary": "",
+    "changes": [
+      "GraphQL introspection is off in production by default (`introspection: true` to keep it); `easy-cms generate:graphql` still writes the schema.",
+      "`backups.encryptionKey` encrypts backup files (AES-256-GCM, `.db.gz.enc`); admin downloads are decrypted and `easy-cms backup:decrypt <file>` decrypts one by hand. A backup storage with public URLs logs a warning; `create-easy-cms` adds `backups/` to `.gitignore`.",
+      "SMTP on port 587 requires STARTTLS (`requireTLS`, shown in the admin's Email settings).",
+      "Without the audit log, failed sign-ins are written to the server log; each audit check logs its last id there too.",
+      "Forms without a client IP share one rate limit of ten times `max`, instead of none.",
+      "Unpaid manual orders (bank transfer) are cancelled after 3 days and their stock put back, so unpaid orders don't hold stock. `manualAdapter({ expiresIn })` sets the seconds, or `false` to wait for staff (e.g. cash on delivery). Orders get an `expiresAt` field: run `easy-cms migrate:create` in production. Orders made before the upgrade aren't affected."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/email-smtp",
+      "@easy-cms/plugin-graphql",
+      "@easy-cms/plugin-ecommerce"
+    ],
+    "needsMigration": true
+  },
+  {
+    "version": "0.64.0",
+    "title": "Browser and transport security",
+    "date": "2026-10-10",
+    "kind": "minor",
+    "summary": "",
+    "changes": [
+      "Over HTTPS (and in production) the session, CSRF and SSO cookies are named `__Host-…`; the old names are still read, so nobody is signed out. Logging out clears both and sends `Clear-Site-Data: \"cache\"`, and the admin forgets drafts and recent documents it kept in the browser.",
+      "The REST API and the admin send HSTS (`max-age=31536000`) in production.",
+      "Uploaded text files are stored and served with `charset=utf-8`.",
+      "The CSRF origin check uses `X-Forwarded-Host` only with trust-proxy (`trustProxy`, `--trust-proxy`) or on Vercel and Netlify; `createRestHandler` takes `trustProxy`.",
+      "The SEO plugin's sitemap and robots.txt build their own addresses from `serverURL`, not the request's host.",
+      "The admin's switcher cookie is `Secure` over HTTPS."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/plugin-seo"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.63.0",
+    "title": "Access checks",
+    "date": "2026-10-10",
+    "kind": "minor",
+    "summary": "",
+    "changes": [
+      "Updating or deleting a document the user may not read answers `404`, as for an id that doesn't exist; one they may read but not change still answers `403`.",
+      "Preview links from the admin read with the access of whoever made them (`createPreviewToken(target, { user })`); they stop working when that user is deactivated.",
+      "`<api>/admin/ui/media-usage` counts only documents the user may read (`cms.mediaUsage(ids, access)`).",
+      "Shop: `POST <api>/shop/confirm` is only for whoever paid: the customer, or the guest with the cart's secret (the client sends it); others get `404`."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/plugin-ecommerce"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.62.0",
+    "title": "Account hardening",
+    "date": "2026-10-10",
+    "kind": "minor",
+    "summary": "",
+    "changes": [
+      "Passwords that are among the ~2,000 most common (from SecLists, 8 characters or more) are refused. Existing passwords keep working.",
+      "Account lists your API keys with Revoke and Revoke all; after a password reset the admin shows your keys first and offers to revoke them.",
+      "In production the server warns while no admin exists and no setup code is set; creating the first admin is in the audit log (`setup`).",
+      "`cronSecret` must be at least 32 characters (a shorter `CRON_SECRET` is a warning), and `<api>/jobs/run` with the session cookie takes `POST` only."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.61.0",
+    "title": "Deprecation warnings",
+    "date": "2026-10-09",
+    "kind": "minor",
+    "summary": "Deprecation warnings: `warnDeprecated(code, message)` (from `@easy-cms/core` and `@easy-cms/core/plugin`) logs a Node.js `DeprecationWarning` once per code and process. Old names that still work warn with codes `EASY_CMS_DEP001`–`005`: `<api>/users/<action>`, `POST` to a global, `?fallback-locale=`, `easy-cms create-admin` and `easy-cms run-scheduled`. A new docs page, \"Versions and deprecations\", says what the version number promises and lists them. The admin saves globals with `PATCH` and sends `?fallbackLocale=`, and a failed sign-in no longer counts as an expired session.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.49.0",
+    "title": "Names and shapes for 1.0",
+    "date": "2026-10-09",
+    "kind": "minor",
+    "summary": "Names and shapes for 1.0. This release renames config options, Local API methods, CLI commands, REST routes and plugin options; the config check names the new option when an old one is used. See the upgrade guide: the Upgrading guide",
+    "changes": [
+      "Public API separated from what packages share (`@easy-cms/core/internal`, outside semver) and `@easy-cms/core/plugin` for plugin authors",
+      "Error codes on every `EasyCMSError` and REST error; `Retry-After` on 429",
+      "Config renames (`siteURL`, `admin.order`, `admin.icon`, `cliCommands`, `keepDays`, `backups.frequency`, …) and warnings for unknown options",
+      "Local API: `isStaff`, `findSchedule`, `upcomingSchedules`, `runJobs()` result, `increment()` throws for a missing document",
+      "REST: `/auth/<action>` (with `/users/<action>` aliases), `/admin/ui/*`, `PATCH` for globals",
+      "Plugins and adapters declare `apiVersion`; `onRequest` lists; `flags` for plugin commands; CLI `admin:create` and `jobs:run`; plugin option renames"
+    ],
+    "packages": [
+      "@easy-cms/core"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.48.0",
+    "title": "Security changes that may need a step",
+    "date": "2026-10-09",
+    "kind": "minor",
+    "summary": "",
+    "changes": [
+      "SVG is no longer included in `image/*` (it can carry scripts). To keep allowing it, list it: `upload.mimeTypes: ['image/*', 'image/svg+xml']`. After a direct upload, the type the storage serves the file with must be the one checked (S3 reports it).",
+      "Users changing their own password or email send their current password (`currentPassword`); the account page asks for it. Admins changing other users don't. Accounts without a password can't change their own email.",
+      "Single sign-on no longer signs existing staff in by email until they link the provider from their account page, unless the provider has `linkByEmail: true` (for providers whose emails your organization controls). Site members are still matched by email. `microsoft()` no longer uses the user principal name as an email.",
+      "`trustProxy` takes the last `X-Forwarded-For` address (the one your proxy added), not the first, which the client can write. On Vercel and Netlify the client IP is found without it; Nuxt uses the connection's address otherwise. A warning is logged in production when logins have no client IP.",
+      "In production, a `secret` that looks like an example or a repeated pattern is refused. The Next.js starter no longer falls back to a fixed secret in production: without `EASY_CMS_SECRET` (and without a database URL) it uses a random one per process and says so.",
+      "Multi-tenant: the people of a tenant, its admins included, no longer change shared collections and globals (those not listed in `collections`/`globals`). List the ones they may change in `editShared`. The deliveries page is for system admins only."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/auth-oauth",
+      "@easy-cms/nuxt"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.47.4",
+    "title": "Security fixes",
+    "date": "2026-10-09",
+    "kind": "patch",
+    "summary": "",
+    "changes": [
+      "Site members never read drafts, through any API (the Local API now applies the rule REST already had).",
+      "A sign-up for an account still waiting for its email takes the new password and sends a new link; signing in with a provider confirms such an account and drops the password set before. Email confirmation links work once.",
+      "Only system admins unlink someone else's single sign-on account.",
+      "Request bodies sent without a length are refused once past the limit, instead of being read whole first. Endpoints get `req.text()` for raw bodies (at most 1 MB).",
+      "Upload from URL also refuses IPv4 addresses inside IPv6 (NAT64, `::a.b.c.d`) that are private.",
+      "Shop: changing an order's status (paid, sent, cancelled, refunded) needs update access to the order.",
+      "Multi-tenant: a tenant's admins can't add site members or people with access to all tenants to it; adding someone who already has an account answers as for someone new and emails them."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/plugin-ecommerce",
+      "@easy-cms/plugin-multi-tenant"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "0.47.3",
+    "title": "Security: members and multi-tenant",
+    "date": "2026-10-09",
+    "kind": "patch",
+    "summary": "Security fix: site members (`auth.members`, such as shop customers) never get the rights of users with access to all tenants, whatever `publicReads` is, and see only their own user record. Update now if you use the multi-tenant plugin together with members.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/plugin-multi-tenant"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "0.47.2",
     "title": "MCP security update, and safer packing",
     "date": "2026-10-09",
