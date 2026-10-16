@@ -8,7 +8,12 @@ export const dynamic = 'force-dynamic'
 
 /** The fixed pages and the docs, plus the blog posts Easy CMS knows about (published, not hidden). */
 export default async function Sitemap(): Promise<MetadataRoute.Sitemap> {
-  const pages = ['/', '/blog', '/changelog', '/showcase'].map((p) => ({ url: `${SITE_URL}${p}` }))
+  const home = { en: `${SITE_URL}/`, th: `${SITE_URL}/th` }
+  const pages = [
+    { url: home.en, alternates: { languages: home } },
+    { url: home.th, alternates: { languages: home } },
+    ...['/blog', '/changelog', '/showcase'].map((p) => ({ url: `${SITE_URL}${p}` })),
+  ]
   // Each docs page in English and Thai, each listing the other as an alternate.
   const docs = ALL_DOCS.flatMap((d) => {
     const languages = { en: `${SITE_URL}${hrefFor(d.file, 'en')}`, th: `${SITE_URL}${hrefFor(d.file, 'th')}` }

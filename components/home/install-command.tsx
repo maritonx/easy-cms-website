@@ -11,14 +11,15 @@ const CREATE = {
   bun: 'bun create easy-cms',
 } as const
 
-export function InstallCommand() {
+export function InstallCommand({ copyLabel = 'Copy', copiedLabel = 'Copied' }: { copyLabel?: string; copiedLabel?: string }) {
   const pm = usePackageManager()
-  const [label, setLabel] = useState('Copy')
+  const [label, setLabel] = useState(copyLabel)
   const codeRef = useRef<HTMLElement>(null)
 
   async function copy() {
-    setLabel(await copyText(CREATE[pm], codeRef.current))
-    setTimeout(() => setLabel('Copy'), 1600)
+    const result = await copyText(CREATE[pm], codeRef.current)
+    setLabel(result === 'Copied' ? copiedLabel : result)
+    setTimeout(() => setLabel(copyLabel), 1600)
   }
 
   return (

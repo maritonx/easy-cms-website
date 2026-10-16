@@ -44,6 +44,7 @@ export function SiteShell({ lang, children }: { lang: 'en' | 'th'; children: Rea
       className={`${bricolage.variable} ${geist.variable} ${geistMono.variable} ${thai.variable}`}
       suppressHydrationWarning
     >
+      {/* eslint-disable-next-line @next/next/no-head-element -- the document of both root layouts (app/(site) and app/th) */}
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <script
@@ -58,7 +59,7 @@ export function SiteShell({ lang, children }: { lang: 'en' | 'th'; children: Rea
       <body>
         <SiteHeader />
         <main>{children}</main>
-        <SiteFooter />
+        <SiteFooter lang={lang} />
       </body>
     </html>
   )

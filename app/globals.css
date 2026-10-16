@@ -486,3 +486,7 @@ code, kbd, pre { font-family: var(--font-mono); }
 /* Thai reads better with a little more line height and no negative tracking. */
 [lang="th"] .prose { line-height: 1.75; }
 [lang="th"] h1, [lang="th"] h2, [lang="th"] h3 { letter-spacing: 0; line-height: 1.3; }
+
+/* ---------- language switch in the header ---------- */
+.lang-pill { display: inline-flex; align-items: center; justify-content: center; min-width: 40px; height: 36px; padding: 0 10px; border-radius: 8px; border: 1px solid var(--line); font: 500 13px var(--font-body); color: var(--muted); }
+.lang-pill:hover { color: var(--fg); border-color: var(--line-strong); }
