@@ -17,6 +17,9 @@ importers:
       '@easy-cms/db-sqlite':
         specifier: ^0.68.4
         version: 0.68.4(@easy-cms/core@0.68.4(sharp@0.35.5(@types/node@20.19.43)))
+      '@easy-cms/email-smtp':
+        specifier: ^0.68.4
+        version: 0.68.4(@easy-cms/core@0.68.4(sharp@0.35.5(@types/node@20.19.43)))
       '@easy-cms/next':
         specifier: ^0.68.4
         version: 0.68.4(@easy-cms/core@0.68.4(sharp@0.35.5(@types/node@20.19.43)))(next@16.3.8(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
@@ -205,6 +208,12 @@ packages:
 
   '@easy-cms/drizzle@0.68.4':
     resolution: {integrity: sha512-EeNarlwyaHkDJF4v6BbnqQUt1VRL4LK6RXY6UA+yBtQ1m5Tw/7zYCTVi9pUfYjrthDPysluqoWA7sqnSOn3XEQ==}
+    engines: {node: '>=22.12'}
+    peerDependencies:
+      '@easy-cms/core': ^0.68.4
+
+  '@easy-cms/email-smtp@0.68.4':
+    resolution: {integrity: sha512-wB36MswQzP00nxfQX40KTaRPnW4kY4JjIGZ/tnPXPIjKAQaDyiJ9RtpgaZfvy8pilJ5ebkZncHTWtQIWNAxHDw==}
     engines: {node: '>=22.12'}
     peerDependencies:
       '@easy-cms/core': ^0.68.4
@@ -2528,6 +2537,10 @@ packages:
     resolution: {integrity: sha512-kQK9LGGFiHtrWiNhZtA7Qbw17AQz+dmsEKODRIVTXA9+e5MS/2gZEBhYJt13GrAz5/IOZKddH/0Z3TP/Zgo+yw==}
     engines: {node: '>=18'}
 
+  nodemailer@10.1.1:
+    resolution: {integrity: sha512-pbqZRoeYUO+1E8TJ/11WeY4D2EVujj1hsYjz3qff/vUFDtGnmi7p3iqzTFslYOfQ6PnjVcWxx/CIUSHCSrO/QA==}
+    engines: {node: '>=20.0.0'}
+
   npm-run-path@4.0.1:
     resolution: {integrity: sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==}
     engines: {node: '>=8'}
@@ -3282,6 +3295,11 @@ snapshots:
       - prisma
       - sql.js
       - sqlite3
+
+  '@easy-cms/email-smtp@0.68.4(@easy-cms/core@0.68.4(sharp@0.35.5(@types/node@20.19.43)))':
+    dependencies:
+      '@easy-cms/core': 0.68.4(sharp@0.35.5(@types/node@20.19.43))
+      nodemailer: 10.1.1
 
   '@easy-cms/next@0.68.4(@easy-cms/core@0.68.4(sharp@0.35.5(@types/node@20.19.43)))(next@16.3.8(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
     dependencies:
@@ -5710,6 +5728,8 @@ snapshots:
       semver: 6.3.1
 
   node-releases@2.0.57: {}
+
+  nodemailer@10.1.1: {}
 
   npm-run-path@4.0.1:
     dependencies:

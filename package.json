@@ -19,6 +19,7 @@
     "@easy-cms/auth-oauth": "^0.68.4",
     "@easy-cms/core": "^0.68.4",
     "@easy-cms/db-sqlite": "^0.68.4",
+    "@easy-cms/email-smtp": "^0.68.4",
     "@easy-cms/next": "^0.68.4",
     "@easy-cms/plugin-seo": "^0.68.4",
     "@easy-cms/richtext": "^0.68.4",

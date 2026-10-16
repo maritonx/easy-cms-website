@@ -1,5 +1,13 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "pnpm exec easy-cms migrate && pnpm build",
-  "regions": ["hnd1"]
+  "regions": [
+    "hnd1"
+  ],
+  "crons": [
+    {
+      "path": "/api/cms/jobs/run",
+      "schedule": "0 3 * * *"
+    }
+  ]
 }

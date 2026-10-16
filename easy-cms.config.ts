@@ -1,6 +1,7 @@
 import { google } from '@easy-cms/auth-oauth'
-import { defineConfig } from '@easy-cms/core'
+import { consoleEmail, defineConfig } from '@easy-cms/core'
 import { sqlite } from '@easy-cms/db-sqlite'
+import { smtp } from '@easy-cms/email-smtp'
 import { seoPlugin } from '@easy-cms/plugin-seo'
 import { vercelBlobStorage } from '@easy-cms/storage-vercel-blob'
 
@@ -46,6 +47,10 @@ export default defineConfig({
   ...(onVercel ? { upload: { storage: vercelBlobStorage() } } : {}),
   // The public address: absolute media URLs, email links, the sitemap and robots.txt.
   serverURL: SITE_URL,
+  // Invitations and password links through Gmail's SMTP (SMTP_HOST, SMTP_PORT, SMTP_USER,
+  // SMTP_PASSWORD with an app password, SMTP_FROM) where they're set; printed to the log
+  // elsewhere. Always set, so the email queue's table is in the schema everywhere.
+  email: process.env.SMTP_HOST ? smtp() : consoleEmail(),
   admin: { locale: 'en', siteURL: SITE_URL },
   auth: { providers: [googleProvider], ...(googleConfigured ? { password: false } : {}) },
   collections: [

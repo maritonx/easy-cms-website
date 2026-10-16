@@ -1,0 +1,27 @@
+name: Scheduled jobs
+
+# Easy CMS's due jobs (queued emails, scheduled publishing, webhook retries) every five minutes.
+# Nothing keeps running on Vercel and its Hobby plan runs crons once a day (vercel.json), so
+# GitHub calls the jobs endpoint. Needs the repository secret CRON_SECRET, the same value as the
+# CRON_SECRET environment variable in Vercel (32 characters or more). GitHub may start scheduled
+# runs a few minutes late.
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Run due jobs
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          SITE_URL: ${{ vars.SITE_URL || 'https://easy-cms-website.vercel.app' }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::warning::CRON_SECRET is not set in the repository secrets; nothing to do."
+            exit 0
+          fi
+          curl -fsS --max-time 60 -H "Authorization: Bearer $CRON_SECRET" "$SITE_URL/api/cms/jobs/run"
