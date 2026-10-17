@@ -24,14 +24,25 @@ export async function getPost(slug: string) {
   return docs[0] ?? null
 }
 
-/** Newest version first; several releases can share a date, so the version decides. */
+/**
+ * Newest version first; several releases can share a date, so the version decides. A
+ * prerelease (1.0.0-rc.0) comes just below its release (1.0.0), newest prerelease first.
+ */
 export async function getReleases() {
   const { docs } = await (await cms()).find('releases', { limit: 500 })
-  const parts = (v: string) => v.split('.').map(Number)
-  return docs.sort((a, b) => {
-    const [x, y] = [parts(a.version), parts(b.version)]
-    return y[0] - x[0] || y[1] - x[1] || y[2] - x[2]
-  })
+  return docs.sort((a, b) => compareVersions(b.version, a.version))
+}
+
+/** Semver order: by major, minor and patch, then a release above its prereleases. */
+export function compareVersions(a: string, b: string): number {
+  const [coreA, preA = ''] = a.split('-', 2) as [string, string?]
+  const [coreB, preB = ''] = b.split('-', 2) as [string, string?]
+  const [x, y] = [coreA.split('.').map(Number), coreB.split('.').map(Number)]
+  for (let i = 0; i < 3; i++) if ((x[i] ?? 0) !== (y[i] ?? 0)) return (x[i] ?? 0) - (y[i] ?? 0)
+  if (preA === preB) return 0
+  if (!preA) return 1
+  if (!preB) return -1
+  return preA.localeCompare(preB, 'en', { numeric: true })
 }
 
 export async function getShowcase() {
