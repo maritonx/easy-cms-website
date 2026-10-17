@@ -56,7 +56,7 @@ export const PERSONAS: readonly Persona[] = [
         { title: 'A typed Local API', body: 'Server code calls cms.find() with types generated from your config. No HTTP round trip, no hand-written types.', doc: 'local-api' },
         { title: 'Your database, real tables', body: 'SQLite (a file or Turso) or Postgres. Documents are rows and columns you can still query with SQL.', doc: 'databases' },
         { title: 'Migrations you commit', body: 'Schema changes become migration files in git, applied on deploy. Production refuses a config that doesn’t match.', doc: 'deployment' },
-        { title: 'REST, GraphQL and MCP', body: 'REST at /api/cms for any client; GraphQL and an MCP server for AI assistants come as plugins.', doc: 'rest-api' },
+        { title: 'REST, GraphQL and MCP', body: 'REST at /api/cms for any client; GraphQL and an MCP server for AI assistants come as experimental plugins.', doc: 'rest-api' },
       ],
       notFit: [
         'Editors must change the content model themselves, without a developer: here the model is code.',
@@ -90,7 +90,7 @@ export const PERSONAS: readonly Persona[] = [
         { title: 'Local API ที่มี type', body: 'โค้ดฝั่ง server เรียก cms.find() พร้อม type ที่สร้างจาก config ไม่ต้องยิง HTTP ไม่ต้องเขียน type เอง', doc: 'local-api' },
         { title: 'ฐานข้อมูลของคุณ ตารางจริง', body: 'SQLite (ไฟล์หรือ Turso) หรือ Postgres เอกสารเป็นแถวและคอลัมน์ที่ยัง query ด้วย SQL ได้', doc: 'databases' },
         { title: 'migration ที่ commit ได้', body: 'การเปลี่ยน schema กลายเป็นไฟล์ migration ใน git และรันตอน deploy production จะไม่ยอมรับ config ที่ไม่ตรง', doc: 'deployment' },
-        { title: 'REST, GraphQL และ MCP', body: 'REST ที่ /api/cms สำหรับ client ใดก็ได้ ส่วน GraphQL และ MCP server สำหรับ AI assistant มาเป็น plugin', doc: 'rest-api' },
+        { title: 'REST, GraphQL และ MCP', body: 'REST ที่ /api/cms สำหรับ client ใดก็ได้ ส่วน GraphQL และ MCP server สำหรับ AI assistant มาเป็น plugin ทดลอง', doc: 'rest-api' },
       ],
       notFit: [
         'editor ต้องแก้โครงสร้างเนื้อหาเองโดยไม่มีนักพัฒนา: ที่นี่โครงสร้างเป็นโค้ด',
@@ -203,7 +203,7 @@ export const PERSONAS: readonly Persona[] = [
         { title: 'A starter in one click', body: 'Deploy a site with its admin to Vercel or Netlify for a client demo, then move it to their server.', doc: 'one-click-deploy' },
       ],
       notFit: [
-        'Easy CMS is before 1.0: upgrades can still rename options, each listed in the upgrade guide.',
+        'Easy CMS is new: 1.0 came out in October 2026, and the shop, GraphQL and MCP plugins are still experimental.',
         'Clients must change the content model themselves, without your developers.',
         'You need a large marketplace of ready-made integrations, or edge runtimes.',
       ],
@@ -237,7 +237,7 @@ export const PERSONAS: readonly Persona[] = [
         { title: 'starter ในคลิกเดียว', body: 'deploy เว็บพร้อมหน้า admin ไปที่ Vercel หรือ Netlify เพื่อ demo ให้ลูกค้า แล้วค่อยย้ายไป server ของลูกค้า', doc: 'one-click-deploy' },
       ],
       notFit: [
-        'Easy CMS ยังก่อน 1.0: การอัปเกรดยังอาจเปลี่ยนชื่อ option ซึ่งระบุไว้ในคู่มืออัปเกรดทุกครั้ง',
+        'Easy CMS ยังใหม่: 1.0 ออกเมื่อตุลาคม 2026 และ plugin ร้านค้า, GraphQL และ MCP ยังเป็นรุ่นทดลอง',
         'ลูกค้าต้องแก้โครงสร้างเนื้อหาเองโดยไม่มีนักพัฒนาของคุณ',
         'ต้องการ marketplace ของ integration สำเร็จรูปจำนวนมาก หรือ edge runtime',
       ],
@@ -266,7 +266,7 @@ export const WHY_UI = {
     checked: (date: string) => `Checked against each product’s own site on ${date}. Prices and versions change; follow the links for today’s.`,
     seeOfficial: 'See the official site',
     honest:
-      'Easy CMS is young: it is before 1.0 and its community is small. Every other product here has been in production longer, with more people answering questions. We say so on every page.',
+      'Easy CMS is young: its first release was in September 2026 and its community is small. Every other product here has been in production longer, with more people answering questions. We say so on every page.',
     feature: 'Feature',
     otherComparisons: 'Other comparisons',
     forPages: 'Who it’s for',
@@ -290,7 +290,7 @@ export const WHY_UI = {
     checked: (date: string) => `ตรวจสอบจากเว็บของแต่ละผลิตภัณฑ์เมื่อ ${date} ราคาและเวอร์ชันเปลี่ยนได้ ดูข้อมูลล่าสุดได้จากลิงก์`,
     seeOfficial: 'ดูเว็บทางการ',
     honest:
-      'Easy CMS ยังใหม่: ยังก่อน 1.0 และชุมชนยังเล็ก ผลิตภัณฑ์อื่นในหน้านี้ใช้งานจริงมานานกว่า และมีคนช่วยตอบคำถามมากกว่า เราบอกไว้ทุกหน้า',
+      'Easy CMS ยังใหม่: ออกครั้งแรกเมื่อกันยายน 2026 และชุมชนยังเล็ก ผลิตภัณฑ์อื่นในหน้านี้ใช้งานจริงมานานกว่า และมีคนช่วยตอบคำถามมากกว่า เราบอกไว้ทุกหน้า',
     feature: 'หัวข้อ',
     otherComparisons: 'การเปรียบเทียบอื่น',
     forPages: 'เหมาะกับใคร',

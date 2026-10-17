@@ -47,11 +47,11 @@ export const EASY_CMS: Product = {
     databases: { en: 'SQLite (file or Turso), Postgres (or PGlite)', th: 'SQLite (ไฟล์หรือ Turso), Postgres (หรือ PGlite)' },
     runtime: { en: 'Node.js 22.12+, TypeScript', th: 'Node.js 22.12+, TypeScript' },
     cloud: { en: 'None. Self-host anywhere; one-click deploy to your own Vercel or Netlify', th: 'ไม่มี host เองได้ทุกที่ และ deploy ด้วยคลิกเดียวไปที่ Vercel หรือ Netlify ของคุณเอง' },
-    apis: { en: 'Typed Local API, REST; GraphQL and MCP as plugins', th: 'Local API ที่มี type, REST และ GraphQL กับ MCP เป็น plugin' },
+    apis: { en: 'Typed Local API, REST; GraphQL and MCP as experimental plugins', th: 'Local API ที่มี type, REST และ GraphQL กับ MCP เป็น plugin ทดลอง' },
     thai: { en: 'Complete: every admin string, and every docs page', th: 'ครบ: ทุกข้อความใน admin และ docs ทุกหน้า' },
     team: { en: 'Roles, field permissions, SSO (Google, Microsoft, GitHub, OIDC), audit log: all MIT', th: 'บทบาท, สิทธิ์ระดับ field, SSO (Google, Microsoft, GitHub, OIDC), audit log: MIT ทั้งหมด' },
     ecosystem: { en: 'Small: official plugins (SEO, forms, redirects, nested pages, multi-tenant, shop, GraphQL, MCP), a new community', th: 'เล็ก: plugin ทางการ (SEO, ฟอร์ม, redirect, หน้าย่อย, multi-tenant, ร้านค้า, GraphQL, MCP) ชุมชนยังใหม่' },
-    maturity: { en: 'Pre-1.0 (0.68), first released September 2026', th: 'ยังก่อน 1.0 (0.68) ออกครั้งแรกกันยายน 2026' },
+    maturity: { en: 'Version 1.0 (October 2026); first released September 2026', th: 'เวอร์ชัน 1.0 (ตุลาคม 2026) ออกครั้งแรกกันยายน 2026' },
   },
 }
 
