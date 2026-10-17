@@ -501,7 +501,7 @@ The Multi-tenant, Ecommerce and Members guides have the setup.`,
   },
   {
     title: 'Easy CMS 1.0',
-    category: 'Release', publishedAt: '2026-10-20', coverText: '1.0', status: 'draft',
+    category: 'Release', publishedAt: '2026-10-17', coverText: '1.0', status: 'draft',
     meta: {
       title: 'Easy CMS 1.0: the embedded CMS for Next.js and Nuxt is stable',
       description: 'Easy CMS 1.0 is the first version meant for production: breaking changes only in a major release, upgrades tested from old releases, and a security review behind it.',
