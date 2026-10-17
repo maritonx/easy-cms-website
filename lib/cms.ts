@@ -9,11 +9,24 @@ export type ShowcaseSite = CollectionDocument<typeof config, 'showcase'>
 
 export const cms = () => getEasyCMS(config)
 
-/** Published posts, newest first. */
-export async function getPosts(limit = 50) {
-  const { docs } = await (await cms()).find('posts', { sort: '-publishedAt', limit, depth: 1 })
+export type Locale = 'en' | 'th'
+
+/** Published posts, newest first: those in one language, or all of them. */
+export async function getPosts(limit = 50, language?: Locale) {
+  const { docs } = await (await cms()).find('posts', {
+    sort: '-publishedAt',
+    limit,
+    depth: 1,
+    ...(language ? { where: { language: { equals: language } } } : {}),
+  })
   return docs
 }
+
+/** A post's language: posts from before the field are English. */
+export const postLanguage = (post: Post): Locale => (post.language === 'th' ? 'th' : 'en')
+
+/** Where a post is read: /blog/<slug>, or /th/blog/<slug> for a Thai post. */
+export const postHref = (post: Post) => `${postLanguage(post) === 'th' ? '/th' : ''}/blog/${post.slug}`
 
 export async function getPost(slug: string) {
   const { docs } = await (await cms()).find('posts', {

@@ -33,6 +33,10 @@ const googleProvider = google({
   clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'not-configured',
 })
 
+/** A post's address: Thai posts are under /th/blog, the rest under /blog. */
+export const postPath = (doc: { slug?: unknown; language?: unknown }) =>
+  doc.slug ? `${doc.language === 'th' ? '/th' : ''}/blog/${doc.slug}` : null
+
 /** Visitors see published documents; logged-in editors see drafts too. */
 const publishedOrEditor = ({ user }: { user: unknown }) =>
   user ? true : { status: { equals: 'published' } }
@@ -62,11 +66,23 @@ export default defineConfig({
       versions: true,
       schedule: true,
       // Live preview in the admin: the page that shows a post.
-      preview: ({ doc }) => (doc.slug ? `/blog/${doc.slug}` : null),
+      preview: ({ doc }) => postPath(doc),
       useAsTitle: 'title',
       access: { read: publishedOrEditor },
       fields: [
         { name: 'title', type: 'text', required: true },
+        // Each post is written in one language, and listed on that language's blog. A Thai
+        // title makes a Thai slug; type a Latin one for a shorter address.
+        {
+          name: 'language',
+          type: 'select',
+          required: true,
+          defaultValue: 'en',
+          options: [
+            { label: 'English', value: 'en' },
+            { label: 'ไทย', value: 'th' },
+          ],
+        },
         { name: 'slug', type: 'slug', from: 'title' },
         { name: 'excerpt', type: 'textarea', maxLength: 280 },
         {
@@ -141,7 +157,7 @@ export default defineConfig({
       generateDescription: ({ doc }) => (doc.excerpt as string | undefined) ?? null,
       generateImage: ({ doc }) => (doc.cover as number | undefined) ?? null,
       generateURL: ({ doc, collection }) =>
-        collection === 'posts' ? (doc.slug ? `${SITE_URL}/blog/${doc.slug}` : null) : `${SITE_URL}/`,
+        collection === 'posts' ? (postPath(doc) ? `${SITE_URL}${postPath(doc)}` : null) : `${SITE_URL}/`,
       // app/llms.txt builds its own file with the docs; this keeps the plugin's routes quiet.
       llms: false,
     }),

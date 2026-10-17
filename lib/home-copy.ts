@@ -250,9 +250,9 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
     },
     blog: {
       eyebrow: 'จากบล็อก',
-      title: 'release และคู่มือล่าสุด',
+      title: 'บทความและคู่มือล่าสุด',
       all: 'บทความทั้งหมด',
-      note: 'บทความเป็นภาษาอังกฤษ',
+      note: null,
       empty: 'ยังไม่มีบทความ เผยแพร่ได้ที่ `/admin` หรือรัน `pnpm seed`',
     },
     final: {

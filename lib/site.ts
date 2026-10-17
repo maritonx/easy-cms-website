@@ -31,7 +31,7 @@ export const NAV = {
   ],
   th: [
     { href: '/th/docs', label: 'เอกสาร' },
-    { href: '/blog', label: 'บล็อก' },
+    { href: '/th/blog', label: 'บล็อก' },
     { href: '/showcase', label: 'ผลงาน' },
     { href: '/changelog', label: 'Changelog' },
   ],
@@ -41,22 +41,28 @@ export const NAV = {
 export const localeOf = (pathname: string) => (pathname === '/th' || pathname.startsWith('/th/') ? 'th' : 'en')
 
 /** English pages that have a Thai version at /th plus the same path. */
-const BILINGUAL = /^\/(docs|why)(\/|$)/
+const BILINGUAL = /^\/(docs|why)(\/|$)|^\/blog$/
 
 /**
- * The same page in the other language: the home page, the docs and the Why pages exist in both;
+ * The same page in the other language: the home page, the docs, the Why pages and the blog exist in both;
  * any other English page switches to the Thai home page.
  */
 export function otherLanguagePath(pathname: string) {
+  // A post is in one language only: switch to the other language's blog.
+  if (pathname.startsWith('/th/blog/')) return '/blog'
+  if (pathname.startsWith('/blog/')) return '/th/blog'
   if (localeOf(pathname) === 'th') return pathname.replace(/^\/th(?=\/|$)/, '') || '/'
   if (pathname === '/') return '/th'
   return BILINGUAL.test(pathname) ? `/th${pathname}` : '/th'
 }
 
-/** "Oct 1, 2026" from an ISO date, in UTC so the day doesn't shift with the server's zone. */
-export function formatDate(iso: string | null | undefined) {
+/**
+ * "Oct 1, 2026" (or "1 ต.ค. 2569" in Thai) from an ISO date, in UTC so the day doesn't shift with
+ * the server's zone.
+ */
+export function formatDate(iso: string | null | undefined, locale: 'en' | 'th' = 'en') {
   if (!iso) return ''
-  return new Date(iso).toLocaleDateString('en-US', {
+  return new Date(iso).toLocaleDateString(locale === 'th' ? 'th-TH' : 'en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',

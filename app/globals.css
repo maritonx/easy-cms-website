@@ -633,3 +633,11 @@ code, kbd, pre { font-family: var(--font-mono); }
 /* Thai has no spaces between words, so the browser may break a phrase anywhere: keep each whole. */
 :lang(th) .hero h1 > span { white-space: nowrap; }
 :lang(th) .hero h1 { line-height: 1.15; letter-spacing: -0.01em; }
+
+/* ---------- blog in two languages ---------- */
+.page-head .other-lang { font-size: 14px; color: var(--accent); justify-self: start; }
+.page-head .other-lang:hover { text-decoration: underline; }
+:lang(th) .page-head h1, .article :lang(th) h1, :lang(th) .article h1 { letter-spacing: -0.01em; line-height: 1.2; }
+:lang(th) .prose { line-height: 1.85; }
+/* Blog posts render plain <pre> (the docs wrap theirs in a highlighted frame): give them the code panel. */
+.article .prose > pre { background: var(--code-bg) !important; color: var(--code-fg); border: 1px solid var(--code-line); border-radius: 10px; margin-block: 1.2em; }

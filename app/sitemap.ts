@@ -13,7 +13,11 @@ export default async function Sitemap(): Promise<MetadataRoute.Sitemap> {
   const pages = [
     { url: home.en, alternates: { languages: home } },
     { url: home.th, alternates: { languages: home } },
-    ...['/blog', '/changelog', '/showcase'].map((p) => ({ url: `${SITE_URL}${p}` })),
+    ...[`${SITE_URL}/blog`, `${SITE_URL}/th/blog`].map((url) => ({
+      url,
+      alternates: { languages: { en: `${SITE_URL}/blog`, th: `${SITE_URL}/th/blog` } },
+    })),
+    ...['/changelog', '/showcase'].map((p) => ({ url: `${SITE_URL}${p}` })),
   ]
   // The Why pages, in English and Thai.
   const why = WHY_RESTS.flatMap((rest) => {

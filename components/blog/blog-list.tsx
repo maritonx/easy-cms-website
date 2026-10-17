@@ -2,25 +2,27 @@
 
 import { useState } from 'react'
 
-const FILTERS = [
-  ['all', 'All'],
-  ['Release', 'Releases'],
-  ['Guide', 'Guides'],
-  ['Engineering', 'Engineering'],
-  ['Community', 'Community'],
-] as const
+const FILTERS = ['all', 'Release', 'Guide', 'Engineering', 'Community'] as const
 
 /** Category chips over server-rendered cards; each card carries its category. */
-export function BlogList({ cards }: { cards: { id: string | number; category: string; node: React.ReactNode }[] }) {
+export function BlogList({
+  cards,
+  labels,
+  label,
+}: {
+  cards: { id: string | number; category: string; node: React.ReactNode }[]
+  labels: Record<(typeof FILTERS)[number], string>
+  label: string
+}) {
   const [filter, setFilter] = useState<string>('all')
   const present = new Set(cards.map((c) => c.category))
   const shown = cards.filter((c) => filter === 'all' || c.category === filter)
   return (
     <>
-      <div className="filters" role="group" aria-label="Filter posts">
-        {FILTERS.filter(([value]) => value === 'all' || present.has(value)).map(([value, label]) => (
+      <div className="filters" role="group" aria-label={label}>
+        {FILTERS.filter((value) => value === 'all' || present.has(value)).map((value) => (
           <button key={value} aria-pressed={filter === value} onClick={() => setFilter(value)}>
-            {label}
+            {labels[value]}
           </button>
         ))}
       </div>

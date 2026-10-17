@@ -68,7 +68,8 @@ const COLUMNS_TH = [
   {
     title: 'แหล่งข้อมูล',
     links: [
-      ['/blog', 'บล็อก'],
+      ['/th/blog', 'บล็อก'],
+      ['/blog', 'Blog (English)'],
       ['/th/docs/recipes', 'สูตรสำเร็จ'],
       ['/showcase', 'ผลงาน'],
     ],

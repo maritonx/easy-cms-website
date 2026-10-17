@@ -7,6 +7,7 @@
  */
 import { readFileSync } from 'node:fs'
 import { createEasyCMS, slugify } from '@easy-cms/core'
+import { thaiPosts } from './posts-th.mjs'
 import configModule from '../easy-cms.config'
 
 // The config is a CommonJS module to Node here (the package isn't "type": "module").
@@ -27,15 +28,18 @@ if (!url.startsWith('file:') && process.env.NODE_ENV !== 'production') {
 // ---------- a tiny markdown-ish → Tiptap JSON, enough for seed posts ----------
 type Node = Record<string, unknown>
 
+/** `code`, **bold** and [links](/path) inside a line; the rest is plain text. */
 function inline(text: string): Node[] {
   return text
-    .split(/(`[^`]+`)/)
+    .split(/(`[^`]+`|\*\*[^*]+\*\*|\[[^\]]+\]\([^)\s]+\))/)
     .filter(Boolean)
-    .map((part) =>
-      part.startsWith('`') && part.endsWith('`')
-        ? { type: 'text', text: part.slice(1, -1), marks: [{ type: 'code' }] }
-        : { type: 'text', text: part },
-    )
+    .map((part) => {
+      if (part.startsWith('`') && part.endsWith('`')) return { type: 'text', text: part.slice(1, -1), marks: [{ type: 'code' }] }
+      if (part.startsWith('**') && part.endsWith('**')) return { type: 'text', text: part.slice(2, -2), marks: [{ type: 'bold' }] }
+      const link = /^\[([^\]]+)\]\(([^)\s]+)\)$/.exec(part)
+      if (link) return { type: 'text', text: link[1], marks: [{ type: 'link', attrs: { href: link[2] } }] }
+      return { type: 'text', text: part }
+    })
 }
 
 /** Blocks separated by blank lines; a fenced code block is one block, blank lines and all. */
@@ -624,14 +628,17 @@ if (reset) {
   for (const r of missing) await cms.create('releases', { ...releaseData(r), status: 'published' } as never)
   console.log(`releases: ${missing.length ? missing.map((r) => r.version).join(', ') + ' added' : 'up to date'}`)
 }
-const allPosts = [...newPosts, ...posts]
+/** A seeded post's slug: its own (Thai posts have Latin ones), or made from the title. */
+const slugOf = (p: { title: string; slug?: string }) => p.slug ?? slugify(p.title)
+const laterPosts = [...newPosts, ...thaiPosts]
+const allPosts = [...laterPosts, ...posts]
 await fill('posts', allPosts, (p) => ({ ...p, body: richText(p.body) }))
 
 // Posts added to the seed later: created by slug when missing, with their own status (drafts).
 if (!reset) {
   const { docs } = await cms.find('posts', { limit: 1000, draft: true })
   const known = new Set(docs.map((d) => d.slug))
-  const missing = newPosts.filter((p) => !known.has(slugify(p.title)))
+  const missing = laterPosts.filter((p) => !known.has(slugOf(p)))
   for (const p of missing) await cms.create('posts', { ...p, body: richText(p.body) } as never)
   console.log(`posts: ${missing.length ? `${missing.length} new as drafts` : 'no new posts'}`)
 }
@@ -640,7 +647,7 @@ if (!reset) {
 // wrote in the admin stays.
 {
   const { docs } = await cms.find('posts', { limit: 1000, draft: true })
-  const bySlug = new Map(allPosts.map((p) => [slugify(p.title), p.meta]))
+  const bySlug = new Map(allPosts.map((p) => [slugOf(p), p.meta]))
   let filled = 0
   for (const doc of docs) {
     const seo = bySlug.get(String(doc.slug))
@@ -653,6 +660,14 @@ if (!reset) {
     filled++
   }
   console.log(`posts: SEO fields filled on ${filled}`)
+}
+// Posts from before the language field: English. The migration fills published rows; this fills
+// drafts, whose latest version was saved without it.
+{
+  const { docs } = await cms.find('posts', { limit: 1000, draft: true })
+  const untagged = docs.filter((d) => !d.language)
+  for (const doc of untagged) await cms.update('posts', doc.id, { language: 'en', status: doc.status } as never)
+  console.log(`posts: language set on ${untagged.length}`)
 }
 await fill('showcase', showcase, (s) => s)
 if (!reset) {

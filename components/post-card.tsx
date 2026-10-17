@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { mediaURL, type Post } from '@/lib/cms'
+import { BLOG_COPY, categoryLabel } from '@/lib/blog-copy'
+import { mediaURL, type Post, postHref, postLanguage } from '@/lib/cms'
 import { formatDate } from '@/lib/site'
 import { ArrowIcon } from './icons'
 
@@ -19,25 +20,32 @@ export function PostCover({ post, large }: { post: Post; large?: boolean }) {
   )
 }
 
+/**
+ * Minutes to read: 220 words a minute. Thai has no spaces between words, so a Thai post counts
+ * characters instead, at about six a word.
+ */
 export function readingTime(post: Post) {
-  const words = JSON.stringify(post.body ?? '').split(/\s+/).length
+  const text = JSON.stringify(post.body ?? '')
+  const words = postLanguage(post) === 'th' ? text.length / 6 : text.split(/\s+/).length
   return Math.max(2, Math.round(words / 220))
 }
 
+/** A post on a list, in the post's own language. */
 export function PostCard({ post }: { post: Post }) {
+  const locale = postLanguage(post)
   return (
-    <Link className="post-card" href={`/blog/${post.slug}`}>
+    <Link className="post-card" href={postHref(post)} lang={locale}>
       <PostCover post={post} />
       <div className="body">
         <div className="meta">
-          <span className="cat">{post.category}</span>
-          <span>{formatDate(post.publishedAt)}</span>
+          <span className="cat">{categoryLabel(post.category, locale)}</span>
+          <span>{formatDate(post.publishedAt, locale)}</span>
         </div>
         <h3>{post.title}</h3>
         {post.excerpt && <p>{post.excerpt}</p>}
       </div>
       <span className="read">
-        Read · {readingTime(post)} min <ArrowIcon />
+        {BLOG_COPY[locale].read(readingTime(post))} <ArrowIcon />
       </span>
     </Link>
   )

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { jsonLdScript } from '@easy-cms/plugin-seo'
 import { SITE_URL } from '@/easy-cms.config'
-import { getPosts, getSite } from '@/lib/cms'
+import { getPosts, getSite, type Post } from '@/lib/cms'
 import { highlight } from '@/lib/highlight'
 import { HOME_COPY, type HomeCopy, type Locale } from '@/lib/home-copy'
 import { DEPLOY_VERCEL_URL, GITHUB_URL, NPM_URL, VERSION } from '@/lib/site'
@@ -122,12 +122,19 @@ const { docs } = await cms.find('posts')
   }
 }
 
+/** Three posts for the home page: in its language, then English ones while Thai posts are few. */
+async function latestPosts(locale: Locale): Promise<Post[]> {
+  const own = await getPosts(3, locale)
+  if (locale === 'en' || own.length >= 3) return own
+  return [...own, ...(await getPosts(3 - own.length, 'en'))]
+}
+
 /** The home page in English (/) or Thai (/th). Reads the latest posts and the announcement. */
 export async function HomePage({ locale }: { locale: Locale }) {
   const t = HOME_COPY[locale]
   const code = samples(t.code.comments)
   const [posts, site, configHtml, routesHtml, pageHtml, heroHtml] = await Promise.all([
-    getPosts(3),
+    latestPosts(locale),
     getSite(),
     highlight(code.config, 'ts'),
     highlight(code.routes, 'ts'),
@@ -330,10 +337,10 @@ export async function HomePage({ locale }: { locale: Locale }) {
               <h2>{t.blog.title}</h2>
               {t.blog.note && <p>{t.blog.note}</p>}
             </div>
-            <Link className="btn" href="/blog">{t.blog.all} <ArrowIcon /></Link>
+            <Link className="btn" href={locale === 'th' ? '/th/blog' : '/blog'}>{t.blog.all} <ArrowIcon /></Link>
           </div>
           {posts.length > 0 ? (
-            <div className="post-grid" lang="en">
+            <div className="post-grid">
               {posts.map((post) => <PostCard key={post.id} post={post} />)}
             </div>
           ) : (

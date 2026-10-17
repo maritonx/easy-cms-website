@@ -1,5 +1,5 @@
 import { SITE_URL } from '@/easy-cms.config'
-import { getPosts } from '@/lib/cms'
+import { getPosts, postHref } from '@/lib/cms'
 import { docsIndex, markdownURL } from '@/lib/docs/markdown'
 import { SIDEBAR } from '@/lib/docs/sidebar'
 
@@ -26,7 +26,7 @@ export async function GET() {
   if (posts.length > 0) {
     lines.push('', '## Blog', '')
     for (const post of posts) {
-      lines.push(`- [${post.title}](${SITE_URL}/blog/${post.slug})${post.excerpt ? `: ${post.excerpt}` : ''}`)
+      lines.push(`- [${post.title}](${SITE_URL}${postHref(post)})${post.excerpt ? `: ${post.excerpt}` : ''}`)
     }
   }
   return new Response(`${lines.join('\n')}\n`, { headers: { 'content-type': 'text/markdown; charset=utf-8' } })
