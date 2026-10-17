@@ -1,5 +1,21 @@
 [
   {
+    "version": "1.0.1",
+    "title": "Test emails that went only to the log",
+    "date": "2026-10-17",
+    "kind": "patch",
+    "summary": "Settings → Email no longer says a test email was sent when the adapter only prints it to the server log.",
+    "changes": [
+      "With `consoleEmail()` (or any adapter whose `describe()` says `delivery: log`), Send test email answered `{ ok: true }` and the admin headed it \"Sent to …\". It now answers `{ ok: true, logged: true }`, and the admin shows \"Not sent\" with how to set up a real adapter, plus a warning above the settings.",
+      "New recipe in the docs: Move from WordPress, with a script that imports posts, pages, categories and images and adds redirects from the old addresses."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.0.0",
     "title": "Easy CMS 1.0",
     "date": "2026-10-17",
