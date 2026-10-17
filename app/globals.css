@@ -651,3 +651,7 @@ code, kbd, pre { font-family: var(--font-mono); }
 .deploy-row.compact { gap: 8px 10px; margin-top: -10px; }
 .deploy-row.compact .deploy-lead { font-size: 13.5px; color: var(--muted); }
 .deploy-row.compact .deploy-btn { height: 32px; padding: 0 12px; font-size: 13.5px; border-radius: 7px; }
+.why-move { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding: 22px 26px; border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--line)); border-radius: var(--radius); background: color-mix(in srgb, var(--accent) 5%, var(--bg-2)); }
+.why-move span { color: var(--fg); max-width: 70ch; }
+.why-move b { color: var(--accent); font-weight: 550; white-space: nowrap; }
+.why-move:hover { border-color: var(--accent); }

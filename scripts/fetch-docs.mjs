@@ -7,12 +7,15 @@
  *   DOCS_SOURCE=../EasyCMS   a local checkout, for writing docs and seeing them here
  *   DOCS_REF=main            a branch, tag or commit of maritonx/easy-cms
  *   (neither)                the commit @easy-cms/core@latest was published from, read from its
- *                            npm provenance, so the docs match what `npm install` gives you
+ *                            npm provenance, so the docs match what `npm install` gives you;
+ *                            or the commit in docs-ref.txt, while it is newer than that release
+ *                            (docs that changed without a release). The next release that
+ *                            includes it takes over by itself; then delete the file.
  *
  *   node scripts/fetch-docs.mjs [--if-missing]
  */
 import { execFileSync } from 'node:child_process'
-import { cp, mkdir, mkdtemp, readdir, rm, stat, writeFile } from 'node:fs/promises'
+import { cp, mkdir, mkdtemp, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 
@@ -48,6 +51,24 @@ async function releasedCommit() {
   throw new Error(`${PACKAGE}@${version} has no provenance with a git commit; set DOCS_REF`)
 }
 
+/**
+ * The commit in docs-ref.txt when it is ahead of the released one, else null: docs merged after
+ * a release, published without one. GitHub's compare says whether the release has caught up.
+ */
+async function pinnedIfNewer(released) {
+  const file = path.join(root, 'docs-ref.txt')
+  if (!(await exists(file))) return null
+  const pinned = (await readFile(file, 'utf8')).trim()
+  try {
+    const { status } = await getJSON(`https://api.github.com/repos/${REPO}/compare/${released}...${pinned}`)
+    if (status === 'ahead') return pinned
+    console.log(`docs-ref.txt (${pinned}) is not ahead of the release (${status}): delete the file`)
+  } catch (error) {
+    console.warn(`docs-ref.txt: could not compare with the release, using the release (${error.message})`)
+  }
+  return null
+}
+
 /** Downloads and unpacks the repository at `ref`; returns its website/ directory. */
 async function download(ref) {
   const dir = await mkdtemp(path.join(tmpdir(), 'easy-cms-docs-'))
@@ -65,9 +86,11 @@ if (process.env.DOCS_SOURCE) {
   const website = path.resolve(root, process.env.DOCS_SOURCE, 'website')
   source = { website, label: `local ${website}`, ref: 'local', version: null, cleanup: async () => {} }
 } else {
-  const { ref, version } = process.env.DOCS_REF
+  let { ref, version } = process.env.DOCS_REF
     ? { ref: process.env.DOCS_REF, version: null }
     : await releasedCommit()
+  const pinned = process.env.DOCS_REF ? null : await pinnedIfNewer(ref)
+  if (pinned) ({ ref, version } = { ref: pinned, version: null })
   const { website, cleanup } = await download(ref)
   source = { website, label: `${REPO}@${ref}${version ? ` (${PACKAGE}@${version})` : ''}`, ref, version, cleanup }
 }

@@ -35,6 +35,8 @@ export type Competitor = Product & {
   chooseUs: { en: readonly string[]; th: readonly string[] }
   chooseThem: { en: readonly string[]; th: readonly string[] }
   sources: readonly { label: string; url: string }[]
+  /** A docs page for moving from this product, e.g. 'recipes/wordpress'. */
+  moveGuide?: { doc: string; text: T }
 }
 
 export const EASY_CMS: Product = {
@@ -259,6 +261,13 @@ export const COMPETITORS: readonly Competitor[] = [
         'ต้องการ plugin สำหรับงานเฉพาะ และมีอยู่แล้ว',
         'ต้องการ hosting ราคาถูกที่ใครก็ตั้งค่าได้',
       ],
+    },
+    moveGuide: {
+      doc: 'recipes/wordpress',
+      text: {
+        en: 'Moving from WordPress? A script brings your posts, pages, categories and images across, with redirects from the old addresses.',
+        th: 'จะย้ายจาก WordPress? มีสคริปต์ย้ายบทความ หน้า หมวดหมู่ และรูปภาพมาให้ พร้อม redirect จากที่อยู่เดิม',
+      },
     },
     sources: [
       { label: 'WordPress: releases', url: 'https://wordpress.org/download/releases/' },
