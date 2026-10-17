@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import { docHref, type Locale, WHY_OVERVIEW, WHY_UI, whyHref } from '@/lib/why/copy'
 import { ArrowIcon } from '../icons'
-import { CompareCards, HonestNote, PersonaCards, WhyCta } from './parts'
+import { StabilityNote } from '../stability-note'
+import { CompareCards, PersonaCards, WhyCta } from './parts'
 
 /** /why and /th/why: what makes Easy CMS different, who it's for, how it compares. */
 export function WhyOverview({ locale }: { locale: Locale }) {
@@ -33,6 +34,7 @@ export function WhyOverview({ locale }: { locale: Locale }) {
               </Link>
             ))}
           </div>
+          <StabilityNote locale={locale} />
         </div>
       </section>
 
@@ -57,11 +59,10 @@ export function WhyOverview({ locale }: { locale: Locale }) {
             </Link>
           </div>
           <CompareCards locale={locale} />
-          <HonestNote locale={locale} />
         </div>
       </section>
 
-      <WhyCta locale={locale} />
+      <WhyCta locale={locale} from={`why-${locale}`} />
     </>
   )
 }

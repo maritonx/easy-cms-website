@@ -36,7 +36,7 @@ export type HomeCopy = {
     note: string
   }
   blog: { eyebrow: string; title: string; all: string; note: string | null; empty: string }
-  final: { title: string; text: string; guide: string; source: string }
+  final: { title: string; text: string; guide: string; deploy: string; source: string }
   copy: string
   copied: string
 }
@@ -147,6 +147,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
       title: 'Ship content with the code that renders it.',
       text: 'Scaffold a Next.js or Nuxt project with Easy CMS in about a minute. It is MIT licensed and runs on your own infrastructure.',
       guide: 'Read the guide',
+      deploy: 'Deploy to Vercel',
       source: 'View source',
     },
     copy: 'Copy',
@@ -161,12 +162,12 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
     },
     docs: '/th/docs',
     hero: {
-      title: 'แอป Next.js ของคุณ',
-      accent: 'เป็น CMS อยู่แล้ว',
-      lede: 'Easy CMS รันอยู่ในแอป Next.js หรือ Nuxt ของคุณ กำหนดเนื้อหาด้วย TypeScript แล้วได้หน้า admin ที่ `/admin`, API ที่มี type และ REST บน deployment เดียวกับฐานข้อมูลของคุณเอง',
+      title: 'CMS ที่ทีมไทย',
+      accent: 'ใช้ได้ทั้งทีม',
+      lede: 'หน้า admin ภาษาไทยครบทุกหน้าจอ เอกสารภาษาไทยทุกหน้า บทบาท, SSO และ audit log ฟรีภายใต้ MIT ติดตั้งในแอป Next.js หรือ Nuxt แล้วรันบน server และฐานข้อมูลของคุณเอง ไม่มีค่าใช้จ่ายต่อที่นั่ง',
       start: 'เริ่มใช้งาน',
       star: 'กดดาวบน GitHub',
-      meta: ['สัญญาอนุญาต MIT', 'Next.js 15+ · Nuxt', 'หน้า admin ภาษาไทยและอังกฤษ'],
+      meta: ['ฟรีทุกฟีเจอร์ (MIT)', 'admin และเอกสารภาษาไทยครบ', 'Next.js 15+ · Nuxt'],
     },
     stackLabel: 'ใช้ร่วมกับ',
     why: {
@@ -258,6 +259,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
       title: 'ส่งเนื้อหาไปพร้อมกับโค้ดที่แสดงผลมัน',
       text: 'สร้างโปรเจกต์ Next.js หรือ Nuxt พร้อม Easy CMS ได้ในราวหนึ่งนาที ใช้สัญญาอนุญาต MIT และรันบนโครงสร้างของคุณเอง',
       guide: 'อ่านคู่มือ',
+      deploy: 'Deploy ไป Vercel',
       source: 'ดูซอร์สโค้ด',
     },
     copy: 'คัดลอก',

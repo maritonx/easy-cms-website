@@ -584,7 +584,6 @@ code, kbd, pre { font-family: var(--font-mono); }
 .why-cta .wrap { display: grid; gap: 18px; justify-items: start; }
 .why-cta h2 { font-size: clamp(30px, 4vw, 44px); font-weight: 650; }
 .why-cta p { color: var(--muted); }
-.why-cta code { color: var(--fg); background: var(--surface-2); padding: 1px 6px; border-radius: 5px; font-size: 0.9em; }
 
 @media (max-width: 920px) {
   .why-points, .why-points:has(> :nth-child(4):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -600,3 +599,37 @@ code, kbd, pre { font-family: var(--font-mono); }
   .compare-table[data-cols="2"] th, .compare-table[data-cols="2"] td { padding: 12px 10px; }
   .compare-table[data-cols="2"] tbody th { width: 28%; }
 }
+
+/* ---------- why: home strip, 1.0 promise, call to action ---------- */
+.why-strip { border-bottom: 1px solid var(--line); padding-block: 22px; }
+.why-strip .wrap { display: flex; flex-wrap: wrap; gap: 14px 48px; }
+.why-strip .wrap > div { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.why-strip .label { font: 500 12px var(--font-mono); text-transform: uppercase; letter-spacing: 0.12em; color: var(--faint); }
+:lang(th) .why-strip .label { letter-spacing: 0; font: 500 13px var(--font-body); }
+.why-strip ul { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; }
+.why-strip a { display: inline-block; padding: 5px 12px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; color: var(--muted); transition: color 0.15s, border-color 0.15s; }
+.why-strip a:hover { color: var(--fg); border-color: var(--accent); }
+
+.stability { display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.6fr); gap: 12px 40px; align-items: start; margin: 40px 0; padding: 28px 32px; border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--line)); border-radius: var(--radius); background: color-mix(in srgb, var(--accent) 5%, var(--bg-2)); }
+.stability > div { display: grid; gap: 10px; justify-items: start; }
+.stability h3 { font-size: 24px; font-weight: 650; }
+.stability-badge { font: 600 12px/1 var(--font-mono); color: var(--accent-ink); background: var(--accent); padding: 5px 8px; border-radius: 5px; }
+.stability ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.stability li { position: relative; padding-left: 26px; color: var(--muted); font-size: 15px; }
+.stability li::before { content: "✓"; position: absolute; left: 2px; color: var(--accent); }
+.stability .why-more { grid-column: 2; }
+
+.why-cta .wrap { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 32px 56px; align-items: center; justify-items: stretch; }
+.why-cta p { margin-top: 14px; max-width: 46ch; }
+.why-cta-actions { display: grid; gap: 16px; justify-items: start; }
+.why-cta-actions .installer { width: 100%; }
+.why-ask { font-size: 14px; color: var(--muted); }
+.why-ask:hover { color: var(--accent); }
+@media (max-width: 920px) {
+  .why-cta .wrap, .stability { grid-template-columns: minmax(0, 1fr); }
+  .stability .why-more { grid-column: auto; }
+}
+@media (max-width: 640px) { .stability { padding: 22px; } }
+/* Thai has no spaces between words, so the browser may break a phrase anywhere: keep each whole. */
+:lang(th) .hero h1 > span { white-space: nowrap; }
+:lang(th) .hero h1 { line-height: 1.15; letter-spacing: -0.01em; }

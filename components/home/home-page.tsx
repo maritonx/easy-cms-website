@@ -4,9 +4,11 @@ import { SITE_URL } from '@/easy-cms.config'
 import { getPosts, getSite } from '@/lib/cms'
 import { highlight } from '@/lib/highlight'
 import { HOME_COPY, type HomeCopy, type Locale } from '@/lib/home-copy'
-import { GITHUB_URL, NPM_URL, VERSION } from '@/lib/site'
+import { DEPLOY_VERCEL_URL, GITHUB_URL, NPM_URL, VERSION } from '@/lib/site'
 import { ArrowIcon, FeatureIcon, GitHubIcon } from '../icons'
 import { PostCard } from '../post-card'
+import { StabilityNote } from '../stability-note'
+import { WhyStrip } from '../why/parts'
 import { AdminShowcase } from './admin-showcase'
 import { CodeSteps, type CodeStep } from './code-steps'
 import { InstallCommand } from './install-command'
@@ -159,12 +161,12 @@ export async function HomePage({ locale }: { locale: Locale }) {
               </Link>
             )}
             <h1>
-              {t.hero.title} <em>{t.hero.accent}</em>
+              <span>{t.hero.title}</span> <em>{t.hero.accent}</em>
             </h1>
             <p className="lede">
               <Rich text={t.hero.lede} />
             </p>
-            <InstallCommand copyLabel={t.copy} copiedLabel={t.copied} />
+            <InstallCommand copyLabel={t.copy} copiedLabel={t.copied} from={`home-${locale}`} />
             <div className="cta-row">
               <Link className="btn primary" href={docs('getting-started')}>
                 {t.hero.start} <ArrowIcon />
@@ -210,6 +212,8 @@ export async function HomePage({ locale }: { locale: Locale }) {
           </ul>
         </div>
       </div>
+
+      <WhyStrip locale={locale} />
 
       <section className="section" id="why">
         <div className="wrap">
@@ -340,6 +344,7 @@ export async function HomePage({ locale }: { locale: Locale }) {
 
       <section className="section flush-top">
         <div className="wrap">
+          <StabilityNote locale={locale} />
           <div className="final-box">
             <div>
               <h2>{t.final.title}</h2>
@@ -347,6 +352,7 @@ export async function HomePage({ locale }: { locale: Locale }) {
             </div>
             <div className="cta-row">
               <Link className="btn primary" href={docs('getting-started')}>{t.final.guide} <ArrowIcon /></Link>
+              <a className="btn" href={DEPLOY_VERCEL_URL} data-umami-event="deploy-vercel" data-umami-event-from={`home-${locale}`}>{t.final.deploy}</a>
               <a className="btn" href={GITHUB_URL}><GitHubIcon /> {t.final.source}</a>
             </div>
           </div>

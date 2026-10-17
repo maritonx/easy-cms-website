@@ -11,7 +11,16 @@ const CREATE = {
   bun: 'bun create easy-cms',
 } as const
 
-export function InstallCommand({ copyLabel = 'Copy', copiedLabel = 'Copied' }: { copyLabel?: string; copiedLabel?: string }) {
+/** `from` names where the command is, for the copy event in analytics. */
+export function InstallCommand({
+  copyLabel = 'Copy',
+  copiedLabel = 'Copied',
+  from,
+}: {
+  copyLabel?: string
+  copiedLabel?: string
+  from: string
+}) {
   const pm = usePackageManager()
   const [label, setLabel] = useState(copyLabel)
   const codeRef = useRef<HTMLElement>(null)
@@ -39,7 +48,14 @@ export function InstallCommand({ copyLabel = 'Copy', copiedLabel = 'Copied' }: {
       <div className="install-line">
         <span className="prompt">$</span>
         <code ref={codeRef}>{CREATE[pm]}</code>
-        <button className="copy-btn" type="button" onClick={copy}>
+        <button
+          className="copy-btn"
+          type="button"
+          onClick={copy}
+          data-umami-event="copy-install"
+          data-umami-event-from={from}
+          data-umami-event-pm={pm}
+        >
           <CopyIcon />
           <span>{label}</span>
         </button>

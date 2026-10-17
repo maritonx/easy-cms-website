@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { COMPETITORS, type Product, ROWS } from '@/lib/why/compare'
 import { type Locale, PERSONAS, WHY_UI, whyHref } from '@/lib/why/copy'
+import { DEMO_URL, DEPLOY_VERCEL_URL, DISCUSSIONS_URL } from '@/lib/site'
+import { InstallCommand } from '../home/install-command'
 import { ArrowIcon } from '../icons'
 
 /** The three personas as cards, linking to their pages. */
@@ -72,31 +74,73 @@ export function CompareTable({ products, locale }: { products: readonly Product[
   )
 }
 
-/** The note every Why page carries: Easy CMS is young. */
+/** A strip on the home page: who Easy CMS is for, and the comparisons. */
+export function WhyStrip({ locale }: { locale: Locale }) {
+  const t = WHY_UI[locale]
+  return (
+    <div className="why-strip">
+      <div className="wrap">
+        <div>
+          <span className="label">{t.forTitle}</span>
+          <ul>
+            {PERSONAS.map((p) => (
+              <li key={p.slug}>
+                <Link href={whyHref(p.slug, locale)}>{p[locale].menu.label}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <span className="label">{t.compareTitle}</span>
+          <ul>
+            {COMPETITORS.map((c) => (
+              <li key={c.slug}>
+                <Link href={whyHref(`compare/${c.slug}`, locale)}>{c.name}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/** The note the comparisons and "When it isn't a fit" carry: Easy CMS is young. */
 export function HonestNote({ locale }: { locale: Locale }) {
   return <p className="why-honest">{WHY_UI[locale].honest}</p>
 }
 
-/** The closing call to action. */
-export function WhyCta({ locale, secondary }: { locale: Locale; secondary?: { href: string; label: string } }) {
+/**
+ * The closing call to action: the create command to copy, a starter to deploy, the demo once it
+ * is up, and where to ask. `from` names the page for the analytics events.
+ */
+export function WhyCta({ locale, from }: { locale: Locale; from: string }) {
   const t = WHY_UI[locale]
   return (
     <section className="section why-cta">
       <div className="wrap">
-        <h2>{t.ctaTitle}</h2>
-        <p>
-          <code>npm create easy-cms@latest</code>
-          {t.ctaLede.replace('npm create easy-cms@latest', '')}
-        </p>
-        <div className="cta-row">
-          <Link className="btn primary" href={locale === 'th' ? '/th/docs/getting-started' : '/docs/getting-started'}>
-            {t.getStarted} <ArrowIcon />
-          </Link>
-          {secondary && (
-            <Link className="btn" href={secondary.href}>
-              {secondary.label}
+        <div>
+          <h2>{t.ctaTitle}</h2>
+          <p>{t.ctaLede}</p>
+        </div>
+        <div className="why-cta-actions">
+          <InstallCommand copyLabel={t.copy} copiedLabel={t.copied} from={from} />
+          <div className="cta-row">
+            <a className="btn primary" href={DEPLOY_VERCEL_URL} data-umami-event="deploy-vercel" data-umami-event-from={from}>
+              {t.deploy} <ArrowIcon />
+            </a>
+            {DEMO_URL && (
+              <a className="btn" href={DEMO_URL} data-umami-event="open-demo" data-umami-event-from={from}>
+                {t.demo}
+              </a>
+            )}
+            <Link className="btn" href={locale === 'th' ? '/th/docs/getting-started' : '/docs/getting-started'}>
+              {t.docs}
             </Link>
-          )}
+          </div>
+          <a className="why-ask" href={DISCUSSIONS_URL}>
+            {t.questions} →
+          </a>
         </div>
       </div>
     </section>

@@ -70,7 +70,7 @@ export function CompareOverview({ locale }: { locale: Locale }) {
           <Sources competitors={COMPETITORS} locale={locale} />
         </div>
       </section>
-      <WhyCta locale={locale} />
+      <WhyCta locale={locale} from={`compare-${locale}`} />
     </>
   )
 }
@@ -120,7 +120,7 @@ export function ComparePage({ competitor: c, locale }: { competitor: Competitor;
           <CompareCards locale={locale} except={c.slug} />
         </div>
       </section>
-      <WhyCta locale={locale} secondary={{ href: whyHref('compare', locale), label: ui.allCompared }} />
+      <WhyCta locale={locale} from={`compare-${c.slug}-${locale}`} />
     </>
   )
 }

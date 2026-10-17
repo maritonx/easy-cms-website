@@ -2,6 +2,24 @@
 export const GITHUB_URL = 'https://github.com/maritonx/easy-cms'
 export const NPM_URL = 'https://www.npmjs.com/org/easy-cms'
 export const VERSION = '1.0'
+/** This site's own source: it is built with Easy CMS. */
+export const SITE_REPO_URL = 'https://github.com/maritonx/easy-cms-website'
+export const DISCUSSIONS_URL = `${GITHUB_URL}/discussions`
+/** Deploys templates/next-starter to the visitor's own Vercel (docs/one-click-deploy). */
+export const DEPLOY_VERCEL_URL =
+  'https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmaritonx%2Feasy-cms%2Ftree%2Fmain%2Ftemplates%2Fnext-starter&project-name=easy-cms&repository-name=easy-cms&env=EASY_CMS_SETUP_CODE&envDescription=A+code+you+choose%3A+you+type+it+to+create+the+first+admin+at+%2Fadmin&envLink=https%3A%2F%2Feasy-cms-website.vercel.app%2Fdocs%2Fone-click-deploy&stores=%5B%7B%22type%22%3A%22integration%22%2C%22integrationSlug%22%3A%22neon%22%2C%22productSlug%22%3A%22neon%22%2C%22protocol%22%3A%22storage%22%7D%2C%7B%22type%22%3A%22blob%22%2C%22access%22%3A%22public%22%7D%5D'
+/** The public admin demo; null until it is up, which hides the "Try the demo" buttons. */
+export const DEMO_URL: string | null = null
+
+/**
+ * Umami Cloud (cookieless, so no consent banner). It only counts visits on the live host, not
+ * localhost or Vercel previews. Buttons with data-umami-event are counted as events.
+ */
+export const UMAMI = {
+  src: 'https://cloud.umami.is/script.js',
+  websiteId: 'c4f47abf-51c6-49f6-a035-04bbe033db62',
+  domains: 'easy-cms-website.vercel.app',
+}
 
 /** The main menu; Thai pages link to the Thai docs, the rest of the site is in English. */
 export const NAV = {

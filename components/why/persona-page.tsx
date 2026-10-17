@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { highlight } from '@/lib/highlight'
 import { docHref, type Locale, type Persona, WHY_UI, whyHref } from '@/lib/why/copy'
 import { ArrowIcon } from '../icons'
+import { StabilityNote } from '../stability-note'
 import { HonestNote, PersonaCards, WhyCta } from './parts'
 
 /** The developer page's sample: the content model, and a page reading it with types. */
@@ -95,6 +96,7 @@ export async function PersonaPage({ persona, locale }: { persona: Persona; local
               </Link>
             ))}
           </div>
+          {persona.slug === 'agencies' && <StabilityNote locale={locale} />}
         </div>
       </section>
 
@@ -114,14 +116,19 @@ export async function PersonaPage({ persona, locale }: { persona: Persona; local
 
       <section className="section flush-top">
         <div className="wrap">
-          <div className="section-head">
-            <h2>{ui.forPages}</h2>
+          <div className="row-head">
+            <div className="section-head">
+              <h2>{ui.forPages}</h2>
+            </div>
+            <Link className="btn" href={whyHref('compare', locale)}>
+              {ui.seeComparisons} <ArrowIcon />
+            </Link>
           </div>
           <PersonaCards locale={locale} except={persona.slug} />
         </div>
       </section>
 
-      <WhyCta locale={locale} secondary={{ href: whyHref('compare', locale), label: ui.seeComparisons }} />
+      <WhyCta locale={locale} from={`why-${persona.slug}-${locale}`} />
     </>
   )
 }

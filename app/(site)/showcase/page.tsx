@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import { getShowcase, mediaURL } from '@/lib/cms'
-import { GITHUB_URL } from '@/lib/site'
+import { DISCUSSIONS_URL, SITE_REPO_URL } from '@/lib/site'
+
+/** A new post in the Show and tell category of the Easy CMS discussions. */
+const SUBMIT_URL = `${DISCUSSIONS_URL}/new?category=show-and-tell`
 
 export const dynamic = 'force-dynamic'
 
@@ -19,6 +22,14 @@ export default async function ShowcasePage() {
           <span className="eyebrow">Showcase</span>
           <h1>Built with Easy CMS</h1>
           <p>Sites, starters and examples that run Easy CMS inside their own app.</p>
+          <div className="cta-row">
+            <a className="btn primary" href={SUBMIT_URL} data-umami-event="submit-showcase">
+              Submit your project
+            </a>
+            <a className="btn" href={SITE_REPO_URL}>
+              This site runs on Easy CMS: view its source
+            </a>
+          </div>
         </div>
       </div>
       <div className="wrap site-grid">
@@ -38,9 +49,9 @@ export default async function ShowcasePage() {
             </a>
           )
         })}
-        <a className="site-card submit" href={`${GITHUB_URL}/discussions`}>
+        <a className="site-card submit" href={SUBMIT_URL}>
           <h2>Built something?</h2>
-          <p>Share it in GitHub Discussions and we will add it here.</p>
+          <p>Post it in Show and tell on GitHub Discussions and we will add it here.</p>
         </a>
       </div>
     </>

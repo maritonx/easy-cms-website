@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { jsonLdScript, siteJsonLd } from '@easy-cms/plugin-seo'
 import { Bricolage_Grotesque, Geist, Geist_Mono, IBM_Plex_Sans_Thai } from 'next/font/google'
 import { SITE_URL } from '@/easy-cms.config'
-import { GITHUB_URL } from '@/lib/site'
+import { GITHUB_URL, UMAMI } from '@/lib/site'
 import { SiteFooter } from './site-footer'
 import { SiteHeader } from './site-header'
 import { themeScript } from './theme-toggle'
@@ -47,6 +47,7 @@ export function SiteShell({ lang, children }: { lang: 'en' | 'th'; children: Rea
       {/* eslint-disable-next-line @next/next/no-head-element -- the document of both root layouts (app/(site) and app/th) */}
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script defer src={UMAMI.src} data-website-id={UMAMI.websiteId} data-domains={UMAMI.domains} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
