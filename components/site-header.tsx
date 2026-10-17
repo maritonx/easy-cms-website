@@ -6,6 +6,7 @@ import { GITHUB_URL, localeOf, NAV, otherLanguagePath, VERSION } from '@/lib/sit
 import { GitHubIcon, Logo } from './icons'
 import { SearchDialog } from './search-dialog'
 import { ThemeToggle } from './theme-toggle'
+import { WhyMenu } from './why/why-menu'
 
 export function SiteHeader() {
   const pathname = usePathname()
@@ -18,6 +19,7 @@ export function SiteHeader() {
           Easy CMS <span className="ver">v{VERSION}</span>
         </Link>
         <nav className="nav" aria-label={locale === 'th' ? 'เมนูหลัก' : 'Main'}>
+          <WhyMenu key={pathname} locale={locale} pathname={pathname} />
           {NAV[locale].map((item) => (
             <Link key={item.href} href={item.href} aria-current={pathname.startsWith(item.href) ? 'page' : undefined}>
               {item.label}

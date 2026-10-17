@@ -6,6 +6,8 @@ const COLUMNS_EN = [
   {
     title: 'Product',
     links: [
+      ['/why', 'Why Easy CMS'],
+      ['/why/compare', 'Compare'],
       ['/#features', 'Features'],
       ['/#plugins', 'Plugins'],
       ['/#admin', 'Admin'],
@@ -45,6 +47,8 @@ const COLUMNS_TH = [
   {
     title: 'ผลิตภัณฑ์',
     links: [
+      ['/th/why', 'ทำไมต้อง Easy CMS'],
+      ['/th/why/compare', 'เปรียบเทียบ'],
       ['/th#features', 'ฟีเจอร์'],
       ['/th#plugins', 'Plugin'],
       ['/th#admin', 'หน้า admin'],

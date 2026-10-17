@@ -22,13 +22,17 @@ export const NAV = {
 /** A page's language from its path: /th and /th/… are Thai. */
 export const localeOf = (pathname: string) => (pathname === '/th' || pathname.startsWith('/th/') ? 'th' : 'en')
 
+/** English pages that have a Thai version at /th plus the same path. */
+const BILINGUAL = /^\/(docs|why)(\/|$)/
+
 /**
- * The same page in the other language: the home page and the docs exist in both; any other
- * English page switches to the Thai home page.
+ * The same page in the other language: the home page, the docs and the Why pages exist in both;
+ * any other English page switches to the Thai home page.
  */
 export function otherLanguagePath(pathname: string) {
   if (localeOf(pathname) === 'th') return pathname.replace(/^\/th(?=\/|$)/, '') || '/'
-  return pathname === '/' || pathname === '/docs' || pathname.startsWith('/docs/') ? `/th${pathname === '/' ? '' : pathname}` : '/th'
+  if (pathname === '/') return '/th'
+  return BILINGUAL.test(pathname) ? `/th${pathname}` : '/th'
 }
 
 /** "Oct 1, 2026" from an ISO date, in UTC so the day doesn't shift with the server's zone. */
