@@ -500,6 +500,34 @@ Both plugins are built on pieces you can use yourself: \`onRequest\` gives each 
 The Multi-tenant, Ecommerce and Members guides have the setup.`,
   },
   {
+    title: 'Easy CMS 1.0',
+    category: 'Release', publishedAt: '2026-10-20', coverText: '1.0', status: 'draft',
+    meta: {
+      title: 'Easy CMS 1.0: the embedded CMS for Next.js and Nuxt is stable',
+      description: 'Easy CMS 1.0 is the first version meant for production: breaking changes only in a major release, upgrades tested from old releases, and a security review behind it.',
+    },
+    excerpt: 'Easy CMS 1.0 is out. What 1.0 promises, what it took to get here, and how to upgrade from 0.x.',
+    body: `Easy CMS 1.0 is out: the first version meant for production use. It is the same CMS that ran inside your Next.js or Nuxt app before, with one thing added: a promise about what stays the same.
+
+## What 1.0 promises
+
+From 1.0, breaking changes come only in a major release, each with an upgrade guide. Minor releases add features and patch releases fix bugs. The promise covers what you write against: the config, the Local API, REST routes and their error codes, the CLI, the adapters, and your data. Upgrades migrate the database forward, and every commit is tested by upgrading databases made by releases back to 0.10.
+
+Names that change keep working until the next major, with a warning in the log, so an upgrade never breaks quietly. The shop, GraphQL and MCP plugins stay experimental for now: they are tested with real services and clients, but may still change in a minor release.
+
+## How it got here
+
+The road to 1.0 added no features. It settled the names 1.0 keeps (0.60), went through a self-review against OWASP ASVS level 1 and fixed what it found (0.62 to 0.66), tested the plugins against Stripe, a GraphQL client with codegen and Claude, and checked Getting started word for word on a fresh Ubuntu with npm, pnpm, Yarn and Bun.
+
+## Upgrading from 0.x
+
+Back up, upgrade every package together, start the app, and follow From 0.x to 1.0 in the upgrade guide. Most apps only change their config: the app names each renamed option when it starts. This site went from 0.68 to 1.0 without a migration.
+
+## Starting fresh
+
+\`npm create easy-cms@latest\` adds it to a Next.js or Nuxt project, or makes a standalone server. Getting started takes about five minutes.`,
+  },
+  {
     title: 'The new admin',
     category: 'Release', publishedAt: '2026-10-09', coverText: '⌘K', status: 'draft',
     meta: {
@@ -648,7 +676,7 @@ if (!reset) {
 
 await cms.updateGlobal('site', {
   siteName: 'Easy CMS',
-  announcement: { badge: '0.68', label: 'Names and shapes for 1.0, and a security pass', href: '/changelog#v0.49.0' },
+  announcement: { badge: '1.0', label: 'Easy CMS 1.0 is out: stable from here on', href: '/changelog#v1.0.0' },
 })
 console.log('site: announcement set')
 

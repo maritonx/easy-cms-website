@@ -1,5 +1,29 @@
 [
   {
+    "version": "1.0.0",
+    "title": "Easy CMS 1.0",
+    "date": "2026-10-20",
+    "kind": "major",
+    "summary": "The first version meant for production use. From 1.0, breaking changes come only in a major release, with an upgrade guide; renamed APIs keep working until the next major, with a warning. The config, Local API, REST routes and error codes, CLI, adapters and your data are covered; `@easy-cms/plugin-ecommerce`, `@easy-cms/plugin-graphql` and `@easy-cms/plugin-mcp` stay experimental. Upgrading from 0.x: back up, upgrade every package together, and follow \"From 0.x to 1.0\" in the upgrade guide.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/core"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.0.0-rc.0",
+    "title": "The 1.0 release candidate",
+    "date": "2026-10-17",
+    "kind": "major",
+    "summary": "The first release candidate of 1.0, on the `rc` npm tag (`npm create easy-cms@rc`). No changes since 0.68.5 beyond the version.",
+    "changes": [],
+    "packages": [
+      "@easy-cms/core"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "0.68.4",
     "title": "Shop hooks handle failed address loads",
     "date": "2026-10-16",
