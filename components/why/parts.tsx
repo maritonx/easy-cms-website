@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import { COMPETITORS, type Product, ROWS } from '@/lib/why/compare'
 import { type Locale, PERSONAS, WHY_UI, whyHref } from '@/lib/why/copy'
-import { DEMO_URL, DEPLOY_VERCEL_URL, DISCUSSIONS_URL } from '@/lib/site'
+import { DEMO_URL, DISCUSSIONS_URL } from '@/lib/site'
+import { DeployButtons } from '../deploy-buttons'
 import { InstallCommand } from '../home/install-command'
 import { ArrowIcon } from '../icons'
 
@@ -126,18 +127,16 @@ export function WhyCta({ locale, from }: { locale: Locale; from: string }) {
         <div className="why-cta-actions">
           <InstallCommand copyLabel={t.copy} copiedLabel={t.copied} from={from} />
           <div className="cta-row">
-            <a className="btn primary" href={DEPLOY_VERCEL_URL} data-umami-event="deploy-vercel" data-umami-event-from={from}>
-              {t.deploy} <ArrowIcon />
-            </a>
+            <Link className="btn primary" href={locale === 'th' ? '/th/docs/getting-started' : '/docs/getting-started'}>
+              {t.docs} <ArrowIcon />
+            </Link>
             {DEMO_URL && (
               <a className="btn" href={DEMO_URL} data-umami-event="open-demo" data-umami-event-from={from}>
                 {t.demo}
               </a>
             )}
-            <Link className="btn" href={locale === 'th' ? '/th/docs/getting-started' : '/docs/getting-started'}>
-              {t.docs}
-            </Link>
           </div>
+          <DeployButtons locale={locale} from={from} />
           <a className="why-ask" href={DISCUSSIONS_URL}>
             {t.questions} →
           </a>

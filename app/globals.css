@@ -641,3 +641,13 @@ code, kbd, pre { font-family: var(--font-mono); }
 :lang(th) .prose { line-height: 1.85; }
 /* Blog posts render plain <pre> (the docs wrap theirs in a highlighted frame): give them the code panel. */
 .article .prose > pre { background: var(--code-bg) !important; color: var(--code-fg); border: 1px solid var(--code-line); border-radius: 10px; margin-block: 1.2em; }
+
+/* ---------- one-click deploy buttons ---------- */
+.deploy-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; }
+.cta-row > .deploy-row { flex-basis: 100%; }
+.deploy-btn svg { width: 14px; height: 14px; }
+.deploy-what { font-size: 13.5px; color: var(--muted); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+.deploy-what:hover { color: var(--accent); }
+.deploy-row.compact { gap: 8px 10px; margin-top: -10px; }
+.deploy-row.compact .deploy-lead { font-size: 13.5px; color: var(--muted); }
+.deploy-row.compact .deploy-btn { height: 32px; padding: 0 12px; font-size: 13.5px; border-radius: 7px; }

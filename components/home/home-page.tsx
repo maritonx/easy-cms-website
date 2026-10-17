@@ -4,7 +4,8 @@ import { SITE_URL } from '@/easy-cms.config'
 import { getPosts, getSite, type Post } from '@/lib/cms'
 import { highlight } from '@/lib/highlight'
 import { HOME_COPY, type HomeCopy, type Locale } from '@/lib/home-copy'
-import { DEPLOY_VERCEL_URL, GITHUB_URL, NPM_URL, VERSION } from '@/lib/site'
+import { GITHUB_URL, NPM_URL, VERSION } from '@/lib/site'
+import { DeployButtons } from '../deploy-buttons'
 import { ArrowIcon, FeatureIcon, GitHubIcon } from '../icons'
 import { PostCard } from '../post-card'
 import { StabilityNote } from '../stability-note'
@@ -182,6 +183,7 @@ export async function HomePage({ locale }: { locale: Locale }) {
                 <GitHubIcon /> {t.hero.star}
               </a>
             </div>
+            <DeployButtons locale={locale} from={`home-hero-${locale}`} compact />
             <div className="hero-meta">
               {t.hero.meta.map((m) => <span key={m}>{m}</span>)}
             </div>
@@ -359,8 +361,8 @@ export async function HomePage({ locale }: { locale: Locale }) {
             </div>
             <div className="cta-row">
               <Link className="btn primary" href={docs('getting-started')}>{t.final.guide} <ArrowIcon /></Link>
-              <a className="btn" href={DEPLOY_VERCEL_URL} data-umami-event="deploy-vercel" data-umami-event-from={`home-${locale}`}>{t.final.deploy}</a>
               <a className="btn" href={GITHUB_URL}><GitHubIcon /> {t.final.source}</a>
+              <DeployButtons locale={locale} from={`home-final-${locale}`} />
             </div>
           </div>
         </div>

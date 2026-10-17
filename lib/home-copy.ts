@@ -36,7 +36,7 @@ export type HomeCopy = {
     note: string
   }
   blog: { eyebrow: string; title: string; all: string; note: string | null; empty: string }
-  final: { title: string; text: string; guide: string; deploy: string; source: string }
+  final: { title: string; text: string; guide: string; source: string }
   copy: string
   copied: string
 }
@@ -147,7 +147,6 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
       title: 'Ship content with the code that renders it.',
       text: 'Scaffold a Next.js or Nuxt project with Easy CMS in about a minute. It is MIT licensed and runs on your own infrastructure.',
       guide: 'Read the guide',
-      deploy: 'Deploy to Vercel',
       source: 'View source',
     },
     copy: 'Copy',
@@ -259,7 +258,6 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
       title: 'ส่งเนื้อหาไปพร้อมกับโค้ดที่แสดงผลมัน',
       text: 'สร้างโปรเจกต์ Next.js หรือ Nuxt พร้อม Easy CMS ได้ในราวหนึ่งนาที ใช้สัญญาอนุญาต MIT และรันบนโครงสร้างของคุณเอง',
       guide: 'อ่านคู่มือ',
-      deploy: 'Deploy ไป Vercel',
       source: 'ดูซอร์สโค้ด',
     },
     copy: 'คัดลอก',
