@@ -1,5 +1,22 @@
 [
   {
+    "version": "1.4.1",
+    "title": "Settings → Jobs, complete without jobs",
+    "date": "2026-10-18",
+    "kind": "patch",
+    "summary": "Settings → Jobs shows everything even when the config has no jobs of its own.",
+    "changes": [
+      "The Jobs tab always shows, with how to add jobs when there are none.",
+      "A Built in section lists what Easy CMS does with every run (scheduled publishing, webhook and email retries, scheduled backups, the audit log check), with links to their pages.",
+      "The page says when jobs last ran, and warns when nothing has run them for 10 minutes, usually a missing cron on serverless hosts."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.4.0",
     "title": "Settings → Jobs",
     "date": "2026-10-18",
