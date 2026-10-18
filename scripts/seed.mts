@@ -565,6 +565,69 @@ A failed save lists what to fix and opens the right tab, and unsaved changes are
 
 The Admin guide has every option.`,
   },
+  {
+    title: 'Easy CMS 1.4: background work you can see, and safe on several servers',
+    slug: 'easy-cms-1-4',
+    category: 'Release', publishedAt: '2026-10-18', coverText: 'jobs ✓', status: 'draft',
+    meta: {
+      title: 'Easy CMS 1.4: Settings → Jobs, times of day, and background work that runs once',
+      description: 'What changed from Easy CMS 1.0 to 1.4: an admin that shows when it is loading, background work claimed so it never runs twice, and a Jobs page to see, run, pause and reschedule it.',
+    },
+    excerpt: 'Four releases since 1.0: an admin that shows when it is loading, background work that runs once however many servers you have, and Settings → Jobs.',
+    body: `Easy CMS 1.0 came out on 17 October. Four minor releases followed, all without breaking changes. Here is what they add, and what to do when you upgrade.
+
+## Background work runs once (1.3)
+
+Easy CMS does work in the background: scheduled publishing, webhook and email retries, scheduled backups, and the \`jobs\` your config or plugins add, such as the shop's payment check. Until 1.3, two servers sharing a database could both pick up the same piece of work. So could the built-in scheduler and a cron in one server. The result was a post published twice, a webhook sent twice, or two backups.
+
+Now every piece of work is claimed in the database before it runs, so it runs once. If a server stops halfway, its work goes back to the queue. Clicking Retry twice on a failed delivery sends it once.
+
+Apps with \`jobs\`, shops included, need one migration when they upgrade to 1.3: run \`easy-cms migrate:create\`, then \`easy-cms migrate\`.
+
+## Settings → Jobs (1.4)
+
+A new page shows the background work. It lists every job with its schedule, when it last ran, its result (with the error when it failed) and when it runs next. A second tab shows scheduled publishing that is waiting, running or failed. **Run due jobs now** runs whatever is due.
+
+The page also says when jobs last ran. If nothing has run them for 10 minutes, it warns you. On serverless hosts this usually means the cron is missing.
+
+Admins can pause a job, for example while a service it calls is down, and resume it later. A paused job shows on the dashboard so it isn't forgotten. Jobs marked \`adminSchedule: true\` can be rescheduled from the page.
+
+## Jobs at a time of day
+
+A job can now run at a set time in your time zone:
+
+\`\`\`ts
+export default defineConfig({
+  timeZone: 'Asia/Bangkok',
+  jobs: [
+    { name: 'sitemap:refresh', at: '02:00', adminSchedule: true, run: refreshSitemap },
+  ],
+})
+\`\`\`
+
+If the time is missed, for example during a deploy, the job runs once as soon as jobs run again. \`timeZone\` also applies to \`backups.at\`.
+
+## The admin shows when it is loading (1.2)
+
+The dashboard, lists, forms and settings pages show skeletons in the shape of their content while they load, and a thin bar runs at the top when you change pages. Quick pages show nothing: indicators appear only after 250 ms. They stay still if you turn on reduced motion, and screen readers hear "Loading…" once. The back button on a document returns to its list again, with the same filters and page.
+
+## Also
+
+- The shop rechecks payments that are still pending after checkout (1.1), for when the page was closed before the payment came through.
+- GraphQL create inputs mark required fields inside groups and rows as required (1.1).
+- Dropdowns show the same arrow in every browser (1.3).
+
+## Upgrading
+
+Upgrade every package together:
+
+\`\`\`bash
+npm install @easy-cms/core@latest easy-cms@latest
+npx easy-cms migrate
+\`\`\`
+
+The [Jobs guide](/docs/jobs) has the details, and the [changelog](/changelog) lists every release.`,
+  },
 ]
 
 const showcase = [
