@@ -1,5 +1,75 @@
 [
   {
+    "version": "1.4.0",
+    "title": "Settings → Jobs",
+    "date": "2026-10-18",
+    "kind": "minor",
+    "summary": "See, run, pause and reschedule background jobs from the admin, and run jobs at a time of day in your time zone.",
+    "changes": [
+      "Settings → Jobs: each of the config's and plugins' `jobs` with its schedule, last run, result and next run, and the scheduled-publish queue in a second tab. **Run due jobs now** runs what is due.",
+      "Admins can pause and resume a job, and change the schedule of jobs with `adminSchedule: true`. The dashboard warns about failed and paused jobs; changes go to the audit log.",
+      "`jobs[].at` runs a job at a time of day (`'02:00'`), daily or every few days, and the new `timeZone` option sets the zone, for `backups.at` too.",
+      "New guide: Jobs."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.3.0",
+    "title": "Background work runs once across instances",
+    "date": "2026-10-18",
+    "kind": "minor",
+    "summary": "Scheduled publishes, webhook and email retries, backups and `jobs` are claimed before they run, so several instances (or a scheduler and a cron) never do the same work twice.",
+    "changes": [
+      "Each piece of background work is claimed in the database first (compare and set): no double publish, webhook, email or backup. A job claimed by an instance that stopped goes back to the queue.",
+      "`jobs` keep their runs in a new internal `job-runs` table. Apps with `jobs` (such as shops) need one migration: `easy-cms migrate:create`, then `easy-cms migrate`.",
+      "The admin's Retry on a delivery sends once, even when clicked twice.",
+      "Dropdowns in the admin show the same arrow in every browser, with room on the right."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": true
+  },
+  {
+    "version": "1.2.0",
+    "title": "The admin shows when it is loading",
+    "date": "2026-10-18",
+    "kind": "minor",
+    "summary": "Skeletons shaped like the content and a navigation bar while pages load, and the back button on a document works again.",
+    "changes": [
+      "Skeletons on the dashboard, lists (table and media grid), edit and global pages, the document drawer, settings pages, version history and the activity panel; a thin bar during route changes and list reloads.",
+      "Indicators appear only after 250 ms, stay at least 300 ms, stand still with reduced motion, and are announced once to screen readers.",
+      "The back button on a document goes back to its list, with its filters, page and scroll."
+    ],
+    "packages": [
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.1.0",
+    "title": "Payments rechecked, GraphQL create inputs",
+    "date": "2026-10-18",
+    "kind": "minor",
+    "summary": "The shop confirms payments still pending after checkout with its provider, and GraphQL create inputs mark required fields inside groups and rows.",
+    "changes": [
+      "Shop: a payment still pending a few minutes after checkout is confirmed with the payment adapter, for when the page was closed and no webhook arrived.",
+      "GraphQL: required fields inside groups and array rows are non-null in create inputs, with new `…CreateInput` types.",
+      "Pickers say \"Loading…\" while they wait, instead of \"No files yet\" or \"No matches\"."
+    ],
+    "packages": [
+      "@easy-cms/plugin-ecommerce",
+      "@easy-cms/plugin-graphql",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.0.1",
     "title": "Test emails that went only to the log",
     "date": "2026-10-17",
