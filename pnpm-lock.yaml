@@ -9,29 +9,29 @@ importers:
   .:
     dependencies:
       '@easy-cms/auth-oauth':
-        specifier: 1.0.1
-        version: 1.0.1(@easy-cms/core@1.0.1(sharp@0.35.5(@types/node@20.19.43)))
+        specifier: 1.4.0
+        version: 1.4.0(@easy-cms/core@1.4.0(sharp@0.35.5(@types/node@20.19.43)))
       '@easy-cms/core':
-        specifier: 1.0.1
-        version: 1.0.1(sharp@0.35.5(@types/node@20.19.43))
+        specifier: 1.4.0
+        version: 1.4.0(sharp@0.35.5(@types/node@20.19.43))
       '@easy-cms/db-sqlite':
-        specifier: 1.0.1
-        version: 1.0.1(@easy-cms/core@1.0.1(sharp@0.35.5(@types/node@20.19.43)))
+        specifier: 1.4.0
+        version: 1.4.0(@easy-cms/core@1.4.0(sharp@0.35.5(@types/node@20.19.43)))
       '@easy-cms/email-smtp':
-        specifier: 1.0.1
-        version: 1.0.1(@easy-cms/core@1.0.1(sharp@0.35.5(@types/node@20.19.43)))
+        specifier: 1.4.0
+        version: 1.4.0(@easy-cms/core@1.4.0(sharp@0.35.5(@types/node@20.19.43)))
       '@easy-cms/next':
-        specifier: 1.0.1
-        version: 1.0.1(@easy-cms/core@1.0.1(sharp@0.35.5(@types/node@20.19.43)))(next@16.3.8(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+        specifier: 1.4.0
+        version: 1.4.0(@easy-cms/core@1.4.0(sharp@0.35.5(@types/node@20.19.43)))(next@16.3.8(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@easy-cms/plugin-seo':
-        specifier: 1.0.1
-        version: 1.0.1(@easy-cms/core@1.0.1(sharp@0.35.5(@types/node@20.19.43)))
+        specifier: 1.4.0
+        version: 1.4.0(@easy-cms/core@1.4.0(sharp@0.35.5(@types/node@20.19.43)))
       '@easy-cms/richtext':
-        specifier: 1.0.1
-        version: 1.0.1
+        specifier: 1.4.0
+        version: 1.4.0
       '@easy-cms/storage-vercel-blob':
-        specifier: 1.0.1
-        version: 1.0.1(@easy-cms/core@1.0.1(sharp@0.35.5(@types/node@20.19.43)))
+        specifier: 1.4.0
+        version: 1.4.0(@easy-cms/core@1.4.0(sharp@0.35.5(@types/node@20.19.43)))
       '@fontsource/ibm-plex-sans-thai':
         specifier: ^5.3.0
         version: 5.3.0
@@ -91,8 +91,8 @@ importers:
         specifier: ^19
         version: 19.3.0(@types/react@19.3.0)
       easy-cms:
-        specifier: 1.0.1
-        version: 1.0.1(sharp@0.35.5(@types/node@20.19.43))
+        specifier: 1.4.0
+        version: 1.4.0(sharp@0.35.5(@types/node@20.19.43))
       eslint:
         specifier: ^9
         version: 9.39.5(jiti@2.7.0)
@@ -181,18 +181,18 @@ packages:
   '@drizzle-team/brocli@0.10.2':
     resolution: {integrity: sha512-z33Il7l5dKjUgGULTqBsQBQwckHh5AbIuxhdsIxDDiZAzBOrZO6q9ogcWC65kU382AfynTfgNumVcNIjuIua6w==}
 
-  '@easy-cms/admin@1.0.1':
-    resolution: {integrity: sha512-6wG2/T9Ow+EcDuV2mz88T8RU6SQCj7hGxdPXfZTHi2Yko+TascysteD4tdzMpj7SuF4o3rppJMMQRlBN5oKMKw==}
+  '@easy-cms/admin@1.4.0':
+    resolution: {integrity: sha512-sVH4GhDMVFnKdPmqlFjGCSrIp8zOMGIPXRfaQLRGp+FTymNUrVxh55pzedCBfNFbLWxiYBOCmyD8BEbCR59CQw==}
     engines: {node: '>=22.12'}
 
-  '@easy-cms/auth-oauth@1.0.1':
-    resolution: {integrity: sha512-lnFiESPh4jmd6DXb2/pUh+VeMQPrjNCfHItdtBywJKsplBDyQIIxzhwQwmESCNoUGytLINvOV8gb8KDmgLdZTw==}
+  '@easy-cms/auth-oauth@1.4.0':
+    resolution: {integrity: sha512-7a/Txgkxvao09jc/6gZIJTGCnPnGhHB2Vi66e29s3suUAV/6FDD+l02c8GO7oU5OCETMqQ4k4O90WgtR/SEzyw==}
     engines: {node: '>=22.12'}
     peerDependencies:
-      '@easy-cms/core': ^1.0.1
+      '@easy-cms/core': ^1.4.0
 
-  '@easy-cms/core@1.0.1':
-    resolution: {integrity: sha512-kih26GME6nriRNFIcz9lDKs55p5+SLy2+XcnpHyyEi6S2kjWQi0g3QsLMZUM42Hx9v+JjqzmhvqLbRdAAMptWg==}
+  '@easy-cms/core@1.4.0':
+    resolution: {integrity: sha512-p+vilzaTexA+hnR8KN0LjfUYpKsnNiqMG2LsYG1PCn4kSAnuTUGNBfX2S2vA76VJE1KA13EBSjrXLXHEuwv0Dg==}
     engines: {node: '>=22.12'}
     peerDependencies:
       sharp: '>=0.33.0'
@@ -200,46 +200,46 @@ packages:
       sharp:
         optional: true
 
-  '@easy-cms/db-sqlite@1.0.1':
-    resolution: {integrity: sha512-rMKmsrF3owL7jC3lr3CRqL9AdtCeGs2OarNH3ymEqO24e2a12vGSyt9z+ttbfUgnz+qufuOHmqxjS9xpZFvOtw==}
+  '@easy-cms/db-sqlite@1.4.0':
+    resolution: {integrity: sha512-QbBbkt2LZ5BdYrVckR0s3FmY4xOwazwhtCoEBQ0fVJ1lJez28A/OsbXvDhAKnvulLLoVzY9ulO0Nv/HNvVd7Ew==}
     engines: {node: '>=22.12'}
     peerDependencies:
-      '@easy-cms/core': ^1.0.1
+      '@easy-cms/core': ^1.4.0
 
-  '@easy-cms/drizzle@1.0.1':
-    resolution: {integrity: sha512-HS3cP9tg9xexYskLhmON/YxI06Kp4XbQQnPpfQnnXoqJChD39rhBXvK//tXOc6/986Oo+yH72JS2+9cLvmTuSA==}
+  '@easy-cms/drizzle@1.4.0':
+    resolution: {integrity: sha512-IvRqDYGRmfa/bAJLzIyNwKunSyaQZzXIvn4PkazBL/s7Ai5JZWMQ1mkV3b/p2GPle1y0uAIuKraqhcmOCD4Qfw==}
     engines: {node: '>=22.12'}
     peerDependencies:
-      '@easy-cms/core': ^1.0.1
+      '@easy-cms/core': ^1.4.0
 
-  '@easy-cms/email-smtp@1.0.1':
-    resolution: {integrity: sha512-34geCtT6ZbjjUmo33UpCMuT8adDeGK48PhGUVO+ph9BH+RDoHTfB6ubs+cjMf5niV3y03DmCjnIp0jWGFEegqQ==}
+  '@easy-cms/email-smtp@1.4.0':
+    resolution: {integrity: sha512-8FywRvxCpHHuEQyD+i2fvTs4SnpqfC9TSBugVueAuzN/0eFOIfqNE/EELRnBiyLjUBrQRc2vlCnLhh1GjoQHLQ==}
     engines: {node: '>=22.12'}
     peerDependencies:
-      '@easy-cms/core': ^1.0.1
+      '@easy-cms/core': ^1.4.0
 
-  '@easy-cms/next@1.0.1':
-    resolution: {integrity: sha512-Ydg13Q7fg1SDO/Ug8oeqaqc0hgSWf6KfZEnoQfkB0oahRbaClliODxp5Wxr0KEEIfeGTBZWxHrbyXEcArBZamQ==}
+  '@easy-cms/next@1.4.0':
+    resolution: {integrity: sha512-X+GJxpuCH3GKLNBkIE4L/E+vmFGK9VWMUD+RCLbgtWsj/wyUsCUJeX4St73XTyRNXLylJ9o05YCdb3Oow/3cXA==}
     engines: {node: '>=22.12'}
     peerDependencies:
-      '@easy-cms/core': ^1.0.1
+      '@easy-cms/core': ^1.4.0
       next: '>=15.0.0'
       react: '>=19.0.0'
 
-  '@easy-cms/plugin-seo@1.0.1':
-    resolution: {integrity: sha512-A3CaZdwZ0AqsKxeWJeg0jZVBAukf7WDk0nG1g+OBDqQuTyL6q1J4MFd3UENVih315Te/N5Ly5wy09YiJTcvxCg==}
+  '@easy-cms/plugin-seo@1.4.0':
+    resolution: {integrity: sha512-jeELbcU/No/EReg3bRNfeq7weBRA3+rZ/GKOfCxj25NGC1D+ogHkdpmybC6O47ZTsqtlyxTl42CQ9e6h3nM2Xg==}
     engines: {node: '>=22.12'}
     peerDependencies:
-      '@easy-cms/core': ^1.0.1
+      '@easy-cms/core': ^1.4.0
 
-  '@easy-cms/richtext@1.0.1':
-    resolution: {integrity: sha512-fRbzSV4A2J1+CQD6vlDZz2YyRoOcXLaQrUznVOM0yg5ejF9tnmezGjaDtUzi8SXT+NxOc7O2mASkw6q+sNiXxQ==}
+  '@easy-cms/richtext@1.4.0':
+    resolution: {integrity: sha512-74H/Hzb3RI0A4oXTiU3Bd0qeUFks9B8y7zAOS3x19sQD+TYfkMZqeURD7ZsBdV+7SLhPlaNvUwClveqDmn3/EA==}
 
-  '@easy-cms/storage-vercel-blob@1.0.1':
-    resolution: {integrity: sha512-qZ6yRNgloUAq3iAJnFKjk29yRLMyfzv9Eq0iQj9FWtSPJFtC4DCFRqoDBWd138QtORd3DWe6aZL+0abxGw3W6Q==}
+  '@easy-cms/storage-vercel-blob@1.4.0':
+    resolution: {integrity: sha512-AIAx5fNlXevw1rlu2kp3ENki7ODCb+onvwEgbTYqhkKZEiuc2C3yWc8Y5OlQi/aEmHve/1SK7WZ/jyhEoqEkAQ==}
     engines: {node: '>=22.12'}
     peerDependencies:
-      '@easy-cms/core': ^1.0.1
+      '@easy-cms/core': ^1.4.0
 
   '@emnapi/core@1.10.0':
     resolution: {integrity: sha512-yq6OkJ4p82CAfPl0u9mQebQHKPJkY7WrIuk205cTYnYe+k2Z8YBh11FrbRG/H6ihirqcacOgl2BIO8oyMQLeXw==}
@@ -1712,8 +1712,8 @@ packages:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
     engines: {node: '>= 0.4'}
 
-  easy-cms@1.0.1:
-    resolution: {integrity: sha512-zKe5eLlM8SE5z33MYlg8r4GJriswAVUeFI0YmryMBh8zIvSBg5HSvCdKKKCCzWLrIOqRHkQdfCfLPN9+mUMz6A==}
+  easy-cms@1.4.0:
+    resolution: {integrity: sha512-BUQ92UI+JEQOF+8g4/EoQbnxFcn/eMXOhqaK3HxBi9N7AQb46qZEBL9VDBhgqYAVdCBkYhQv3CECRoS0bsAC1g==}
     engines: {node: '>=22.12'}
     hasBin: true
 
@@ -3206,23 +3206,23 @@ snapshots:
 
   '@drizzle-team/brocli@0.10.2': {}
 
-  '@easy-cms/admin@1.0.1': {}
+  '@easy-cms/admin@1.4.0': {}
 
-  '@easy-cms/auth-oauth@1.0.1(@easy-cms/core@1.0.1(sharp@0.35.5(@types/node@20.19.43)))':
+  '@easy-cms/auth-oauth@1.4.0(@easy-cms/core@1.4.0(sharp@0.35.5(@types/node@20.19.43)))':
     dependencies:
-      '@easy-cms/core': 1.0.1(sharp@0.35.5(@types/node@20.19.43))
+      '@easy-cms/core': 1.4.0(sharp@0.35.5(@types/node@20.19.43))
       oauth4webapi: 3.8.8
 
-  '@easy-cms/core@1.0.1(sharp@0.35.5(@types/node@20.19.43))':
+  '@easy-cms/core@1.4.0(sharp@0.35.5(@types/node@20.19.43))':
     dependencies:
       jiti: 2.7.0
     optionalDependencies:
       sharp: 0.35.5(@types/node@20.19.43)
 
-  '@easy-cms/db-sqlite@1.0.1(@easy-cms/core@1.0.1(sharp@0.35.5(@types/node@20.19.43)))':
+  '@easy-cms/db-sqlite@1.4.0(@easy-cms/core@1.4.0(sharp@0.35.5(@types/node@20.19.43)))':
     dependencies:
-      '@easy-cms/core': 1.0.1(sharp@0.35.5(@types/node@20.19.43))
-      '@easy-cms/drizzle': 1.0.1(@easy-cms/core@1.0.1(sharp@0.35.5(@types/node@20.19.43)))(@libsql/client@0.18.0)
+      '@easy-cms/core': 1.4.0(sharp@0.35.5(@types/node@20.19.43))
+      '@easy-cms/drizzle': 1.4.0(@easy-cms/core@1.4.0(sharp@0.35.5(@types/node@20.19.43)))(@libsql/client@0.18.0)
       '@libsql/client': 0.18.0
       drizzle-kit: 0.31.11
       drizzle-orm: 0.45.3(@libsql/client@0.18.0)
@@ -3259,9 +3259,9 @@ snapshots:
       - sqlite3
       - utf-8-validate
 
-  '@easy-cms/drizzle@1.0.1(@easy-cms/core@1.0.1(sharp@0.35.5(@types/node@20.19.43)))(@libsql/client@0.18.0)':
+  '@easy-cms/drizzle@1.4.0(@easy-cms/core@1.4.0(sharp@0.35.5(@types/node@20.19.43)))(@libsql/client@0.18.0)':
     dependencies:
-      '@easy-cms/core': 1.0.1(sharp@0.35.5(@types/node@20.19.43))
+      '@easy-cms/core': 1.4.0(sharp@0.35.5(@types/node@20.19.43))
       drizzle-kit: 0.31.11
       drizzle-orm: 0.45.3(@libsql/client@0.18.0)
     transitivePeerDependencies:
@@ -3296,28 +3296,28 @@ snapshots:
       - sql.js
       - sqlite3
 
-  '@easy-cms/email-smtp@1.0.1(@easy-cms/core@1.0.1(sharp@0.35.5(@types/node@20.19.43)))':
+  '@easy-cms/email-smtp@1.4.0(@easy-cms/core@1.4.0(sharp@0.35.5(@types/node@20.19.43)))':
     dependencies:
-      '@easy-cms/core': 1.0.1(sharp@0.35.5(@types/node@20.19.43))
+      '@easy-cms/core': 1.4.0(sharp@0.35.5(@types/node@20.19.43))
       nodemailer: 10.1.1
 
-  '@easy-cms/next@1.0.1(@easy-cms/core@1.0.1(sharp@0.35.5(@types/node@20.19.43)))(next@16.3.8(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
+  '@easy-cms/next@1.4.0(@easy-cms/core@1.4.0(sharp@0.35.5(@types/node@20.19.43)))(next@16.3.8(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
     dependencies:
-      '@easy-cms/admin': 1.0.1
-      '@easy-cms/core': 1.0.1(sharp@0.35.5(@types/node@20.19.43))
+      '@easy-cms/admin': 1.4.0
+      '@easy-cms/core': 1.4.0(sharp@0.35.5(@types/node@20.19.43))
       next: 16.3.8(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react: 19.2.8
 
-  '@easy-cms/plugin-seo@1.0.1(@easy-cms/core@1.0.1(sharp@0.35.5(@types/node@20.19.43)))':
+  '@easy-cms/plugin-seo@1.4.0(@easy-cms/core@1.4.0(sharp@0.35.5(@types/node@20.19.43)))':
     dependencies:
-      '@easy-cms/core': 1.0.1(sharp@0.35.5(@types/node@20.19.43))
-      '@easy-cms/richtext': 1.0.1
+      '@easy-cms/core': 1.4.0(sharp@0.35.5(@types/node@20.19.43))
+      '@easy-cms/richtext': 1.4.0
 
-  '@easy-cms/richtext@1.0.1': {}
+  '@easy-cms/richtext@1.4.0': {}
 
-  '@easy-cms/storage-vercel-blob@1.0.1(@easy-cms/core@1.0.1(sharp@0.35.5(@types/node@20.19.43)))':
+  '@easy-cms/storage-vercel-blob@1.4.0(@easy-cms/core@1.4.0(sharp@0.35.5(@types/node@20.19.43)))':
     dependencies:
-      '@easy-cms/core': 1.0.1(sharp@0.35.5(@types/node@20.19.43))
+      '@easy-cms/core': 1.4.0(sharp@0.35.5(@types/node@20.19.43))
       '@vercel/blob': 2.8.1
 
   '@emnapi/core@1.10.0':
@@ -4448,10 +4448,10 @@ snapshots:
       es-errors: 1.3.0
       gopd: 1.2.0
 
-  easy-cms@1.0.1(sharp@0.35.5(@types/node@20.19.43)):
+  easy-cms@1.4.0(sharp@0.35.5(@types/node@20.19.43)):
     dependencies:
-      '@easy-cms/admin': 1.0.1
-      '@easy-cms/core': 1.0.1(sharp@0.35.5(@types/node@20.19.43))
+      '@easy-cms/admin': 1.4.0
+      '@easy-cms/core': 1.4.0(sharp@0.35.5(@types/node@20.19.43))
     transitivePeerDependencies:
       - sharp
 
@@ -4666,8 +4666,8 @@ snapshots:
       '@next/eslint-plugin-next': 16.3.8(eslint@9.39.5(jiti@2.7.0))
       eslint: 9.39.5(jiti@2.7.0)
       eslint-import-resolver-node: 0.3.10
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.5(jiti@2.7.0))
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.71.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.5(jiti@2.7.0))
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.71.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0))
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.71.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.71.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0))
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.39.5(jiti@2.7.0))
       eslint-plugin-react: 7.37.5(eslint@9.39.5(jiti@2.7.0))
       eslint-plugin-react-hooks: 7.1.1(eslint@9.39.5(jiti@2.7.0))
@@ -4689,7 +4689,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.5(jiti@2.7.0)):
+  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.71.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0)):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.3
@@ -4700,22 +4700,22 @@ snapshots:
       tinyglobby: 0.2.17
       unrs-resolver: 1.12.2
     optionalDependencies:
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.71.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.5(jiti@2.7.0))
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.71.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.71.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0))
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.14.0(@typescript-eslint/parser@8.71.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.5(jiti@2.7.0)):
+  eslint-module-utils@2.14.0(@typescript-eslint/parser@8.71.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.71.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0)):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 8.71.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
       eslint: 9.39.5(jiti@2.7.0)
       eslint-import-resolver-node: 0.3.10
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.5(jiti@2.7.0))
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.71.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0))
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.71.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.5(jiti@2.7.0)):
+  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.71.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.71.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0)):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.2.0
@@ -4726,7 +4726,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.39.5(jiti@2.7.0)
       eslint-import-resolver-node: 0.3.10
-      eslint-module-utils: 2.14.0(@typescript-eslint/parser@8.71.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.5(jiti@2.7.0))
+      eslint-module-utils: 2.14.0(@typescript-eslint/parser@8.71.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.71.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0))
       hasown: 2.0.4
       is-core-module: 2.17.0
       is-glob: 4.0.3
