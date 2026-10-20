@@ -13,7 +13,7 @@ export function whyMetadata({ locale, rest, title, description }: { locale: Loca
   return {
     title: { absolute: title },
     description,
-    alternates: { canonical: url, languages: { en, th, 'x-default': en } },
+    alternates: { canonical: url, languages: { en, th, 'x-default': en }, types: { 'text/markdown': `${url}.md` } },
     openGraph: {
       type: 'website',
       siteName: 'Easy CMS',

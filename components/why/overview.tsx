@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { docHref, type Locale, WHY_OVERVIEW, WHY_UI, whyHref } from '@/lib/why/copy'
 import { ArrowIcon } from '../icons'
 import { StabilityNote } from '../stability-note'
+import { WhyJsonLd } from './json-ld'
 import { CompareCards, PersonaCards, WhyCta } from './parts'
 
 /** /why and /th/why: what makes Easy CMS different, who it's for, how it compares. */
@@ -10,6 +11,7 @@ export function WhyOverview({ locale }: { locale: Locale }) {
   const ui = WHY_UI[locale]
   return (
     <>
+      <WhyJsonLd rest="" locale={locale} />
       <section className="why-hero">
         <div className="wrap">
           <span className="eyebrow">{t.eyebrow}</span>

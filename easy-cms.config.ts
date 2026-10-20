@@ -37,6 +37,13 @@ const googleProvider = google({
 export const postPath = (doc: { slug?: unknown; language?: unknown }) =>
   doc.slug ? `${doc.language === 'th' ? '/th' : ''}/blog/${doc.slug}` : null
 
+/**
+ * IndexNow: tells Bing (which feeds ChatGPT search and Copilot), Yandex and others about a post the
+ * moment it is published, changed or removed. The key is public by design: search engines check
+ * it at /<key>.txt, served from public/.
+ */
+const INDEXNOW_KEY = '4a949fdd-6370-4270-b108-b6fa543cffbc'
+
 /** Visitors see published documents; logged-in editors see drafts too. */
 const publishedOrEditor = ({ user }: { user: unknown }) =>
   user ? true : { status: { equals: 'published' } }
@@ -160,6 +167,7 @@ export default defineConfig({
         collection === 'posts' ? (postPath(doc) ? `${SITE_URL}${postPath(doc)}` : null) : `${SITE_URL}/`,
       // app/llms.txt builds its own file with the docs; this keeps the plugin's routes quiet.
       llms: false,
+      indexNow: { key: INDEXNOW_KEY },
     }),
   ],
   globals: [

@@ -3,6 +3,8 @@
  * GitHub, checked on CHECKED; `sources` lists them. Where a fact couldn't be confirmed, the cell
  * says to see the official site instead of guessing.
  */
+import { VERSION } from '@/lib/site'
+
 export const CHECKED = '2026-10-17'
 
 type T = { en: string; th: string }
@@ -53,7 +55,7 @@ export const EASY_CMS: Product = {
     thai: { en: 'Complete: every admin string, and every docs page', th: 'ครบ: ทุกข้อความใน admin และ docs ทุกหน้า' },
     team: { en: 'Roles, field permissions, SSO (Google, Microsoft, GitHub, OIDC), audit log: all MIT', th: 'บทบาท, สิทธิ์ระดับ field, SSO (Google, Microsoft, GitHub, OIDC), audit log: MIT ทั้งหมด' },
     ecosystem: { en: 'Small: official plugins (SEO, forms, redirects, nested pages, multi-tenant, shop, GraphQL, MCP), a new community', th: 'เล็ก: plugin ทางการ (SEO, ฟอร์ม, redirect, หน้าย่อย, multi-tenant, ร้านค้า, GraphQL, MCP) ชุมชนยังใหม่' },
-    maturity: { en: 'Version 1.0 (October 2026); first released September 2026', th: 'เวอร์ชัน 1.0 (ตุลาคม 2026) ออกครั้งแรกกันยายน 2026' },
+    maturity: { en: `Version ${VERSION}; 1.0 in October 2026, first released September 2026`, th: `เวอร์ชัน ${VERSION} ออก 1.0 เมื่อตุลาคม 2026 และออกครั้งแรกกันยายน 2026` },
   },
 }
 

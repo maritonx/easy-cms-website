@@ -39,6 +39,7 @@ export async function postMetadata(slug: string, locale: Locale): Promise<Metada
     ...meta,
     title: metaTitle ? { absolute: metaTitle } : post.title,
     openGraph: { ...meta.openGraph, images, locale: locale === 'th' ? 'th_TH' : 'en_US' },
+    alternates: { ...meta.alternates, types: { 'text/markdown': `${postHref(post)}.md` } },
     twitter: { ...meta.twitter, card: 'summary_large_image', images },
   }
 }

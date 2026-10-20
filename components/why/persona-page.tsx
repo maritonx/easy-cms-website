@@ -3,6 +3,7 @@ import { highlight } from '@/lib/highlight'
 import { docHref, type Locale, type Persona, WHY_UI, whyHref } from '@/lib/why/copy'
 import { ArrowIcon } from '../icons'
 import { StabilityNote } from '../stability-note'
+import { WhyJsonLd } from './json-ld'
 import { HonestNote, PersonaCards, WhyCta } from './parts'
 
 /** The developer page's sample: the content model, and a page reading it with types. */
@@ -35,6 +36,7 @@ export async function PersonaPage({ persona, locale }: { persona: Persona; local
   const codeHtml = 'code' in persona.show ? await highlight(CODE, 'ts') : null
   return (
     <>
+      <WhyJsonLd rest={persona.slug} locale={locale} />
       <section className="why-hero">
         <div className="wrap">
           <Link className="why-crumb" href={whyHref('', locale)}>

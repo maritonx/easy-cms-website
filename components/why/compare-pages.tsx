@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { CHECKED, COMPETITORS, type Competitor, EASY_CMS } from '@/lib/why/compare'
 import { COMPARE_OVERVIEW, docHref, type Locale, WHY_UI, whyHref } from '@/lib/why/copy'
+import { WhyJsonLd } from './json-ld'
 import { CompareCards, CompareTable, HonestNote, WhyCta } from './parts'
 
 /** "17 October 2026" or "17 ตุลาคม 2569" style dates for "last checked". */
@@ -53,6 +54,7 @@ export function CompareOverview({ locale }: { locale: Locale }) {
   const t = COMPARE_OVERVIEW[locale]
   return (
     <>
+      <WhyJsonLd rest="compare" locale={locale} />
       <Hero locale={locale} eyebrow={t.eyebrow} title={t.title} lede={t.lede} />
       <section className="section flush-top">
         <div className="wrap">
@@ -80,6 +82,7 @@ export function ComparePage({ competitor: c, locale }: { competitor: Competitor;
   const ui = WHY_UI[locale]
   return (
     <>
+      <WhyJsonLd rest={`compare/${c.slug}`} locale={locale} />
       <Hero locale={locale} eyebrow={ui.compareTitle} title={ui.vs(c.name)} lede={c.summary[locale]} />
       <section className="section flush-top">
         <div className="wrap">
