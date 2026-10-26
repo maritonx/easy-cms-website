@@ -232,4 +232,262 @@ npx easy-cms migrate
 
 รายละเอียดอยู่ใน[คู่มืองานเบื้องหลัง](/th/docs/jobs) และ[หน้า changelog](/changelog) มีทุกเวอร์ชัน`,
   },
+  {
+    title: 'Easy CMS 1.7: พร้อมรันหลาย server',
+    slug: 'easy-cms-1-7-th',
+    language: 'th',
+    category: 'Release', publishedAt: '2026-10-25', coverText: 'readyz ✓', status: 'draft',
+    meta: {
+      title: 'Easy CMS 1.7: pooler ของ Postgres, log แบบ JSON, health check และ Docker image',
+      description: 'มีอะไรใหม่ตั้งแต่ Easy CMS 1.4 ถึง 1.7: ตั้งค่า pool ของ Postgres และใช้ PgBouncer ได้, log แบบ JSON พร้อม request id, health check ทุก setup, Docker image อย่างเป็นทางการ และ setup หลาย server ที่ทดสอบจริง',
+    },
+    excerpt: 'สาม release หลัง 1.4 ทำให้ Easy CMS พร้อมรันหลาย server: pooler ของ Postgres, log แบบ JSON พร้อม request id, health check และ Docker image อย่างเป็นทางการ',
+    body: `Easy CMS 1.4 ทำให้งานเบื้องหลังรันครั้งเดียวไม่ว่าจะมีกี่ server ใช้ฐานข้อมูลร่วมกัน สาม release หลังจากนั้นเติมส่วนที่เหลือ: ทุกอย่างที่ทีมต้องใช้เพื่อรัน Easy CMS หลาย server หลัง load balancer และรู้ว่าแต่ละตัวกำลังทำอะไร ไม่มี release ไหน breaking และไม่ต้อง migrate
+
+## setup ที่ทดสอบจริง ไม่ใช่แค่คาดว่าใช้ได้
+
+หน้าใหม่ [สถาปัตยกรรมสำหรับ production](/th/docs/deploy/production) บอกว่ารองรับอะไรเมื่อ server เดียวไม่พอ: Postgres, storage แบบ S3 สำหรับไฟล์ upload, instance ที่เหมือนกันกี่ตัวก็ได้หลัง load balancer โดยไม่ต้องใช้ sticky session และ CDN ข้างหน้า และบอกตรง ๆ ว่าอะไรใช้ได้แค่ server เดียว (SQLite บนดิสก์ ไฟล์ upload บนดิสก์) และอะไรที่ไม่รองรับ (หลาย region, read replica)
+
+ตอนนี้ CI ตรวจ setup นี้ทุกครั้งที่มีการเปลี่ยนแปลง: เปิดสอง instance บน Postgres และ bucket เดียวกันหลัง proxy แบบ round-robin, login ที่ตัวหนึ่งแล้วใช้ session ที่อีกตัว, upload ผ่านตัวหนึ่งแล้วดาวน์โหลดผ่านอีกตัว, นับการ login ผิดรวมทั้งสองตัว และให้ทั้งสองตัวรันการเผยแพร่ตามเวลาพร้อมกันเพื่อเช็คว่าแต่ละโพสต์ถูกเผยแพร่ครั้งเดียว
+
+## ตั้งค่า connection ของ Postgres (1.5)
+
+\`postgres()\` รับ \`prepare\`, \`statementTimeoutMs\`, \`idleTimeoutMs\`, \`connectTimeoutMs\` และ \`applicationName\` และ connection จะแสดงเป็น \`easy-cms\` ใน \`pg_stat_activity\`
+
+\`\`\`ts
+db: postgres({ url: process.env.DATABASE_POOLER_URL, max: 2, prepare: false })
+\`\`\`
+
+บน serverless และเมื่อมีหลาย instance ให้ต่อผ่าน pooler CI รันเทสต์ของ Postgres ทั้งหมดผ่าน PgBouncer แบบ transaction mode หน้า[ฐานข้อมูล](/th/docs/databases#connections) อธิบายขนาด pool และเมื่อไรควรปิด prepared statement
+
+องค์กรที่อยากแยก CMS ออกจากข้อมูลธุรกิจ ให้ CMS มี schema และ role ของตัวเองได้ คู่มือใหม่[แยกฐานข้อมูลจากแอป](/th/docs/database-isolation) อธิบายสี่ระดับ ตั้งแต่ใช้ฐานข้อมูลร่วมกันไปจนถึงแยก server พร้อม SQL สำหรับย้ายเว็บที่มีอยู่แล้ว
+
+## log แบบ JSON และ request id (1.6)
+
+\`\`\`ts
+logs: { format: 'json' }
+\`\`\`
+
+หรือตั้ง \`EASY_CMS_LOG_FORMAT=json\` บน host ทุกบรรทัดจะเป็น JSON หนึ่ง object มีเวลา ระดับ ข้อความ และ stack ของ error พร้อมส่งเข้า Datadog, Loki หรือ CloudWatch ทุก response ของ API มี header \`X-Request-Id\` ทุกบรรทัดที่ log ระหว่างตอบ request นั้นมี id เดียวกัน และถ้า load balancer ส่ง id มาจะใช้ค่านั้นต่อ เมื่อเปิด JSON แต่ละ request ยังได้หนึ่งบรรทัดที่บอก path, status และเวลาที่ใช้ ดู[Log](/th/docs/deployment#logs)
+
+## Health check (1.7)
+
+ตอนนี้ทุก setup ตอบ probe สองตัวใต้ path ของ API:
+
+- \`/api/cms/healthz\` ตอบ \`ok\` เมื่อ process ยังทำงาน โดยไม่แตะฐานข้อมูล
+- \`/api/cms/readyz\` ตอบ \`200\` เมื่อฐานข้อมูลตอบและไม่มี migration ค้าง ไม่อย่างนั้นตอบ \`503\`
+
+ให้ load balancer หรือ readiness probe ของ Kubernetes เรียก \`readyz\` และให้ liveness เรียก \`healthz\` ทั้งสองตัวตอบได้แม้ CMS เริ่มไม่ขึ้น และไม่ถูกเขียนลง log ของ request ดู[Health check](/th/docs/deployment#health-checks)
+
+## Docker image อย่างเป็นทางการ
+
+\`ghcr.io/maritonx/easy-cms\` รัน \`easy-cms serve\` พร้อม adapter ของ SQLite และ Postgres, storage แบบ S3 และอีเมล SMTP เพิ่ม config และ migration ของคุณ:
+
+\`\`\`dockerfile
+FROM ghcr.io/maritonx/easy-cms:1
+COPY easy-cms.config.ts ./
+COPY easy-cms ./easy-cms
+\`\`\`
+
+image รันด้วย user ที่ไม่ใช่ root เช็ค \`/readyz\` และมีทั้ง amd64 และ arm64 ทุก release จะ build ให้เอง ดู[Docker](/th/docs/deploy/docker#the-official-image)
+
+## อื่น ๆ
+
+- logout บนหน้าที่ยังไม่ได้บันทึกจะถามก่อน และถ้าเลือกอยู่ต่อจะยัง login อยู่ (1.4.3)
+- การอ่านด้วย \`locale: 'all'\` มี type ตรงกับข้อมูลที่ได้จริง (1.4.2)
+
+## การอัปเกรด
+
+อัปเกรดทุกแพ็กเกจพร้อมกัน ไม่ต้อง migrate:
+
+\`\`\`bash
+npm install @easy-cms/core@latest easy-cms@latest
+\`\`\`
+
+[หน้า changelog](/changelog) มีทุกเวอร์ชัน`,
+  },
+  {
+    title: 'รัน Easy CMS หลาย server ด้วย Docker และ Postgres',
+    slug: 'run-easy-cms-on-several-servers-th',
+    language: 'th',
+    category: 'Guide', publishedAt: '2026-10-25', coverText: 'app1 + app2', status: 'draft',
+    meta: {
+      title: 'รัน Easy CMS หลาย server: Docker Compose, Postgres, S3 และ load balancer',
+      description: 'ตั้งค่าทีละขั้นด้วย Docker Compose: Easy CMS สอง instance จาก image อย่างเป็นทางการ, Postgres, storage แบบ S3 และ Caddy เป็น load balancer โดยรัน migration ครั้งเดียว',
+    },
+    excerpt: 'Easy CMS สอง instance หลัง load balancer บน Postgres และ bucket เดียวกันด้วย Docker Compose ปิดตัวไหนเว็บก็ยังตอบ',
+    body: `server เดียวพอสำหรับเว็บส่วนใหญ่ แต่ server ตัวที่สองทำให้ deploy ได้โดยไม่มี downtime และเว็บยังทำงานเมื่อ server ตัวหนึ่งล่ม คู่มือนี้ตั้ง Easy CMS สอง instance ด้วย Docker Compose: image อย่างเป็นทางการ, Postgres, bucket สำหรับไฟล์ upload และ Caddy ข้างหน้า
+
+คู่มือนี้ใช้ standalone server (\`easy-cms serve\`) แอป Next.js หรือ Nuxt ทำแบบเดียวกันได้ โดยรัน image ของแอปคุณหลายตัวแทน
+
+## สิ่งที่ต้องมี
+
+- Docker ที่มี Compose
+- bucket แบบ S3 และ key: S3, Cloudflare R2 หรือ MinIO เพราะเมื่อมีสอง server ไฟล์ upload อยู่บนดิสก์ของ server ไม่ได้
+- โปรเจกต์ที่มี \`easy-cms.config.ts\` และ migration ใน \`easy-cms/migrations\` (รัน \`easy-cms migrate:create init\` ครั้งเดียวในช่วงพัฒนา)
+
+## 1. Config
+
+ทุกค่ามาจาก environment ทั้งสอง instance จึงใช้ image เดียวกัน:
+
+\`\`\`ts
+import { defineConfig } from '@easy-cms/core'
+import { postgres } from '@easy-cms/db-postgres'
+import { s3Storage } from '@easy-cms/storage-s3'
+
+export default defineConfig({
+  secret: process.env.EASY_CMS_SECRET as string,
+  serverURL: process.env.SERVER_URL,
+  db: postgres({ url: process.env.DATABASE_URL as string, max: 5 }),
+  upload: {
+    storage: s3Storage({
+      bucket: process.env.S3_BUCKET as string,
+      region: process.env.S3_REGION ?? 'auto',
+      endpoint: process.env.S3_ENDPOINT,
+      accessKeyId: process.env.S3_ACCESS_KEY_ID,
+      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+    }),
+  },
+  collections: [
+    { slug: 'posts', drafts: true, schedule: true, fields: [{ name: 'title', type: 'text' }] },
+  ],
+})
+\`\`\`
+
+## 2. Image
+
+image อย่างเป็นทางการมี Easy CMS และ adapter อยู่แล้ว image ของคุณเพิ่มแค่ config และ migration:
+
+\`\`\`dockerfile
+FROM ghcr.io/maritonx/easy-cms:1
+COPY easy-cms.config.ts ./
+COPY easy-cms ./easy-cms
+\`\`\`
+
+## 3. Compose
+
+\`compose.yaml\` รัน Postgres, service \`migrate\` ที่รันครั้งเดียว, สอง instance และ load balancer:
+
+\`\`\`yaml
+x-app: &app
+  build: .
+  environment:
+    EASY_CMS_SECRET: \${EASY_CMS_SECRET:?set EASY_CMS_SECRET in .env}
+    SERVER_URL: \${SERVER_URL:-http://localhost:8080}
+    DATABASE_URL: postgres://cms:\${POSTGRES_PASSWORD:?}@db:5432/cms
+    S3_BUCKET: \${S3_BUCKET:?}
+    S3_REGION: \${S3_REGION:-auto}
+    S3_ENDPOINT: \${S3_ENDPOINT:-}
+    S3_ACCESS_KEY_ID: \${S3_ACCESS_KEY_ID:?}
+    S3_SECRET_ACCESS_KEY: \${S3_SECRET_ACCESS_KEY:?}
+    # Migrations run once, in the migrate service.
+    EASY_CMS_MIGRATE: "false"
+  depends_on:
+    migrate:
+      condition: service_completed_successfully
+  restart: unless-stopped
+
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: cms
+      POSTGRES_PASSWORD: \${POSTGRES_PASSWORD:?}
+      POSTGRES_DB: cms
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cms -d cms"]
+      interval: 5s
+      retries: 10
+    restart: unless-stopped
+
+  migrate:
+    <<: *app
+    entrypoint: ["easy-cms", "migrate"]
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  app1: *app
+  app2: *app
+
+  lb:
+    image: caddy:2
+    ports:
+      - "8080:80"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    depends_on: [app1, app2]
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+\`\`\`
+
+instance ทั้งสองรอ \`migrate\` เสร็จก่อน ฐานข้อมูลจึงเป็นเวอร์ชันล่าสุดก่อนตัวไหนจะรับ request และ migration รันครั้งเดียว ไม่ใช่รันในทั้งสองตัว
+
+## 4. Load balancer
+
+Caddy ส่ง request ให้ทั้งสอง instance สลับกัน และหยุดส่งให้ตัวที่ \`/readyz\` ไม่ตอบ \`200\`:
+
+\`\`\`txt
+:80 {
+	reverse_proxy app1:4000 app2:4000 {
+		lb_policy round_robin
+		health_uri /readyz
+		health_interval 5s
+	}
+}
+\`\`\`
+
+ไม่ต้องใช้ sticky session เพราะ session, การจำกัดการ login และคิวงานอยู่ใน Postgres instance ไหนก็ตอบ request ไหนก็ได้
+
+## 5. เริ่มระบบ
+
+ใส่ค่าลับใน \`.env\` ข้าง \`compose.yaml\`:
+
+\`\`\`bash
+printf 'EASY_CMS_SECRET=%s\\nPOSTGRES_PASSWORD=%s\\n' "$(openssl rand -hex 32)" "$(openssl rand -hex 16)" > .env
+\`\`\`
+
+เพิ่ม \`S3_BUCKET\`, \`S3_ACCESS_KEY_ID\` และ \`S3_SECRET_ACCESS_KEY\` ถ้าใช้ R2 หรือ MinIO ให้เพิ่ม \`S3_ENDPOINT\` ด้วย แล้วรัน:
+
+\`\`\`bash
+docker compose up -d --build
+docker compose exec app1 easy-cms admin:create --email you@example.com
+\`\`\`
+
+เปิด \`http://localhost:8080/admin\` แล้ว login ไฟล์ upload ไปอยู่ใน bucket ไฟล์ที่ upload ตอนที่ instance หนึ่งตอบอยู่ จึงเปิดผ่านอีกตัวได้
+
+## 6. ลองดู
+
+ปิด instance หนึ่งแล้วใช้ admin ต่อ:
+
+\`\`\`bash
+docker compose stop app1
+\`\`\`
+
+ภายในไม่กี่วินาที Caddy จะรู้ว่า \`app1\` ไม่ตอบ \`/readyz\` และส่งทุก request ไปที่ \`app2\` เปิดกลับด้วย \`docker compose start app1\`
+
+## deploy เวอร์ชันใหม่
+
+build ใหม่ migrate ครั้งเดียว แล้วเปลี่ยน instance ทีละตัว จะมีตัวหนึ่งตอบอยู่เสมอ:
+
+\`\`\`bash
+docker compose build
+docker compose run --rm migrate
+docker compose up -d --no-deps app1
+docker compose up -d --no-deps app2
+\`\`\`
+
+## ก่อนขึ้นระบบจริง
+
+- ใส่ HTTPS ข้างหน้า: ใส่ domain ใน Caddyfile แทน \`:80\` แล้ว Caddy จะขอ certificate ให้เอง และตั้ง \`SERVER_URL\` เป็นที่อยู่จริง
+- ให้จำนวน instance × \`max\` น้อยกว่า \`max_connections\` ของ Postgres พอสมควร และใส่ PgBouncer เมื่อมีหลาย instance ดู[Connection](/th/docs/databases#connections)
+- เปิด log แบบ JSON (\`EASY_CMS_LOG_FORMAT=json\`) ถ้าเก็บ log และ backup ทั้งฐานข้อมูลและ bucket
+
+หน้า[สถาปัตยกรรมสำหรับ production](/th/docs/deploy/production) มีทุกอย่างที่รองรับ และ[คู่มือ Docker](/th/docs/deploy/docker) ครอบคลุมกรณี server เดียว`,
+  },
 ]
