@@ -1,7 +1,7 @@
 /** Links and facts used across the site. */
 export const GITHUB_URL = 'https://github.com/maritonx/easy-cms'
 export const NPM_URL = 'https://www.npmjs.com/org/easy-cms'
-export const VERSION = '1.4'
+export const VERSION = '1.7'
 /** This site's own source: it is built with Easy CMS. */
 export const SITE_REPO_URL = 'https://github.com/maritonx/easy-cms-website'
 export const DISCUSSIONS_URL = `${GITHUB_URL}/discussions`
