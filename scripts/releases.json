@@ -1,5 +1,89 @@
 [
   {
+    "version": "1.7.0",
+    "title": "Health checks",
+    "date": "2026-10-25",
+    "kind": "minor",
+    "summary": "Liveness and readiness checks in every setup, for load balancers, Kubernetes and Docker.",
+    "changes": [
+      "`<api>/healthz` answers `ok` while the process runs, without touching the database.",
+      "`<api>/readyz` answers `200` when the CMS started, its database answers and no migration is pending, and `503` naming the check that failed otherwise. The error goes to the log, never to the response.",
+      "Next.js and Nuxt get both through the API route, and they answer even when the CMS can't start. The standalone server also answers `/readyz` at the root.",
+      "`healthz` and `readyz` are now reserved collection slugs and endpoint paths.",
+      "The official Docker image, `ghcr.io/maritonx/easy-cms`, checks `/readyz`. New docs: Health checks."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "easy-cms"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.6.0",
+    "title": "JSON logs and request ids",
+    "date": "2026-10-25",
+    "kind": "minor",
+    "summary": "One JSON object per log line for log pipelines, and a request id on every API response.",
+    "changes": [
+      "`logs: { format: 'json' }`, or `EASY_CMS_LOG_FORMAT=json`, writes one JSON object per line: time, level, message, the request id, and errors with their stack.",
+      "Every API response has an `X-Request-Id` header; a plain one from your load balancer is kept. With JSON logs, every request gets a line with its method, path, status and duration (`logs.requests: false` turns that off).",
+      "Each run of the background jobs logs with its own `runId`. `easy-cms serve` follows the setting.",
+      "The readable default now prints an error's stack under its line, and `jsonLogger()` is exported."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "easy-cms",
+      "@easy-cms/plugin-graphql",
+      "@easy-cms/plugin-ecommerce"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.5.0",
+    "title": "Postgres connection options",
+    "date": "2026-10-24",
+    "kind": "minor",
+    "summary": "Tune the Postgres pool, and run behind PgBouncer and other poolers.",
+    "changes": [
+      "`postgres()` takes `prepare`, `statementTimeoutMs`, `idleTimeoutMs`, `connectTimeoutMs` and `applicationName`.",
+      "Connections are named `easy-cms` in `pg_stat_activity` (or `PGAPPNAME`). Options left unset still come from the URL and the `PG*` variables.",
+      "CI runs the Postgres suites through PgBouncer in transaction mode, as a role with a schema of its own.",
+      "New docs: pool sizing, serverless and poolers in Databases, and Database isolation."
+    ],
+    "packages": [
+      "@easy-cms/db-postgres"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.4.3",
+    "title": "Log out without losing your changes",
+    "date": "2026-10-23",
+    "kind": "patch",
+    "summary": "Logging out asks about unsaved changes first.",
+    "changes": [
+      "Log out leaves the page first: on a page with unsaved changes the admin asks, and choosing to stay keeps you logged in with your changes. It used to end the session before asking."
+    ],
+    "packages": [
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.4.2",
+    "title": "Types for every locale",
+    "date": "2026-10-21",
+    "kind": "patch",
+    "summary": "Reads with `locale: 'all'` are typed as they return.",
+    "changes": [
+      "`find`, `findById` and `findGlobal` with `locale: 'all'` type localized fields as `{ [locale]: value }` maps of the config's locales. `CollectionDocument` and `GlobalDocument` take a third parameter, `true`, for that shape."
+    ],
+    "packages": [
+      "@easy-cms/core"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.4.1",
     "title": "Settings → Jobs, complete without jobs",
     "date": "2026-10-18",
