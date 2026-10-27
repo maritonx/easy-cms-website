@@ -1,5 +1,132 @@
 [
   {
+    "version": "1.13.0",
+    "title": "Search adapters",
+    "date": "2026-10-27",
+    "kind": "minor",
+    "summary": "Relevance-ranked search of published content, Thai included, through a search adapter.",
+    "changes": [
+      "`search: memorySearch()` in the config and `search: { fields }` on a collection index published documents as they change: with `outbox: true`, as a step of the outbox, retried until it succeeds.",
+      "`cms.search()` and `GET <api>/search` return the best matches first, read with the reader's access. The admin's command palette lists them first, then title matches with drafts.",
+      "`memorySearch()` splits words with `Intl.Segmenter`, so Thai text without spaces is found by its words. It is rebuilt when the server starts, for development and small sites.",
+      "`easy-cms search:reindex` builds the index again. Adapters for search engines implement `SearchAdapter`. New docs: Search."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "easy-cms",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.12.0",
+    "title": "Outbox for after hooks",
+    "date": "2026-10-27",
+    "kind": "minor",
+    "summary": "After hooks, webhooks and cache purges that happen whenever the save does, retried until they succeed.",
+    "changes": [
+      "`outbox: true` writes an outbox entry in the same transaction as the save; a worker runs `afterChange` and `afterDelete` hooks, webhooks and `httpCache.purge` after it commits, and retries what fails.",
+      "Hooks then run after the response, at least once: they must be safe to run again. `cms.flushOutbox()` waits for them, e.g. before a serverless function returns.",
+      "Failed entries show under Settings → Jobs → Outbox, where an admin can retry them.",
+      "Off by default. Turning it on needs a migration for the `outbox` table."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/drizzle",
+      "@easy-cms/admin",
+      "easy-cms"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.11.0",
+    "title": "HTTP caching for a CDN",
+    "date": "2026-10-27",
+    "kind": "minor",
+    "summary": "Public reads of published content can be cached by a CDN, and purged by tag when content changes.",
+    "changes": [
+      "`httpCache: { sMaxAge, staleWhileRevalidate, purge }` (off by default) sends `Cache-Control` with `s-maxage`, a weak `ETag` with `304` answers, and cache tags as `Cache-Tag` and `Surrogate-Key`.",
+      "Only reads without a login, session or key, and without drafts, are cached; everything else stays `no-store`. Collections and globals can set their own times or `httpCache: false`.",
+      "`purge` receives the tags of what readers saw change. `cacheTags` is exported from `@easy-cms/core` and `@easy-cms/next`, for tagging fetches and `revalidateTag`."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/next"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.10.0",
+    "title": "Trigram indexes for Thai search",
+    "date": "2026-10-27",
+    "kind": "minor",
+    "summary": "Fast `like` searches on any part of a text on Postgres, in Thai as in English.",
+    "changes": [
+      "`index: 'trigram'` on text, textarea and email fields makes a GIN `pg_trgm` index that `like` uses: at 100k posts, p95 25 ms instead of reading every row. Localized fields get one per locale.",
+      "The first migration with one creates the `pg_trgm` extension; PGlite loads it. A warning at start says when the database's `LC_CTYPE` can't index Thai letters.",
+      "On SQLite the option does nothing."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/drizzle",
+      "@easy-cms/db-postgres"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.9.0",
+    "title": "Cursor pagination",
+    "date": "2026-10-27",
+    "kind": "minor",
+    "summary": "Pages that take as long as the first however deep, for large collections.",
+    "changes": [
+      "`find` takes `cursor` (REST `?cursor=`): `''` for the first page, then each page's `nextCursor`. No page numbers or totals.",
+      "A cursor belongs to its query (where, sort, locale) and is refused with another.",
+      "`maxPage` caps how deep API clients may page with `page`; deeper requests get `400`, pointing to `cursor`. The signed-in admin keeps its pages. No limit by default."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/drizzle",
+      "@easy-cms/db-sqlite",
+      "@easy-cms/db-postgres"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.8.0",
+    "title": "Lists count less",
+    "date": "2026-10-27",
+    "kind": "minor",
+    "summary": "Skip or reuse counts on large lists, for archives and infinite scroll.",
+    "changes": [
+      "`find` takes `count: false` (REST `?count=false`): `totalDocs` and `totalPages` are `null`, and `hasNextPage` comes from one row more.",
+      "Counts of paginated lists are reused for `countCacheSeconds` (default 5; `0` counts every time). The documents are always current; only the total can be that old."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/drizzle",
+      "@easy-cms/db-sqlite",
+      "@easy-cms/db-postgres"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.7.1",
+    "title": "drizzle-orm 0.45.4",
+    "date": "2026-10-26",
+    "kind": "patch",
+    "summary": "The database adapters use drizzle-orm 0.45.4.",
+    "changes": [
+      "`@easy-cms/drizzle`, `@easy-cms/db-sqlite` and `@easy-cms/db-postgres` use drizzle-orm 0.45.4."
+    ],
+    "packages": [
+      "@easy-cms/drizzle",
+      "@easy-cms/db-sqlite",
+      "@easy-cms/db-postgres"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.7.0",
     "title": "Health checks",
     "date": "2026-10-25",
