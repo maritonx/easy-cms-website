@@ -240,6 +240,16 @@ code, kbd, pre { font-family: var(--font-mono); }
 @media (max-width: 900px) { .features { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .features { grid-template-columns: minmax(0, 1fr); } }
 
+.perf-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 0; }
+.perf-stat { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 8px; padding: 24px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.perf-stat dd { margin: 0; font: 600 clamp(32px, 3.6vw, 44px)/1.05 var(--font-body); letter-spacing: -0.02em; color: var(--fg); font-variant-numeric: tabular-nums; }
+.perf-stat .unit { margin-left: 4px; font: 500 16px var(--font-mono); color: var(--accent); letter-spacing: 0; }
+.perf-stat dt { font-size: 14.5px; color: var(--muted); }
+.perf-setup { margin-top: 20px; font: 400 12.5px/1.6 var(--font-mono); color: var(--faint); }
+.perf-limits { margin-top: 8px; font-size: 15px; color: var(--muted); max-width: 72ch; }
+@media (max-width: 900px) { .perf-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 420px) { .perf-stats { grid-template-columns: minmax(0, 1fr); } }
+
 /* ---------- plugins ---------- */
 .plugins-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 56px; align-items: start; }
 .plugins-grid .section-head { margin: 0; }
