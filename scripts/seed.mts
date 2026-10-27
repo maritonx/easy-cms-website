@@ -884,6 +884,85 @@ docker compose up -d --no-deps app2
 
 The [Reference architecture](/docs/deploy/production) page lists everything that is supported, and the [Docker guide](/docs/deploy/docker) covers a single server.`,
   },
+  {
+    title: 'Easy CMS 1.13: built for a million documents',
+    slug: 'easy-cms-1-13',
+    category: 'Release', publishedAt: '2026-10-27', coverText: '1,000,000', status: 'draft',
+    meta: {
+      title: 'Easy CMS 1.13: cursors, Thai trigram search, HTTP caching, an outbox and search adapters',
+      description: 'What changed from Easy CMS 1.7 to 1.13, measured against 1,000,000 posts: lists that count less, cursor pagination, trigram indexes for Thai, HTTP caching for a CDN, an outbox for after hooks, and search adapters.',
+    },
+    excerpt: 'Six releases since 1.7 for collections of a million posts: cursors, Thai search with trigram indexes, HTTP caching, an outbox and search adapters.',
+    body: `Easy CMS 1.7 made it ready to run on several servers. The six releases since are about size: a collection of 1,000,000 documents. A load test at that size came first, to show where the time goes, and none of the releases breaks anything.
+
+## What a million posts looks like
+
+A nightly load test fills Postgres 17 with 1,000,000 posts and sends 20 requests at once from a 4-core GitHub runner. On 1.10, the p95 times were:
+
+- A post by id or slug: **22 ms**
+- The first page of a list: **28 ms**
+- The next page by cursor, deep in the list: **29 ms**
+- Thai \`like\` search with a trigram index: **69 ms**
+- Save a draft, with a version: **89 ms**
+
+Some things are still slow, and the [Databases](/docs/databases#at-1000000-posts) guide lists them too: a random page by number deep in the list takes seconds, and so do queries inside blocks.
+
+## Lists count less (1.8)
+
+Counting a million rows for every page is the cost of \`totalDocs\`. \`count: false\` (REST \`?count=false\`) skips it, for archives and infinite scroll. Counts of the same list are now reused for \`countCacheSeconds\` (5 by default), so a list many people open is counted once in that time.
+
+## Cursor pagination (1.9)
+
+\`\`\`ts
+const page = await cms.find('posts', { cursor: '', limit: 20 })
+const next = await cms.find('posts', { cursor: page.nextCursor, limit: 20 })
+\`\`\`
+
+Each page takes as long as the first, however deep. \`maxPage\` keeps API clients from paging deep by number. See [find results](/docs/local-api#find-results).
+
+## Thai search with trigram indexes (1.10)
+
+\`\`\`ts
+{ name: 'title', type: 'text', index: 'trigram' }
+\`\`\`
+
+On Postgres, a GIN \`pg_trgm\` index lets \`like\` find any part of a text without reading every row, in Thai as in English. At a million posts, a Thai search takes 69 ms (p95). See [Search with like](/docs/databases#search-with-like).
+
+## HTTP caching for a CDN (1.11)
+
+\`\`\`ts
+httpCache: { sMaxAge: 60, staleWhileRevalidate: 600, purge: (tags) => tags.forEach((tag) => revalidateTag(tag)) }
+\`\`\`
+
+Public reads of published content get \`s-maxage\`, an \`ETag\` and cache tags, so a CDN can answer them. Saving, publishing or deleting purges just the tags that changed. Anything with a login or drafts stays \`no-store\`. See [HTTP caching](/docs/deployment#http-caching).
+
+## An outbox for after hooks (1.12)
+
+\`\`\`ts
+outbox: true
+\`\`\`
+
+Hooks, webhooks and cache purges are written in the same transaction as the save, then run after it commits and retried until they succeed. A save that succeeds always gets its side effects. Failed entries show in Settings → Jobs → Outbox. Hooks must be safe to run twice. See [Outbox](/docs/hooks#outbox).
+
+## Search adapters (1.13)
+
+\`\`\`ts
+search: memorySearch(),
+collections: [{ slug: 'posts', search: { fields: ['title', 'body'] }, /* … */ }],
+\`\`\`
+
+\`cms.search()\` and \`GET /api/cms/search\` find published documents across fields and collections, best match first, with the reader's access. \`memorySearch()\` splits Thai into words with \`Intl.Segmenter\`, so \`น้ำท่วม\` finds \`ข่าวน้ำท่วมกรุงเทพมหานคร\`. It suits development and small sites. Adapters for search engines implement \`SearchAdapter\`. See [Search](/docs/search).
+
+## Upgrading
+
+Upgrade every package together. All of this is off until you turn it on. Only \`outbox: true\` needs a migration:
+
+\`\`\`bash
+npm install @easy-cms/core@latest easy-cms@latest
+\`\`\`
+
+The [changelog](/changelog) lists every release.`,
+  },
 ]
 
 const showcase = [
