@@ -294,6 +294,34 @@ export async function HomePage({ locale }: { locale: Locale }) {
         </div>
       </section>
 
+      <section className="section flush-top" id="performance">
+        <div className="wrap">
+          <div className="section-head">
+            <span className="eyebrow">{t.performance.eyebrow}</span>
+            <h2>{t.performance.title}</h2>
+            <p>{t.performance.text}</p>
+          </div>
+          <dl className="perf-stats">
+            {t.performance.stats.map(([value, unit, label]) => (
+              <div className="perf-stat" key={label}>
+                <dt>{label}</dt>
+                <dd>
+                  {value}
+                  {unit && <span className="unit">{unit}</span>}
+                </dd>
+              </div>
+            ))}
+          </dl>
+          <p className="perf-setup">{t.performance.setup}</p>
+          <p className="perf-limits"><Rich text={t.performance.limits} /></p>
+          <div className="cta-row" style={{ marginTop: 20 }}>
+            <Link className="btn" href={docs(t.performance.page)}>
+              {t.performance.link} <ArrowIcon />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="section flush-top" id="plugins">
         <div className="wrap plugins-grid">
           <div className="section-head">

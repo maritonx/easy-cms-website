@@ -26,6 +26,18 @@ export type HomeCopy = {
     comments: { routes: string; page: string; hero: string }
   }
   features: { eyebrow: string; title: string; items: readonly (readonly [string, string, string])[] }
+  performance: {
+    eyebrow: string
+    title: string
+    text: string
+    /** Value, unit and what was measured: p95 times from the docs' 1M table. */
+    stats: readonly (readonly [string, string, string])[]
+    setup: string
+    limits: string
+    link: string
+    /** The docs page with the full table, with its heading's anchor in this language. */
+    page: string
+  }
   plugins: { eyebrow: string; title: string; text: string; browse: string; items: readonly string[] }
   admin: {
     eyebrow: string
@@ -111,6 +123,21 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
         ['seo', 'SEO out of the box', 'Sitemaps, hreflang, JSON-LD and llms.txt from the content you already have.'],
         ['chip', 'Typed API, REST and GraphQL', 'A typed Local API in your server code, REST for any client, and GraphQL and MCP as plugins.'],
       ],
+    },
+    performance: {
+      eyebrow: 'Measured at scale',
+      title: 'Fast at a million documents.',
+      text: 'Every night a load test runs Easy CMS against 1,000,000 posts. The times are p95: 95% of requests finish faster.',
+      stats: [
+        ['1,000,000', '', 'posts in one collection'],
+        ['22', 'ms', 'a post by id or slug'],
+        ['29', 'ms', 'the next page by cursor, however deep'],
+        ['69', 'ms', 'Thai text search with a trigram index'],
+      ],
+      setup: 'Easy CMS 1.10 · Postgres 17 · GitHub runner, 4 cores · 20 requests at once · 27 Oct 2026',
+      limits: 'Not everything is fast yet: a page picked by number deep in the list takes seconds (use `cursor` instead), and so do queries inside blocks. The full results list them.',
+      link: 'All results and how they are measured',
+      page: 'databases#at-1000000-posts',
     },
     plugins: {
       eyebrow: 'Official plugins',
@@ -222,6 +249,21 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
         ['seo', 'SEO พร้อมใช้', 'sitemap, hreflang, JSON-LD และ llms.txt จากเนื้อหาที่มีอยู่แล้ว'],
         ['chip', 'API ที่มี type, REST และ GraphQL', 'Local API ที่มี type ในโค้ดฝั่ง server, REST สำหรับ client ทุกแบบ และ GraphQL กับ MCP เป็น plugin'],
       ],
+    },
+    performance: {
+      eyebrow: 'วัดผลที่ขนาดใหญ่',
+      title: 'ยังเร็วที่ล้านเอกสาร',
+      text: 'ทุกคืนมี load test รัน Easy CMS กับบทความ 1,000,000 รายการ เวลาด้านล่างเป็น p95: 95% ของ request เสร็จเร็วกว่านี้',
+      stats: [
+        ['1,000,000', '', 'บทความใน collection เดียว'],
+        ['22', 'ms', 'อ่านบทความตาม id หรือ slug'],
+        ['29', 'ms', 'หน้าถัดไปด้วย cursor ลึกแค่ไหนก็ได้'],
+        ['69', 'ms', 'ค้นข้อความภาษาไทยด้วย trigram index'],
+      ],
+      setup: 'Easy CMS 1.10 · Postgres 17 · GitHub runner 4 core · request พร้อมกัน 20 · 27 ต.ค. 2026',
+      limits: 'ยังไม่ได้เร็วทุกอย่าง: เปิดหน้าตามเลขหน้าลึกๆ ใช้เวลาหลายวินาที (ใช้ `cursor` แทน) และ query ภายในบล็อกก็เช่นกัน ผลทั้งหมดบอกไว้ครบ',
+      link: 'ดูผลทั้งหมดและวิธีวัด',
+      page: 'databases#at-1-000-000-posts',
     },
     plugins: {
       eyebrow: 'Plugin ทางการ',
