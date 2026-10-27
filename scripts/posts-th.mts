@@ -490,4 +490,84 @@ docker compose up -d --no-deps app2
 
 หน้า[สถาปัตยกรรมสำหรับ production](/th/docs/deploy/production) มีทุกอย่างที่รองรับ และ[คู่มือ Docker](/th/docs/deploy/docker) ครอบคลุมกรณี server เดียว`,
   },
+  {
+    title: 'Easy CMS 1.13: รองรับล้านเอกสาร',
+    slug: 'easy-cms-1-13-th',
+    language: 'th',
+    category: 'Release', publishedAt: '2026-10-27', coverText: '1,000,000', status: 'draft',
+    meta: {
+      title: 'Easy CMS 1.13: cursor, ค้นไทยด้วย trigram, HTTP caching, outbox และ search adapter',
+      description: 'มีอะไรใหม่ตั้งแต่ Easy CMS 1.7 ถึง 1.13 ซึ่งวัดผลกับบทความ 1,000,000 รายการ: list ที่นับน้อยลง, cursor pagination, trigram index สำหรับภาษาไทย, HTTP caching สำหรับ CDN, outbox สำหรับ after hook และ search adapter',
+    },
+    excerpt: 'หก release หลัง 1.7 สำหรับ collection ขนาดล้านเอกสาร: cursor, ค้นภาษาไทยด้วย trigram index, HTTP caching, outbox และ search adapter',
+    body: `Easy CMS 1.7 ทำให้รันหลาย server ได้ หก release หลังจากนั้นเป็นเรื่องขนาด: collection ที่มี 1,000,000 เอกสาร เริ่มจาก load test ที่ขนาดนี้เพื่อดูว่าเวลาหมดไปที่ไหน และไม่มี release ไหน breaking
+
+## ล้านบทความเป็นอย่างไร
+
+load test ทุกคืนใส่บทความ 1,000,000 รายการลง Postgres 17 แล้วส่ง request พร้อมกัน 20 ตัวจาก GitHub runner 4 core เวลา p95 บนรุ่น 1.10 เป็นดังนี้
+
+- อ่านบทความตาม id หรือ slug: **22 ms**
+- หน้าแรกของ list: **28 ms**
+- หน้าถัดไปด้วย cursor ลึกเข้าไปใน list: **29 ms**
+- ค้นภาษาไทยด้วย \`like\` และ trigram index: **69 ms**
+- บันทึกฉบับร่างพร้อมเวอร์ชัน: **89 ms**
+
+ยังมีส่วนที่ช้า และคู่มือ[ฐานข้อมูล](/th/docs/databases#at-1-000-000-posts)บอกไว้ด้วย: เปิดหน้าตามเลขหน้าลึกๆ แบบสุ่มใช้เวลาหลายวินาที และ query ภายในบล็อกก็เช่นกัน
+
+## List นับน้อยลง (1.8)
+
+การนับล้านแถวทุกหน้าคือต้นทุนของ \`totalDocs\` ส่วน \`count: false\` (REST \`?count=false\`) ข้ามการนับไป เหมาะกับหน้า archive และ infinite scroll และตอนนี้ยอดนับของ list เดียวกันถูกใช้ซ้ำภายใน \`countCacheSeconds\` (ค่าเริ่มต้น 5 วินาที) list ที่หลายคนเปิดจึงนับครั้งเดียวในช่วงนั้น
+
+## Cursor pagination (1.9)
+
+\`\`\`ts
+const page = await cms.find('posts', { cursor: '', limit: 20 })
+const next = await cms.find('posts', { cursor: page.nextCursor, limit: 20 })
+\`\`\`
+
+ทุกหน้าใช้เวลาเท่าหน้าแรกไม่ว่าจะลึกแค่ไหน และ \`maxPage\` กัน API client ไม่ให้เปิดหน้าลึกๆ ด้วยเลขหน้า ดู[ผลของ find](/th/docs/local-api#find-results)
+
+## ค้นภาษาไทยด้วย trigram index (1.10)
+
+\`\`\`ts
+{ name: 'title', type: 'text', index: 'trigram' }
+\`\`\`
+
+บน Postgres GIN index แบบ \`pg_trgm\` ทำให้ \`like\` หาส่วนใดก็ได้ของข้อความโดยไม่ต้องอ่านทุกแถว ทั้งภาษาไทยและอังกฤษ ที่ล้านบทความ การค้นภาษาไทยใช้ 69 ms (p95) ดู[ค้นด้วย like](/th/docs/databases#search-with-like)
+
+## HTTP caching สำหรับ CDN (1.11)
+
+\`\`\`ts
+httpCache: { sMaxAge: 60, staleWhileRevalidate: 600, purge: (tags) => tags.forEach((tag) => revalidateTag(tag)) }
+\`\`\`
+
+การอ่านเนื้อหาที่ publish แล้วแบบ public ได้ \`s-maxage\`, \`ETag\` และ cache tag ทำให้ CDN ตอบแทนได้ การบันทึก publish หรือลบจะ purge เฉพาะ tag ที่เปลี่ยน ส่วน request ที่ login หรืออ่านฉบับร่างยังเป็น \`no-store\` ดู [HTTP caching](/th/docs/deployment#http-caching)
+
+## Outbox สำหรับ after hook (1.12)
+
+\`\`\`ts
+outbox: true
+\`\`\`
+
+hook, webhook และการ purge cache ถูกเขียนลงใน transaction เดียวกับการบันทึก แล้วรันหลัง commit และ retry จนสำเร็จ การบันทึกที่สำเร็จจึงได้ผลข้างเคียงครบเสมอ รายการที่ล้มแสดงใน Settings → Jobs → Outbox และ hook ต้องรันซ้ำได้โดยไม่เสียหาย ดู [Outbox](/th/docs/hooks#outbox)
+
+## Search adapter (1.13)
+
+\`\`\`ts
+search: memorySearch(),
+collections: [{ slug: 'posts', search: { fields: ['title', 'body'] }, /* … */ }],
+\`\`\`
+
+\`cms.search()\` และ \`GET /api/cms/search\` ค้นเอกสารที่ publish แล้วข้ามหลาย field และหลาย collection เรียงจากตรงที่สุด ตามสิทธิ์ของผู้อ่าน \`memorySearch()\` ตัดคำไทยด้วย \`Intl.Segmenter\` คำว่า \`น้ำท่วม\` จึงเจอ \`ข่าวน้ำท่วมกรุงเทพมหานคร\` เหมาะกับ dev และเว็บเล็ก ส่วน adapter ของ search engine ให้ implement \`SearchAdapter\` ดู[ค้นหา](/th/docs/search)
+
+## การอัปเกรด
+
+อัปเกรดทุก package พร้อมกัน ทุกอย่างปิดอยู่จนกว่าคุณจะเปิด มีเพียง \`outbox: true\` ที่ต้อง migrate
+
+\`\`\`bash
+npm install @easy-cms/core@latest easy-cms@latest
+\`\`\`
+
+[หน้า changelog](/changelog) มีทุกเวอร์ชัน`,
+  },
 ]
