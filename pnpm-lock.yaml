@@ -9,29 +9,29 @@ importers:
   .:
     dependencies:
       '@easy-cms/auth-oauth':
-        specifier: 1.7.0
-        version: 1.7.0(@easy-cms/core@1.7.0(sharp@0.35.5(@types/node@20.19.43)))
+        specifier: 1.13.0
+        version: 1.13.0(@easy-cms/core@1.13.0(sharp@0.35.5(@types/node@20.19.43)))
       '@easy-cms/core':
-        specifier: 1.7.0
-        version: 1.7.0(sharp@0.35.5(@types/node@20.19.43))
+        specifier: 1.13.0
+        version: 1.13.0(sharp@0.35.5(@types/node@20.19.43))
       '@easy-cms/db-sqlite':
-        specifier: 1.7.0
-        version: 1.7.0(@easy-cms/core@1.7.0(sharp@0.35.5(@types/node@20.19.43)))
+        specifier: 1.13.0
+        version: 1.13.0(@easy-cms/core@1.13.0(sharp@0.35.5(@types/node@20.19.43)))
       '@easy-cms/email-smtp':
-        specifier: 1.7.0
-        version: 1.7.0(@easy-cms/core@1.7.0(sharp@0.35.5(@types/node@20.19.43)))
+        specifier: 1.13.0
+        version: 1.13.0(@easy-cms/core@1.13.0(sharp@0.35.5(@types/node@20.19.43)))
       '@easy-cms/next':
-        specifier: 1.7.0
-        version: 1.7.0(@easy-cms/core@1.7.0(sharp@0.35.5(@types/node@20.19.43)))(next@16.4.3(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+        specifier: 1.13.0
+        version: 1.13.0(@easy-cms/core@1.13.0(sharp@0.35.5(@types/node@20.19.43)))(next@16.4.3(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@easy-cms/plugin-seo':
-        specifier: 1.7.0
-        version: 1.7.0(@easy-cms/core@1.7.0(sharp@0.35.5(@types/node@20.19.43)))
+        specifier: 1.13.0
+        version: 1.13.0(@easy-cms/core@1.13.0(sharp@0.35.5(@types/node@20.19.43)))
       '@easy-cms/richtext':
-        specifier: 1.7.0
-        version: 1.7.0
+        specifier: 1.13.0
+        version: 1.13.0
       '@easy-cms/storage-vercel-blob':
-        specifier: 1.7.0
-        version: 1.7.0(@easy-cms/core@1.7.0(sharp@0.35.5(@types/node@20.19.43)))
+        specifier: 1.13.0
+        version: 1.13.0(@easy-cms/core@1.13.0(sharp@0.35.5(@types/node@20.19.43)))
       '@fontsource/ibm-plex-sans-thai':
         specifier: ^5.3.0
         version: 5.3.0
@@ -91,8 +91,8 @@ importers:
         specifier: ^19
         version: 19.3.0(@types/react@19.3.0)
       easy-cms:
-        specifier: 1.7.0
-        version: 1.7.0(sharp@0.35.5(@types/node@20.19.43))
+        specifier: 1.13.0
+        version: 1.13.0(sharp@0.35.5(@types/node@20.19.43))
       eslint:
         specifier: ^9
         version: 9.39.5(jiti@2.7.0)
@@ -181,18 +181,18 @@ packages:
   '@drizzle-team/brocli@0.10.2':
     resolution: {integrity: sha512-z33Il7l5dKjUgGULTqBsQBQwckHh5AbIuxhdsIxDDiZAzBOrZO6q9ogcWC65kU382AfynTfgNumVcNIjuIua6w==}
 
-  '@easy-cms/admin@1.7.0':
-    resolution: {integrity: sha512-jsN9JQEDINZwCpyR4phMd6PfcEJazXz5i312LzWH1XjTakQxR97YHPXr9/mxHOqmz62kf4iIIB8LeC6isSv0dg==}
+  '@easy-cms/admin@1.13.0':
+    resolution: {integrity: sha512-SZN3u3bs9XA7pTvRt3RXsCGxhCvIa9SExCVax9+BtFyrSkmL0IrDzHtFnyU/SalXxszQ1RM76VrAdJeOMX2WUw==}
     engines: {node: '>=22.12'}
 
-  '@easy-cms/auth-oauth@1.7.0':
-    resolution: {integrity: sha512-vCaa4Z+o95FVTlnTiAMHMm0DwIHWZIiVG04xDleKBLuWU4R6zeHrR8h1/7kn+tJshzq+ev/uDngderayEqo6eA==}
+  '@easy-cms/auth-oauth@1.13.0':
+    resolution: {integrity: sha512-/5S839tI1aY1+YJo7ez7qHWx8mUwMjjIKGllnlqoA3XZRsIchT0TALlmj0n2J63Qm3MfnOq+9WyS4eHpjaJ6Yg==}
     engines: {node: '>=22.12'}
     peerDependencies:
-      '@easy-cms/core': ^1.7.0
+      '@easy-cms/core': ^1.13.0
 
-  '@easy-cms/core@1.7.0':
-    resolution: {integrity: sha512-beK/ZSahxS1cJRJdMZ9Cw3kUNyqxpbyJDXQHaBbhLu4mC8Bk10089k1VUMSso+UQDXPM9GS7hkJGE5JkPUPCpA==}
+  '@easy-cms/core@1.13.0':
+    resolution: {integrity: sha512-TVBkLmCEauh9Wr6CjockmY673aFn3yofYjbbPfV01jJZ24HnsgnYCYxpRvEsEq95jMq1Y2m/wnPSGYhIxzHiUw==}
     engines: {node: '>=22.12'}
     peerDependencies:
       sharp: '>=0.33.0'
@@ -200,46 +200,46 @@ packages:
       sharp:
         optional: true
 
-  '@easy-cms/db-sqlite@1.7.0':
-    resolution: {integrity: sha512-eW0TwVGFYO3x9/CfPhiRVYQCosDYxQN2hRxDNIZICJr20Me+EBD+g3yWhDnEGNx/QgXHf20XtUjZh0qkWyqE5A==}
+  '@easy-cms/db-sqlite@1.13.0':
+    resolution: {integrity: sha512-RSxoag4SNZpIs25kltV/yeKC6ZZETKs5Kx7PduY1GxVTaNQ/0id0a8ckoUGP598IBRBYJC3Y1kqnCoBJE3dRZA==}
     engines: {node: '>=22.12'}
     peerDependencies:
-      '@easy-cms/core': ^1.7.0
+      '@easy-cms/core': ^1.13.0
 
-  '@easy-cms/drizzle@1.7.0':
-    resolution: {integrity: sha512-+Rlc4EoUNRSS6kUz38VVhgmIR8Am/UPfcnDI7z3af9WhyOcVe6ibZbAwMkqeZ+utSxD6uiq/ZVmOIZP0wCRyyw==}
+  '@easy-cms/drizzle@1.13.0':
+    resolution: {integrity: sha512-FaGuMU2L1tIFDFb7YHVPxTZBLbvzce5zHgQmSrkQNShW2cO1xEIqjLlDaXSBDtqGmmwTu0kooknLe85ux3bS1g==}
     engines: {node: '>=22.12'}
     peerDependencies:
-      '@easy-cms/core': ^1.7.0
+      '@easy-cms/core': ^1.13.0
 
-  '@easy-cms/email-smtp@1.7.0':
-    resolution: {integrity: sha512-Gt0VkRZvslvvLWWLU1BkZaDEYaBj0M3v2l/V9t9u0nhPhHHrTZrpRZNpbEJ7moo1I8Icig31AdVkREnSA1zIzg==}
+  '@easy-cms/email-smtp@1.13.0':
+    resolution: {integrity: sha512-2ZsVE9FqCYLPJUTIbHNtDyxb4cwD+R9ozvUxfJv3oVEWV8xRP8YGtFGYnjFMLgeoZftnvtPjry9wDYmy7uaVKA==}
     engines: {node: '>=22.12'}
     peerDependencies:
-      '@easy-cms/core': ^1.7.0
+      '@easy-cms/core': ^1.13.0
 
-  '@easy-cms/next@1.7.0':
-    resolution: {integrity: sha512-NhCE+EwjNYjpSUBiF7EF3sM5JRhqQdS/APTO3E4+FaHd7cMuIK6sQYQ+Ub6X2DA++G8pu6eVKArvteXfIrCqfw==}
+  '@easy-cms/next@1.13.0':
+    resolution: {integrity: sha512-o2LbmWXJLmWKS10mpWMOmj5XapYlylP92c079Ws4gCIJsTnGlZTP9zKYHoPgEZr6JxIwoJNnn0ztKlzWuTlG5A==}
     engines: {node: '>=22.12'}
     peerDependencies:
-      '@easy-cms/core': ^1.7.0
+      '@easy-cms/core': ^1.13.0
       next: '>=15.0.0'
       react: '>=19.0.0'
 
-  '@easy-cms/plugin-seo@1.7.0':
-    resolution: {integrity: sha512-iiwRVcdVEkYQ1GSSpjuMgc59MK8k+5k9yOSTlRKfRmKGFHJ1OAx6F8UZkpU+gBlIqzgRbDDxT53yk024VO4TVg==}
+  '@easy-cms/plugin-seo@1.13.0':
+    resolution: {integrity: sha512-YggQzU3SiEyxpvTQZF/L8ihF8pjmMKV/FRkT+7tguHz80w+GEbDDB8RYp/VIn584jhj0qTlK3vVJxpIIT5dqlg==}
     engines: {node: '>=22.12'}
     peerDependencies:
-      '@easy-cms/core': ^1.7.0
+      '@easy-cms/core': ^1.13.0
 
-  '@easy-cms/richtext@1.7.0':
-    resolution: {integrity: sha512-Wjg5UrsWzZrdBp7QZNW7DhXeY70U+3W2FUHM1VbMpNebjJB58ckt/w54sD5Itnv0OFXV//2B4o3wzRUMQeiU2w==}
+  '@easy-cms/richtext@1.13.0':
+    resolution: {integrity: sha512-r3FColCVkbnKV4NWPh3LoXH9GM4kQYDz+k3Rz40bPKmkrGptefFu5VP1Oy+1okApZpf9kU7d0qWAR9lAJuabKQ==}
 
-  '@easy-cms/storage-vercel-blob@1.7.0':
-    resolution: {integrity: sha512-s2JwbUxtYuprZ05jRejfyzJw3aJKekPBXjvkfnsHHh1uBYGVoB4P5N7mLOjb0tBUdAReSuc7iQhicbpVOLKYLA==}
+  '@easy-cms/storage-vercel-blob@1.13.0':
+    resolution: {integrity: sha512-JlehXE3XjiOMyHht+MJGPdehXoO6AH/EO4900ox3augGDXBCXYNu76sYyIrx4DBjvB5EJKnsKy4l2I757X2XXw==}
     engines: {node: '>=22.12'}
     peerDependencies:
-      '@easy-cms/core': ^1.7.0
+      '@easy-cms/core': ^1.13.0
 
   '@emnapi/core@1.10.0':
     resolution: {integrity: sha512-yq6OkJ4p82CAfPl0u9mQebQHKPJkY7WrIuk205cTYnYe+k2Z8YBh11FrbRG/H6ihirqcacOgl2BIO8oyMQLeXw==}
@@ -1613,8 +1613,8 @@ packages:
     resolution: {integrity: sha512-YCYqxTLIB2OCqf6w9/Vef13baBVbwQIPcbT4Y56AfO6B9ajZhDhD8Jkveg/hJvT/iuMloKD/IYYkyMMNhr7Kqg==}
     hasBin: true
 
-  drizzle-orm@0.45.3:
-    resolution: {integrity: sha512-CAloER21cDdcgZ1OmjrZX82EeRNsdP+y0onX/eyoYDaYzki/adrAa91lzM5jWh7zZPK4qUbw/6LGv9J+A+uizA==}
+  drizzle-orm@0.45.4:
+    resolution: {integrity: sha512-NiM1YZpJ2UxyeE67DpDDZ+Tsw4YLX3trSlkNT7Tm9eKoUNb1LvaAaQzXgYQsWs+AQ9TUmmwMmBOCXuqqxUWKKQ==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=4'
@@ -1712,8 +1712,8 @@ packages:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
     engines: {node: '>= 0.4'}
 
-  easy-cms@1.7.0:
-    resolution: {integrity: sha512-vlPRRGm3pkEjIz+xg+vYV9g3bhz+NkUoQDKrBj0KLb1zY0mhDe4dOQyOq1xsHQTcAuCPIUovsfAyV39wdynAcQ==}
+  easy-cms@1.13.0:
+    resolution: {integrity: sha512-xnBEloX7bDlm7UWf7f1OQSSGgycNcEdedTRONvCALdnNbwVliQSVd4ooQdeLEaPoyu52vosBN0ygJKT8GEvO1w==}
     engines: {node: '>=22.12'}
     hasBin: true
 
@@ -3206,26 +3206,26 @@ snapshots:
 
   '@drizzle-team/brocli@0.10.2': {}
 
-  '@easy-cms/admin@1.7.0': {}
+  '@easy-cms/admin@1.13.0': {}
 
-  '@easy-cms/auth-oauth@1.7.0(@easy-cms/core@1.7.0(sharp@0.35.5(@types/node@20.19.43)))':
+  '@easy-cms/auth-oauth@1.13.0(@easy-cms/core@1.13.0(sharp@0.35.5(@types/node@20.19.43)))':
     dependencies:
-      '@easy-cms/core': 1.7.0(sharp@0.35.5(@types/node@20.19.43))
+      '@easy-cms/core': 1.13.0(sharp@0.35.5(@types/node@20.19.43))
       oauth4webapi: 3.8.8
 
-  '@easy-cms/core@1.7.0(sharp@0.35.5(@types/node@20.19.43))':
+  '@easy-cms/core@1.13.0(sharp@0.35.5(@types/node@20.19.43))':
     dependencies:
       jiti: 2.7.0
     optionalDependencies:
       sharp: 0.35.5(@types/node@20.19.43)
 
-  '@easy-cms/db-sqlite@1.7.0(@easy-cms/core@1.7.0(sharp@0.35.5(@types/node@20.19.43)))':
+  '@easy-cms/db-sqlite@1.13.0(@easy-cms/core@1.13.0(sharp@0.35.5(@types/node@20.19.43)))':
     dependencies:
-      '@easy-cms/core': 1.7.0(sharp@0.35.5(@types/node@20.19.43))
-      '@easy-cms/drizzle': 1.7.0(@easy-cms/core@1.7.0(sharp@0.35.5(@types/node@20.19.43)))(@libsql/client@0.18.0)
+      '@easy-cms/core': 1.13.0(sharp@0.35.5(@types/node@20.19.43))
+      '@easy-cms/drizzle': 1.13.0(@easy-cms/core@1.13.0(sharp@0.35.5(@types/node@20.19.43)))(@libsql/client@0.18.0)
       '@libsql/client': 0.18.0
       drizzle-kit: 0.31.11
-      drizzle-orm: 0.45.3(@libsql/client@0.18.0)
+      drizzle-orm: 0.45.4(@libsql/client@0.18.0)
     transitivePeerDependencies:
       - '@aws-sdk/client-rds-data'
       - '@cloudflare/workers-types'
@@ -3259,11 +3259,11 @@ snapshots:
       - sqlite3
       - utf-8-validate
 
-  '@easy-cms/drizzle@1.7.0(@easy-cms/core@1.7.0(sharp@0.35.5(@types/node@20.19.43)))(@libsql/client@0.18.0)':
+  '@easy-cms/drizzle@1.13.0(@easy-cms/core@1.13.0(sharp@0.35.5(@types/node@20.19.43)))(@libsql/client@0.18.0)':
     dependencies:
-      '@easy-cms/core': 1.7.0(sharp@0.35.5(@types/node@20.19.43))
+      '@easy-cms/core': 1.13.0(sharp@0.35.5(@types/node@20.19.43))
       drizzle-kit: 0.31.11
-      drizzle-orm: 0.45.3(@libsql/client@0.18.0)
+      drizzle-orm: 0.45.4(@libsql/client@0.18.0)
     transitivePeerDependencies:
       - '@aws-sdk/client-rds-data'
       - '@cloudflare/workers-types'
@@ -3296,28 +3296,28 @@ snapshots:
       - sql.js
       - sqlite3
 
-  '@easy-cms/email-smtp@1.7.0(@easy-cms/core@1.7.0(sharp@0.35.5(@types/node@20.19.43)))':
+  '@easy-cms/email-smtp@1.13.0(@easy-cms/core@1.13.0(sharp@0.35.5(@types/node@20.19.43)))':
     dependencies:
-      '@easy-cms/core': 1.7.0(sharp@0.35.5(@types/node@20.19.43))
+      '@easy-cms/core': 1.13.0(sharp@0.35.5(@types/node@20.19.43))
       nodemailer: 10.1.1
 
-  '@easy-cms/next@1.7.0(@easy-cms/core@1.7.0(sharp@0.35.5(@types/node@20.19.43)))(next@16.4.3(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
+  '@easy-cms/next@1.13.0(@easy-cms/core@1.13.0(sharp@0.35.5(@types/node@20.19.43)))(next@16.4.3(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
     dependencies:
-      '@easy-cms/admin': 1.7.0
-      '@easy-cms/core': 1.7.0(sharp@0.35.5(@types/node@20.19.43))
+      '@easy-cms/admin': 1.13.0
+      '@easy-cms/core': 1.13.0(sharp@0.35.5(@types/node@20.19.43))
       next: 16.4.3(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react: 19.2.8
 
-  '@easy-cms/plugin-seo@1.7.0(@easy-cms/core@1.7.0(sharp@0.35.5(@types/node@20.19.43)))':
+  '@easy-cms/plugin-seo@1.13.0(@easy-cms/core@1.13.0(sharp@0.35.5(@types/node@20.19.43)))':
     dependencies:
-      '@easy-cms/core': 1.7.0(sharp@0.35.5(@types/node@20.19.43))
-      '@easy-cms/richtext': 1.7.0
+      '@easy-cms/core': 1.13.0(sharp@0.35.5(@types/node@20.19.43))
+      '@easy-cms/richtext': 1.13.0
 
-  '@easy-cms/richtext@1.7.0': {}
+  '@easy-cms/richtext@1.13.0': {}
 
-  '@easy-cms/storage-vercel-blob@1.7.0(@easy-cms/core@1.7.0(sharp@0.35.5(@types/node@20.19.43)))':
+  '@easy-cms/storage-vercel-blob@1.13.0(@easy-cms/core@1.13.0(sharp@0.35.5(@types/node@20.19.43)))':
     dependencies:
-      '@easy-cms/core': 1.7.0(sharp@0.35.5(@types/node@20.19.43))
+      '@easy-cms/core': 1.13.0(sharp@0.35.5(@types/node@20.19.43))
       '@vercel/blob': 2.8.1
 
   '@emnapi/core@1.10.0':
@@ -4438,7 +4438,7 @@ snapshots:
       esbuild: 0.25.12
       tsx: 4.23.15
 
-  drizzle-orm@0.45.3(@libsql/client@0.18.0):
+  drizzle-orm@0.45.4(@libsql/client@0.18.0):
     optionalDependencies:
       '@libsql/client': 0.18.0
 
@@ -4448,10 +4448,10 @@ snapshots:
       es-errors: 1.3.0
       gopd: 1.2.0
 
-  easy-cms@1.7.0(sharp@0.35.5(@types/node@20.19.43)):
+  easy-cms@1.13.0(sharp@0.35.5(@types/node@20.19.43)):
     dependencies:
-      '@easy-cms/admin': 1.7.0
-      '@easy-cms/core': 1.7.0(sharp@0.35.5(@types/node@20.19.43))
+      '@easy-cms/admin': 1.13.0
+      '@easy-cms/core': 1.13.0(sharp@0.35.5(@types/node@20.19.43))
     transitivePeerDependencies:
       - sharp
 
