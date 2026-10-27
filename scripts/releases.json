@@ -1,5 +1,22 @@
 [
   {
+    "version": "1.14.0",
+    "title": "Tables in rich text",
+    "date": "2026-10-27",
+    "kind": "minor",
+    "summary": "Editors can add tables to rich text, and every renderer handles them.",
+    "changes": [
+      "The admin's editor inserts a table with a header row and, while the cursor is in one, adds and deletes rows and columns. Cells can't be merged.",
+      "`renderRichText` renders tables with their header rows in `<thead>`; `renderMarkdown` writes GFM tables, a cell's paragraphs joined with `<br>`.",
+      "`richTextToPlainText` puts each cell on a line of its own, and search adapters index the text in tables."
+    ],
+    "packages": [
+      "@easy-cms/admin",
+      "@easy-cms/richtext"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.13.0",
     "title": "Search adapters",
     "date": "2026-10-27",

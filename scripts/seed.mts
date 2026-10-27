@@ -7,6 +7,7 @@
  */
 import { readFileSync } from 'node:fs'
 import { createEasyCMS, slugify } from '@easy-cms/core'
+import { markdownToRichText, readMarkdownPosts } from './markdown.mjs'
 import { thaiPosts } from './posts-th.mjs'
 import configModule from '../easy-cms.config'
 
@@ -1028,16 +1029,27 @@ if (reset) {
 }
 /** A seeded post's slug: its own (Thai posts have Latin ones), or made from the title. */
 const slugOf = (p: { title: string; slug?: string }) => p.slug ?? slugify(p.title)
-const laterPosts = [...newPosts, ...thaiPosts]
+// Articles written as Markdown files (content/posts), drafts until the author schedules them.
+const articles = readMarkdownPosts(new URL('../content/posts', import.meta.url).pathname).map(
+  (p) => ({ ...p, status: 'draft', meta: { title: p.title, description: p.excerpt }, markdown: true }),
+)
+const bodyOf = (p: { body: string; markdown?: boolean }) =>
+  p.markdown ? markdownToRichText(p.body) : richText(p.body)
+
+const laterPosts = [...newPosts, ...thaiPosts, ...articles]
 const allPosts = [...laterPosts, ...posts]
-await fill('posts', allPosts, (p) => ({ ...p, body: richText(p.body) }))
+await fill('posts', allPosts, ({ markdown: _, ...p }: { markdown?: boolean } & Record<string, unknown>) => ({
+  ...p,
+  body: bodyOf({ ...(p as { body: string }), markdown: _ }),
+}))
 
 // Posts added to the seed later: created by slug when missing, with their own status (drafts).
 if (!reset) {
   const { docs } = await cms.find('posts', { limit: 1000, draft: true })
   const known = new Set(docs.map((d) => d.slug))
   const missing = laterPosts.filter((p) => !known.has(slugOf(p)))
-  for (const p of missing) await cms.create('posts', { ...p, body: richText(p.body) } as never)
+  for (const { markdown, ...p } of missing as ({ markdown?: boolean } & (typeof missing)[number])[])
+    await cms.create('posts', { ...p, body: bodyOf({ body: p.body, markdown }) } as never)
   console.log(`posts: ${missing.length ? `${missing.length} new as drafts` : 'no new posts'}`)
 }
 
