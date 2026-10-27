@@ -7,6 +7,7 @@ import { readingTime } from '@/components/post-card'
 import config from '@/easy-cms.config'
 import { BLOG_COPY, categoryLabel } from '@/lib/blog-copy'
 import { getPost, type Locale, type Post, postHref, postLanguage } from '@/lib/cms'
+import { POST_COVERS } from '@/lib/post-covers'
 import { formatDate } from '@/lib/site'
 
 /** Title, description, share tags, canonical link and BlogPosting JSON-LD from the SEO fields. */
@@ -33,8 +34,9 @@ export async function postMetadata(slug: string, locale: Locale): Promise<Metada
   const meta = seo.next as Metadata
   // A meta title from the SEO fields is complete; the post title gets the site's template.
   const metaTitle = (post as { meta?: { title?: string | null } }).meta?.title
-  // Without a share image of its own, the post uses the site's (app/og/site).
-  const images = seo.image ? meta.openGraph?.images : ['/og/site']
+  // Without a share image of its own, the post uses its imported cover, else the site's.
+  const cover = POST_COVERS[String(post.slug)]
+  const images = seo.image ? meta.openGraph?.images : [cover ?? '/og/site']
   return {
     ...meta,
     title: metaTitle ? { absolute: metaTitle } : post.title,
@@ -42,6 +44,13 @@ export async function postMetadata(slug: string, locale: Locale): Promise<Metada
     alternates: { ...meta.alternates, types: { 'text/markdown': `${postHref(post)}.md` } },
     twitter: { ...meta.twitter, card: 'summary_large_image', images },
   }
+}
+
+/** A post's HTML; wide tables scroll in a box of their own on narrow screens. */
+function postHtml(body: Post['body']): string {
+  return renderRichText(body)
+    .replaceAll('<table>', '<div class="table-wrap"><table>')
+    .replaceAll('</table>', '</table></div>')
 }
 
 /** /blog/<slug> and /th/blog/<slug>. A post under the wrong language's blog moves to its own. */
@@ -65,7 +74,7 @@ export async function PostPage({ slug, locale }: { slug: string; locale: Locale 
         <h1>{post.title}</h1>
         {post.excerpt && <p className="excerpt">{post.excerpt}</p>}
       </header>
-      <div className="prose" dangerouslySetInnerHTML={{ __html: renderRichText(post.body) }} />
+      <div className="prose" dangerouslySetInnerHTML={{ __html: postHtml(post.body) }} />
     </article>
   )
 }
