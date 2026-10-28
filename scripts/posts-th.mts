@@ -504,13 +504,13 @@ docker compose up -d --no-deps app2
 
 ## ล้านบทความเป็นอย่างไร
 
-load test ทุกคืนใส่บทความ 1,000,000 รายการลง Postgres 17 แล้วส่ง request พร้อมกัน 20 ตัวจาก GitHub runner 4 core เวลา p95 บนรุ่น 1.10 เป็นดังนี้
+load test ทุกคืนใส่บทความ 1,000,000 รายการลง Postgres 17 แล้วส่ง request พร้อมกัน 20 ตัวจาก GitHub runner 4 core เวลา p95 เป็นค่ามัธยฐานของ 3 รอบ (runner แต่ละเครื่องต่างกันได้ราว 40%) เป็นดังนี้
 
-- อ่านบทความตาม id หรือ slug: **22 ms**
-- หน้าแรกของ list: **28 ms**
-- หน้าถัดไปด้วย cursor ลึกเข้าไปใน list: **29 ms**
-- ค้นภาษาไทยด้วย \`like\` และ trigram index: **69 ms**
-- บันทึกฉบับร่างพร้อมเวอร์ชัน: **89 ms**
+- อ่านบทความตาม id หรือ slug: **27 ms**
+- หน้าแรกของ list: **36 ms**
+- หน้าถัดไปด้วย cursor ลึกเข้าไปใน list: **37 ms**
+- ค้นภาษาไทยด้วย \`like\` และ trigram index: **79 ms**
+- บันทึกฉบับร่างพร้อมเวอร์ชัน: **104 ms**
 
 ยังมีส่วนที่ช้า และคู่มือ[ฐานข้อมูล](/th/docs/databases#at-1-000-000-posts)บอกไว้ด้วย: เปิดหน้าตามเลขหน้าลึกๆ แบบสุ่มใช้เวลาหลายวินาที และ query ภายในบล็อกก็เช่นกัน
 
@@ -533,7 +533,7 @@ const next = await cms.find('posts', { cursor: page.nextCursor, limit: 20 })
 { name: 'title', type: 'text', index: 'trigram' }
 \`\`\`
 
-บน Postgres GIN index แบบ \`pg_trgm\` ทำให้ \`like\` หาส่วนใดก็ได้ของข้อความโดยไม่ต้องอ่านทุกแถว ทั้งภาษาไทยและอังกฤษ ที่ล้านบทความ การค้นภาษาไทยใช้ 69 ms (p95) ดู[ค้นด้วย like](/th/docs/databases#search-with-like)
+บน Postgres GIN index แบบ \`pg_trgm\` ทำให้ \`like\` หาส่วนใดก็ได้ของข้อความโดยไม่ต้องอ่านทุกแถว ทั้งภาษาไทยและอังกฤษ ที่ล้านบทความ การค้นภาษาไทยใช้ 79 ms (p95) ดู[ค้นด้วย like](/th/docs/databases#search-with-like)
 
 ## HTTP caching สำหรับ CDN (1.11)
 

@@ -1,5 +1,23 @@
 [
   {
+    "version": "1.15.0",
+    "title": "OpenTelemetry",
+    "date": "2026-10-28",
+    "kind": "minor",
+    "summary": "Traces and metrics through OpenTelemetry, sent wherever your app's SDK sends them.",
+    "changes": [
+      "`telemetry: true` (or `{ traces, metrics }`) sends spans and metrics through `@opentelemetry/api`, an optional peer dependency. Without it, the package isn't loaded.",
+      "Each API request gets a span, inside the framework's when it has one, with spans for Local API and database calls, and for background jobs and outbox entries. Spans carry names, never values.",
+      "Metrics: `http.server.request.duration`, `db.client.operation.duration`, job runs and durations, queue sizes and late scheduled publishes.",
+      "JSON log lines carry the active span's `traceId` and `spanId`. New docs: Observability, with a local collector, Jaeger and Prometheus in examples/otel."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.14.0",
     "title": "Tables in rich text",
     "date": "2026-10-27",
