@@ -4,6 +4,8 @@
  *
  *   pnpm seed            releases missing from the changelog; posts and showcase if empty
  *   pnpm seed --reset    delete what is there first
+ *   pnpm seed --update-drafts=<slug,slug>   also rewrite these posts from the seed while they
+ *                               are still drafts (never published), e.g. after their text changed
  */
 import { readFileSync } from 'node:fs'
 import { createEasyCMS, slugify } from '@easy-cms/core'
@@ -15,6 +17,12 @@ import configModule from '../easy-cms.config'
 const config = ((configModule as { default?: typeof configModule }).default ?? configModule)
 
 const reset = process.argv.includes('--reset')
+// Named one by one: a draft may have edits made in the admin since it was seeded.
+const updateDrafts = new Set(
+  (process.argv.find((a) => a.startsWith('--update-drafts='))?.slice('--update-drafts='.length) ?? '')
+    .split(',')
+    .filter(Boolean),
+)
 
 // Outside production, Easy CMS pushes the config's schema into the database at startup, which can
 // drop columns. Only the local SQLite file may be seeded that way.
@@ -898,13 +906,13 @@ The [Reference architecture](/docs/deploy/production) page lists everything that
 
 ## What a million posts looks like
 
-A nightly load test fills Postgres 17 with 1,000,000 posts and sends 20 requests at once from a 4-core GitHub runner. On 1.10, the p95 times were:
+A nightly load test fills Postgres 17 with 1,000,000 posts and sends 20 requests at once from a 4-core GitHub runner. The p95 times, as the median of three runs (runners differ, by up to about 40%), were:
 
-- A post by id or slug: **22 ms**
-- The first page of a list: **28 ms**
-- The next page by cursor, deep in the list: **29 ms**
-- Thai \`like\` search with a trigram index: **69 ms**
-- Save a draft, with a version: **89 ms**
+- A post by id or slug: **27 ms**
+- The first page of a list: **36 ms**
+- The next page by cursor, deep in the list: **37 ms**
+- Thai \`like\` search with a trigram index: **79 ms**
+- Save a draft, with a version: **104 ms**
 
 Some things are still slow, and the [Databases](/docs/databases#at-1000000-posts) guide lists them too: a random page by number deep in the list takes seconds, and so do queries inside blocks.
 
@@ -927,7 +935,7 @@ Each page takes as long as the first, however deep. \`maxPage\` keeps API client
 { name: 'title', type: 'text', index: 'trigram' }
 \`\`\`
 
-On Postgres, a GIN \`pg_trgm\` index lets \`like\` find any part of a text without reading every row, in Thai as in English. At a million posts, a Thai search takes 69 ms (p95). See [Search with like](/docs/databases#search-with-like).
+On Postgres, a GIN \`pg_trgm\` index lets \`like\` find any part of a text without reading every row, in Thai as in English. At a million posts, a Thai search takes 79 ms (p95). See [Search with like](/docs/databases#search-with-like).
 
 ## HTTP caching for a CDN (1.11)
 
@@ -1051,6 +1059,19 @@ if (!reset) {
   for (const { markdown, ...p } of missing as ({ markdown?: boolean } & (typeof missing)[number])[])
     await cms.create('posts', { ...p, body: bodyOf({ body: p.body, markdown }) } as never)
   console.log(`posts: ${missing.length ? `${missing.length} new as drafts` : 'no new posts'}`)
+  if (updateDrafts.size > 0) {
+    // Only posts nobody published yet: once a post is live, the admin owns its text.
+    const drafts = new Map(docs.filter((d) => d.status === 'draft').map((d) => [d.slug, d]))
+    let updated = 0
+    for (const { markdown, ...p } of laterPosts as ({ markdown?: boolean } & (typeof laterPosts)[number])[]) {
+      const doc = drafts.get(slugOf(p))
+      if (!doc || !updateDrafts.has(slugOf(p))) continue
+      // Stays a draft whatever the seed says.
+      await cms.update('posts', doc.id, { ...p, body: bodyOf({ body: p.body, markdown }), status: 'draft' } as never)
+      updated++
+    }
+    console.log(`posts: ${updated} drafts rewritten from the seed`)
+  }
 }
 
 // SEO fields for posts that already exist (by slug), where they are still empty; what editors

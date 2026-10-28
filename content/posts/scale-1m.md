@@ -48,7 +48,7 @@ const page = await cms.find('posts', { cursor: '', limit: 20 })
 const next = await cms.find('posts', { cursor: page.nextCursor, limit: 20 })
 ```
 
-The cursor encodes the sort values of the last row and belongs to its query: the same `where`, `sort` and locale, or it is refused. The next page by cursor, deep in the list, has a p95 of 29 ms. A random page by number deep in the list is still 5.6 s, and 5.9 s without totals, which proves the time goes to skipping rows, not counting them.
+The cursor encodes the sort values of the last row and belongs to its query: the same `where`, `sort` and locale, or it is refused. The next page by cursor, deep in the list, has a p95 of 37 ms. A random page by number deep in the list is still 6.8 s, and 7.3 s without totals, which proves the time goes to skipping rows, not counting them.
 
 The admin keeps page numbers, because editors use them. API clients get `maxPage`, which caps how deep they may page by number and points them to `cursor`.
 
@@ -62,9 +62,9 @@ A trigram index can. `index: 'trigram'` on a text field makes a GIN `pg_trgm` in
 { name: 'title', type: 'text', localized: true, index: 'trigram' }
 ```
 
-A Thai search at a million posts now has a p95 of 69 ms. Two caveats came out of the test:
+A Thai search at a million posts now has a p95 of 79 ms. Two caveats came out of the test:
 
-- **Trigrams need three characters.** A search for one or two characters can't use the index and reads every row. A search for 1 to 3 digits still has a p95 of 2.7 s.
+- **Trigrams need three characters.** A search for one or two characters can't use the index and reads every row. A search for 1 to 3 digits still has a p95 of 3.4 s.
 - **The database's `LC_CTYPE` matters.** With `C`, `pg_trgm` doesn't treat Thai letters as letters and the index finds nothing useful. Easy CMS now warns at startup when that is the case.
 
 ## Fix 4: let the CDN answer (1.11)
@@ -93,24 +93,24 @@ The first version normalized text with NFKC before splitting, as you do to make 
 
 ## The numbers now
 
-On 1.10, with 20 concurrent requests per kind:
+On 1.15, with 20 concurrent requests per kind, as the median of three runs (each run gets a different runner, and the same request can differ by about 40% between them):
 
-- A post by id or slug: **22 ms** (p95)
-- The first page of a list: **28 ms**
-- The next page by cursor, deep in the list: **29 ms**
-- Thai `like` search with a trigram index: **69 ms**
-- Saving a draft, with a version: **89 ms**
+- A post by id or slug: **27 ms** (p95)
+- The first page of a list: **36 ms**
+- The next page by cursor, deep in the list: **37 ms**
+- Thai `like` search with a trigram index: **79 ms**
+- Saving a draft, with a version: **104 ms**
 
-![Bar chart of p95 times at 1,000,000 posts on a log scale: lookups, cursors and Thai search under 100 ms; relationship filters, digit searches, deep pages and queries inside blocks between 1.4 and 6.7 seconds](/images/blog/scale-1m/diagram-1.png)
+![Bar chart of p95 times at 1,000,000 posts on a log scale: lookups, cursors and Thai search under 110 ms; relationship filters, digit searches, deep pages and queries inside blocks between 1.8 and 6.8 seconds](/images/blog/scale-1m/diagram-1.png)
 
-Under 200 editors, reads went from about 30 s to 17 s at p95. That is better, and still far from good.
+Under 200 editors, reads went from about 30 s to 18 s at p95. That is better, and still far from good.
 
 ## What is still slow
 
-- **Filter by a relationship, sort by date:** p95 1.4 s.
-- **Queries inside blocks** (`layout.blockType`): p95 6.7 s. Blocks are stored as JSON; there is no index for that path yet.
-- **Deep pages by number:** 5.6 s. Use cursors.
-- **Saves under the mixed load:** p95 30 s, because they wait for connections the slow reads hold.
+- **Filter by a relationship, sort by date:** p95 1.8 s.
+- **Queries inside blocks** (`layout.blockType`): p95 6.0 s. Blocks are stored as JSON; there is no index for that path yet.
+- **Deep pages by number:** 6.8 s. Use cursors.
+- **Saves under the mixed load:** p95 31 s, because they wait for connections the slow reads hold.
 
 The [Databases guide](/docs/databases#at-1000000-posts) lists all of it, and every number in this post comes from there or from the workflow. Measuring first changed what I built. I had expected the database to be the limit. Instead it was a handful of query shapes holding connections, and each fix only counted once the nightly number moved.
 
