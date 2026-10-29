@@ -58,7 +58,10 @@ Schema changes ship as migrations: after changing `easy-cms.config.ts`, run
 ### Vercel (trial)
 
 Uses a Turso database, since Vercel has no persistent disk. `vercel.json` runs the migrations
-before each build.
+before each production build. Preview builds don't: they share the production database, and a
+pull request's migration would change it before anyone merged it. A preview whose pull request
+adds a migration therefore doesn't start until the migration runs; for a schema change, review
+the migration and the code, and check it locally against `cms.db` (`pnpm dev`).
 
 1. Create a Turso database: `turso db create easy-cms-io`, then `turso db show --url easy-cms-io`
    and `turso db tokens create easy-cms-io`.
