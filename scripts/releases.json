@@ -1,5 +1,41 @@
 [
   {
+    "version": "1.18.0",
+    "title": "Rotate the secret",
+    "date": "2026-10-29",
+    "kind": "minor",
+    "summary": "Replace EASY_CMS_SECRET without logging everyone out.",
+    "changes": [
+      "`previousSecrets` lists secrets used before `secret`: sessions, CSRF tokens, password and invitation links, preview tokens, links to private files, single sign-on, form tokens and audit log entries signed with them still verify. Everything new is signed with `secret`.",
+      "`easy-cms audit:resign` signs the audit log entries made with an old secret with the current one, and reports entries no secret verifies.",
+      "New projects read `EASY_CMS_PREVIOUS_SECRETS` (comma-separated). The Security guide has the steps."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "easy-cms",
+      "create-easy-cms",
+      "@easy-cms/plugin-form-builder",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.17.0",
+    "title": "Webhook signatures against replays",
+    "date": "2026-10-29",
+    "kind": "minor",
+    "summary": "Each webhook attempt is signed with its own time, so a captured request can't be sent again later.",
+    "changes": [
+      "With a `secret`, each attempt sends `x-easy-cms-timestamp` (its own time) and `x-easy-cms-signature-v2`, an HMAC-SHA256 of the delivery id, that timestamp and the body.",
+      "`verifyWebhook(body, headers, secret)` checks it in constant time, refuses timestamps more than 5 minutes from now, accepts several secrets while one is replaced, and returns the payload.",
+      "`x-easy-cms-signature` (the body alone) is still sent until 2.0, but is deprecated. Retries keep the body and `x-easy-cms-delivery`; their timestamp and signature are new."
+    ],
+    "packages": [
+      "@easy-cms/core"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.16.0",
     "title": "Faster at 1M documents",
     "date": "2026-10-29",

@@ -50,6 +50,9 @@ const publishedOrEditor = ({ user }: { user: unknown }) =>
 
 export default defineConfig({
   secret: process.env.EASY_CMS_SECRET ?? '',
+  // Secrets used before EASY_CMS_SECRET while it is replaced, comma-separated: what they signed
+  // still verifies.
+  previousSecrets: (process.env.EASY_CMS_PREVIOUS_SECRETS ?? '').split(',').filter(Boolean),
   // A SQLite file (development, a VPS) or a Turso/libSQL URL with its token (serverless hosts).
   db: sqlite({
     url: process.env.DATABASE_URL ?? 'file:./cms.db',
