@@ -1,5 +1,26 @@
 [
   {
+    "version": "1.16.0",
+    "title": "Faster at 1M documents",
+    "date": "2026-10-29",
+    "kind": "minor",
+    "summary": "Relationship filters, short searches and saves under load stay fast at 1,000,000 documents.",
+    "changes": [
+      "In collections with drafts, indexed fields (relationships, uploads, `index: true`) are indexed together with `status`, so totals read only the index. On Postgres they also get statistics on the pair: at 1M posts, a filter by author went from about 1.6 s to a few milliseconds, and an author with only drafts is found empty at once.",
+      "`postgres()` plans each query for its own values (`customPlans`, on unless `prepare` is false). Behind PgBouncer with prepared statements, set `customPlans: false` and `plan_cache_mode` on the role.",
+      "`writeConnections` on `postgres()`: connections kept for creates, updates and deletes, so saves don't wait behind slow reads (at 1M posts under 200 editors, saves about 4× faster).",
+      "`like` on a field with `index: 'trigram'` needs three characters on Postgres; the admin's searches wait for the third. The Blocks guide shows how to query inside blocks on large collections.",
+      "A job without `every` no longer runs twice when two instances run jobs at the same moment."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/drizzle",
+      "@easy-cms/db-postgres",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": true
+  },
+  {
     "version": "1.15.0",
     "title": "OpenTelemetry",
     "date": "2026-10-28",
