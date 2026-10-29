@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "pnpm exec easy-cms migrate && pnpm build",
+  "buildCommand": "if [ \"$VERCEL_ENV\" = production ]; then pnpm exec easy-cms migrate; fi && pnpm build",
   "regions": [
     "hnd1"
   ],
