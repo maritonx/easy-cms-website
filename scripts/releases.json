@@ -1,5 +1,56 @@
 [
   {
+    "version": "1.23.0",
+    "title": "A Calendar page, and statuses that say what is pending",
+    "date": "2026-10-30",
+    "kind": "minor",
+    "summary": "A Calendar page across the site, moving things on calendars with Undo, and statuses that show what is scheduled.",
+    "changes": [
+      "Calendar in the menu, right after Content: every collection with `admin.calendar`, each in its own colour, and what is scheduled to publish or unpublish. Each source can be hidden; with `auth.rbac`, roles are given it as `calendar`.",
+      "Calendars get a side column with the picked day's documents and their status. Drag a document to another day or time, or use Move to… from the keyboard; a message offers Undo for 8 seconds. A document with a pending draft moves in that draft.",
+      "Statuses say what is pending wherever they show: Scheduled · date for a draft waiting to go live, and Unpublished changes, Publishes · date or Unpublishes · date beside Published. A list's status menu has Scheduled.",
+      "The live preview panel names the site it opens, and says so when the page doesn't answer.",
+      "`GET /admin/ui/scheduled` and `cms.upcomingSchedules()` take `from`, `to`, `collection` and `docs`."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.22.0",
+    "title": "Dates in your time zone, and a Calendar mode for lists",
+    "date": "2026-10-30",
+    "kind": "minor",
+    "summary": "The admin shows and takes dates in `config.timeZone`, and collection lists can be a calendar.",
+    "changes": [
+      "With `config.timeZone`, every date the admin shows or takes (lists, edit pages, scheduled publishing, filters) is in that zone, so 09:00 is 09:00 for everyone; someone in another zone sees it named.",
+      "`admin.calendar: { start, end?, color? }` gives a collection's list a List | Calendar switch: month, week, day and agenda views with the list's filters. Click a document to open it, or a day or slot to create one. The calendar loads only when opened."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.21.0",
+    "title": "Filter lists by several conditions",
+    "date": "2026-10-30",
+    "kind": "minor",
+    "summary": "A Filter panel for collection lists, kept in the URL as the REST API reads it.",
+    "changes": [
+      "Filter builds conditions that all must match: text, number ranges, whole days (with Today and Last 7 / 30 days), select options, related documents and empty fields. Each shows as a chip above the list.",
+      "The conditions live in the URL as the REST API reads a `where`, so a link shows the same list; older `?status=` and `?f_<field>=` links still work. `admin.filter: false` leaves a field out."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.20.1",
     "title": "Admin components on Vercel with pnpm",
     "date": "2026-10-30",
