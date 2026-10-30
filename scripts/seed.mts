@@ -996,7 +996,7 @@ const showcase = [
     stack: ['Standalone', 'SQLite'],
   },
   {
-    name: 'Easy CMS website', url: 'https://easy-cms-website.vercel.app', order: 4,
+    name: 'Easy CMS website', url: 'https://easycms.dev', order: 4,
     description: 'This site. The blog, changelog and showcase are Easy CMS collections in a Next.js app.',
     stack: ['Next.js', 'SQLite'],
   },
@@ -1104,15 +1104,13 @@ await fill('showcase', showcase, (s) => s)
 if (!reset) {
   // Entries added to the seed later, by address.
   const { docs } = await cms.find('showcase', { limit: 1000, draft: true })
-  // This site's entry was seeded with a domain the project doesn't have yet.
-  for (const doc of docs.filter((d) => d.url === 'https://easy-cms.io')) {
-    await cms.update('showcase', doc.id, {
-      name: 'Easy CMS website',
-      url: 'https://easy-cms-website.vercel.app',
-      status: 'published',
-    } as never)
-    doc.url = 'https://easy-cms-website.vercel.app'
-    console.log('showcase: this site now points to easy-cms-website.vercel.app')
+  // This site's entry was seeded with addresses the project has since moved off.
+  const SITE = 'https://easycms.dev'
+  const OLD = ['https://easy-cms.io', 'https://easy-cms-website.vercel.app']
+  for (const doc of docs.filter((d) => OLD.includes(d.url as string))) {
+    await cms.update('showcase', doc.id, { name: 'Easy CMS website', url: SITE, status: 'published' } as never)
+    doc.url = SITE
+    console.log(`showcase: this site now points to ${SITE}`)
   }
   const known = new Set(docs.map((d) => d.url))
   const missing = showcase.filter((s) => !known.has(s.url))
