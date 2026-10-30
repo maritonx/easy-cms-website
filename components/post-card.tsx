@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { BLOG_COPY, categoryLabel } from '@/lib/blog-copy'
 import { mediaURL, type Post, postHref, postLanguage } from '@/lib/cms'
+import { readingTime } from '@/lib/posts'
 import { formatDate } from '@/lib/site'
 import { ArrowIcon } from './icons'
 
@@ -18,16 +19,6 @@ export function PostCover({ post, large }: { post: Post; large?: boolean }) {
       )}
     </div>
   )
-}
-
-/**
- * Minutes to read: 220 words a minute. Thai has no spaces between words, so a Thai post counts
- * characters instead, at about six a word.
- */
-export function readingTime(post: Post) {
-  const text = JSON.stringify(post.body ?? '')
-  const words = postLanguage(post) === 'th' ? text.length / 6 : text.split(/\s+/).length
-  return Math.max(2, Math.round(words / 220))
 }
 
 /** A post on a list, in the post's own language. */

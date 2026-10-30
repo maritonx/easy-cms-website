@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { PostCard, PostCover, readingTime } from '@/components/post-card'
+import { PostCard, PostCover } from '@/components/post-card'
+import { readingTime } from '@/lib/posts'
 import { BLOG_COPY, categoryLabel } from '@/lib/blog-copy'
 import { getPosts, type Locale, postHref } from '@/lib/cms'
 import { formatDate } from '@/lib/site'
