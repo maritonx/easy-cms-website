@@ -1,5 +1,53 @@
 [
   {
+    "version": "1.20.1",
+    "title": "Admin components on Vercel with pnpm",
+    "date": "2026-10-30",
+    "kind": "patch",
+    "summary": "Plugins' admin components, such as the SEO plugin's length meters, load on Vercel with pnpm again.",
+    "changes": [
+      "`withEasyCMS()` now traces an admin module's package folder in `node_modules`, not only its real path in `.pnpm`, so the server finds it by its package name."
+    ],
+    "packages": [
+      "@easy-cms/next"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.20.0",
+    "title": "Single sign-on for everyone",
+    "date": "2026-10-30",
+    "kind": "minor",
+    "summary": "Require single sign-on for every account, admins included, except named break-glass accounts.",
+    "changes": [
+      "`auth.password: { breakGlass: ['emergency@example.com'] }` turns password sign-in off for every account but those listed. Other passwords are refused at sign-in and by the API, and can't be set; the admin hides the field.",
+      "When `auth.password` changes, the next start ends the sessions of accounts that may no longer use a password and records `auth.password.policy` in the audit log.",
+      "Each break-glass sign-in is recorded as `login.breakGlass` and shown on the dashboard for a day."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.19.0",
+    "title": "API rate limits",
+    "date": "2026-10-30",
+    "kind": "minor",
+    "summary": "Limit requests to the API per IP, signed-in user and API key, across instances.",
+    "changes": [
+      "`rateLimit` allows 300 requests a minute from each IP of visitors who are not signed in and 1,200 per signed-in user and per API key by default; over that, `429` with `Retry-After`.",
+      "Counts are kept in memory and added to the new `rate-limits` table every few seconds, so instances share them without a write per request. No IP is stored, only an HMAC of it.",
+      "Off by default, and needs a migration when turned on. New projects have it on."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "create-easy-cms"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.18.0",
     "title": "Rotate the secret",
     "date": "2026-10-29",
