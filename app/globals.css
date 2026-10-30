@@ -330,6 +330,7 @@ code, kbd, pre { font-family: var(--font-mono); }
 
 .article { padding-block: 64px 40px; }
 .article-head { max-width: 760px; margin-inline: auto; display: grid; gap: 18px; margin-bottom: 40px; }
+.preview-note { padding: 10px 14px; border: 1px solid color-mix(in srgb, var(--warn) 40%, var(--line)); border-radius: 10px; background: color-mix(in srgb, var(--warn) 7%, var(--surface)); color: var(--fg); font-size: 14px; }
 .article-head h1 { font-size: clamp(36px, 5vw, 56px); font-weight: 750; letter-spacing: -0.03em; }
 .article-head .excerpt { font-size: 19px; color: var(--muted); }
 .back-link { font: 400 13px var(--font-mono); color: var(--faint); }

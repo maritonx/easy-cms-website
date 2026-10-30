@@ -2,6 +2,7 @@ import 'server-only'
 import type { CollectionDocument } from '@easy-cms/core'
 import { getEasyCMS } from '@easy-cms/next'
 import config from '@/easy-cms.config'
+import { postLanguage } from './posts'
 
 export type Post = CollectionDocument<typeof config, 'posts'>
 export type Release = CollectionDocument<typeof config, 'releases'>
@@ -22,8 +23,7 @@ export async function getPosts(limit = 50, language?: Locale) {
   return docs
 }
 
-/** A post's language: posts from before the field are English. */
-export const postLanguage = (post: Post): Locale => (post.language === 'th' ? 'th' : 'en')
+export { postLanguage } from './posts'
 
 /** Where a post is read: /blog/<slug>, or /th/blog/<slug> for a Thai post. */
 export const postHref = (post: Post) => `${postLanguage(post) === 'th' ? '/th' : ''}/blog/${post.slug}`
