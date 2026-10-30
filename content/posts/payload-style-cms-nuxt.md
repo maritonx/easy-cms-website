@@ -147,6 +147,6 @@ AI makes it cheap to write code that looks right. Tests, written decisions and r
 Run `npm create easy-cms@latest` in a Nuxt or Next.js app, or click a Deploy button in the README to get a blog with its admin on Vercel or Netlify. Then tell me what got in your way in the [1.0 feedback issue](https://github.com/maritonx/easy-cms/issues/137). A rough sentence is fine.
 
 - Repository: [github.com/maritonx/easy-cms](https://github.com/maritonx/easy-cms)
-- Docs (English and Thai): [easy-cms-website.vercel.app/docs](/docs)
+- Docs (English and Thai): [easycms.dev/docs](/docs)
 
 *I drafted this post with Claude, working from the project's design docs and git history. The decisions, and the mistakes, are mine.*

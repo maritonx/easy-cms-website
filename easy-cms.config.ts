@@ -9,7 +9,7 @@ import { vercelBlobStorage } from '@easy-cms/storage-vercel-blob'
  * The public address: absolute links in the sitemap, share tags and llms.txt. The Vercel address
  * until the project has a domain of its own.
  */
-export const SITE_URL = process.env.SITE_URL ?? 'https://easy-cms-website.vercel.app'
+export const SITE_URL = process.env.SITE_URL ?? 'https://easycms.dev'
 
 /**
  * Where uploads go: Vercel Blob on Vercel, whose disk doesn't keep files (without a Blob store
