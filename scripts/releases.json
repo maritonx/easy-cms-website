@@ -1,5 +1,56 @@
 [
   {
+    "version": "1.25.1",
+    "title": "Screenshots with the new menu",
+    "date": "2026-10-30",
+    "kind": "patch",
+    "summary": "The screenshots in the docs and on this site show the two-column menu.",
+    "changes": [
+      "Every admin screenshot (English and Thai, light and dark) was taken again with the two-column menu."
+    ],
+    "packages": [
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.25.0",
+    "title": "Bulk actions on every match, and a two-column menu",
+    "date": "2026-10-30",
+    "kind": "minor",
+    "summary": "Bulk actions run on the server, on every document a list's filters match, and the admin's menu becomes a rail and a panel.",
+    "changes": [
+      "With the whole page selected, Select all N matching takes every document the filters match, up to 10,000. Publishing, unpublishing, moving or deleting them runs in the background, with its progress in the corner, Cancel, and a summary of what was skipped and why.",
+      "Bulk actions on the selected documents are one request, and go on past documents the user may not change. Deleting more than 100 asks for their number to be typed first.",
+      "`POST /:collection/bulk` with `ids` (at most 100) or `where` (at most 10,000, in the background); `GET /:collection/bulk/:id` for progress and `POST /:collection/bulk/:id/cancel`.",
+      "The menu is two columns: a rail with Home, each group and Settings, and a panel with the picked group's items. Search, theme, language and the account are behind the avatar.",
+      "Needs a migration for the new internal `bulk-operations` table: run `easy-cms migrate:create` after upgrading."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": true
+  },
+  {
+    "version": "1.24.0",
+    "title": "List pages that hold up at 1M documents",
+    "date": "2026-10-30",
+    "kind": "minor",
+    "summary": "Lists show their rows first and the total after, with rows per page, page links and fast Next by cursor.",
+    "changes": [
+      "Rows show first and the total after them; past 10,000 matches it reads 10,000+.",
+      "Rows per page (20, 50 or 100), links to the first, nearby and last pages, and Go to page. Next and Previous go by cursor, so they stay fast deep in a large list.",
+      "`cms.count()` takes `max` and stops after `max + 1` matches."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/drizzle",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.23.1",
     "title": "Links to easycms.dev",
     "date": "2026-10-30",
