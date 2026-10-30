@@ -1,5 +1,19 @@
 [
   {
+    "version": "1.23.1",
+    "title": "Links to easycms.dev",
+    "date": "2026-10-30",
+    "kind": "patch",
+    "summary": "The admin's help links and the package READMEs point to the new website address, easycms.dev.",
+    "changes": [
+      "The admin's help links (dashboard, jobs, backups, deliveries, email, single sign-on) and every package README link to easycms.dev. The old easy-cms-website.vercel.app links redirect, so nothing breaks either way."
+    ],
+    "packages": [
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.23.0",
     "title": "A Calendar page, and statuses that say what is pending",
     "date": "2026-10-30",
