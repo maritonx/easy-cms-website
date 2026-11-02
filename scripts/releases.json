@@ -1,5 +1,22 @@
 [
   {
+    "version": "1.28.0",
+    "title": "Read content from edge runtimes",
+    "date": "2026-11-02",
+    "kind": "minor",
+    "summary": "@easy-cms/core/client reads content over REST from Vercel Edge, Cloudflare Workers, Deno and browsers, typed from your config.",
+    "changes": [
+      "`createClient<typeof config>({ url })` from `@easy-cms/core/client` reads with `find`, `findById`, `findGlobal` (also a draft by preview token) and `search`; fetch options such as `next: { revalidate }` or `cf: { cacheTtl }` are passed on.",
+      "It is one file with no imports, tested in Vercel's edge runtime and in Cloudflare's workerd.",
+      "`getEasyCMS()` from `@easy-cms/next` now says to use the client when it is called on the edge runtime."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/next"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.27.0",
     "title": "Scheduled publishing that says why it failed",
     "date": "2026-11-02",
