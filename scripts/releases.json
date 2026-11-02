@@ -1,5 +1,25 @@
 [
   {
+    "version": "1.26.0",
+    "title": "A ui field, links to documents, and lists that hold up",
+    "date": "2026-11-02",
+    "kind": "minor",
+    "summary": "A field that shows a component and stores nothing, rich text links that follow a document, and list and picker improvements for large collections.",
+    "changes": [
+      "A `ui` field shows a component in the edit form (a calculator, a preview, a button) and stores nothing: no column, not in the API or the generated types. It goes wherever a field goes, with `admin.condition`.",
+      "Rich text links to a document keep its id. Reads fill in the document's current URL (its collection's `preview`), so a link follows a changed slug; a deleted document leaves plain text.",
+      "List tables keep their header in view as they scroll, offer compact rows, and show Retry when a load fails.",
+      "Relationship fields show 10 results with Show more, and recent picks first; the media library filters by Images, Video and Documents, and searches file names and alt text."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/richtext",
+      "@easy-cms/plugin-mcp"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.25.1",
     "title": "Screenshots with the new menu",
     "date": "2026-10-30",
