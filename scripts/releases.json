@@ -1,5 +1,22 @@
 [
   {
+    "version": "1.27.0",
+    "title": "Scheduled publishing that says why it failed",
+    "date": "2026-11-02",
+    "kind": "minor",
+    "summary": "A scheduled publish tries again when the database doesn't answer, keeps the real reason when it fails, and can be retried from the admin.",
+    "changes": [
+      "When the database doesn't answer (a dropped connection, a timeout), a scheduled publish or unpublish is tried twice more, seconds apart, before it counts as failed. Validation errors aren't retried.",
+      "A failed job keeps the database's own error, e.g. \"Failed query: … — fetch failed\", where it used to stop at \"Failed query\".",
+      "Settings → Jobs → Scheduled has Retry on a failed job, for admins of the whole site; `cms.retryScheduled(id)` does the same in code."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.26.0",
     "title": "A ui field, links to documents, and lists that hold up",
     "date": "2026-11-02",
