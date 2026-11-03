@@ -1,5 +1,24 @@
 [
   {
+    "version": "1.32.0",
+    "title": "Integrations and notifications",
+    "date": "2026-11-03",
+    "kind": "minor",
+    "summary": "Connect outside providers on a new Integrations page, and get Telegram messages when a form is sent, an order comes in or something fails.",
+    "changes": [
+      "Settings → Integrations: plugins declare outside providers, and admins connect accounts to them (several per provider), test them, pick the default and disconnect. Secrets are encrypted at rest and survive a secret rotation; broken connections show in the dashboard's \"needs attention\".",
+      "The new @easy-cms/plugin-notify sends Telegram messages to admins for new form submissions, orders and failures, with a link to the admin. Connect the chat with a Find button, choose the language and the events; failed messages are retried, at most 60 an hour.",
+      "cms.on() and the `listeners` config run code after events, and failure events (scheduled.failed, delivery.failed, backup.failed, integration.failed) reach webhooks and listeners. The form builder sends form.submitted."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/plugin-notify",
+      "@easy-cms/plugin-form-builder"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.31.0",
     "title": "Saved views and CSV export",
     "date": "2026-11-03",
