@@ -1,5 +1,22 @@
 [
   {
+    "version": "1.31.0",
+    "title": "Saved views and CSV export",
+    "date": "2026-11-03",
+    "kind": "minor",
+    "summary": "Save a list's filters, search, sort and columns as a view, for yourself or everyone, and export a list to CSV.",
+    "changes": [
+      "A list's filters, search, sort, columns, rows per page and row height can be saved as a view: a tab above the list, private or shared with everyone who may read the collection. A list can open with a view, and `admin.views` adds views from the config.",
+      "Export CSV downloads every document matching the list (or the ones selected), with the columns shown or every field you may read; `GET /:collection/export.csv` does the same for scripts. UTF-8 with a BOM for Excel, at most 100,000 rows, recorded in the audit log.",
+      "The menu's numbers are counted when the admin opens, after you create or delete, and every minute, and read \"10k+\" on large collections; ⌘K has \"See all in …\" (1.30.1)."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": true
+  },
+  {
     "version": "1.30.0",
     "title": "Blocks between paragraphs of rich text",
     "date": "2026-11-02",
