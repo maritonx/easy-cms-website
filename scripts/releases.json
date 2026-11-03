@@ -1,5 +1,43 @@
 [
   {
+    "version": "1.30.0",
+    "title": "Blocks between paragraphs of rich text",
+    "date": "2026-11-02",
+    "kind": "minor",
+    "summary": "Rich text fields can hold blocks with fields of their own between paragraphs: a card for another document, a callout, a video.",
+    "changes": [
+      "`richText.blocks` adds blocks to a rich text field, stored in the document as `{ type: 'block', attrs: { blockType, id, fields } }`. Their fields are validated, field access applies, and relationships in them are populated.",
+      "In the editor, \"Insert block\" in the toolbar or `/` on an empty line adds one. It shows as a card, edited in a side panel; `admin.summary` sets the card's text.",
+      "`renderRichText` and `renderMarkdown` take `blocks` renderers, typed with `RichTextBlocks<typeof config, 'posts', 'body'>`; `generate:types` writes them too."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/richtext",
+      "@easy-cms/admin",
+      "@easy-cms/plugin-mcp"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.29.0",
+    "title": "Relationships to several collections",
+    "date": "2026-11-02",
+    "kind": "minor",
+    "summary": "A relationship can point to documents of several collections, such as a menu item that links to a post or a page.",
+    "changes": [
+      "`to: ['posts', 'pages']` stores `{ relationTo, value }`, populates each value from its own collection with that collection's access, and types it as a union told apart by `relationTo`.",
+      "Filter with `'link.pages': { in: [3] }`, `link.relationTo` or `link.value`, in REST, the Local API and the admin's filter panel.",
+      "The admin's picker switches collections beside the search, and chips and list columns show \"Page · About\".",
+      "A relationship that gets more collections keeps its links: the migration assigns them to the first collection in `to`."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/drizzle",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.28.0",
     "title": "Read content from edge runtimes",
     "date": "2026-11-02",
