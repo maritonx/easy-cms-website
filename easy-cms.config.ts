@@ -2,6 +2,8 @@ import { google } from '@easy-cms/auth-oauth'
 import { consoleEmail, defineConfig } from '@easy-cms/core'
 import { sqlite } from '@easy-cms/db-sqlite'
 import { smtp } from '@easy-cms/email-smtp'
+import { aiPlugin } from '@easy-cms/plugin-ai'
+import { notifyPlugin } from '@easy-cms/plugin-notify'
 import { seoPlugin } from '@easy-cms/plugin-seo'
 import { vercelBlobStorage } from '@easy-cms/storage-vercel-blob'
 
@@ -172,6 +174,10 @@ export default defineConfig({
       llms: false,
       indexNow: { key: INDEXNOW_KEY },
     }),
+    // Telegram messages to admins when something fails (Settings → Integrations).
+    notifyPlugin(),
+    // AI providers for the admin's AI features (Settings → Integrations, AI).
+    aiPlugin(),
   ],
   globals: [
     {
