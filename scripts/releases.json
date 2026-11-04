@@ -1,5 +1,24 @@
 [
   {
+    "version": "1.33.0",
+    "title": "AI providers and real logos",
+    "date": "2026-11-04",
+    "kind": "minor",
+    "summary": "Connect Claude, GPT, Gemini or a server of your own for the admin's AI features, with daily limits; the Integrations page becomes one compact list with real logos.",
+    "changes": [
+      "The new @easy-cms/plugin-ai adds Anthropic, OpenAI, Google Gemini and OpenAI-compatible servers (Ollama, OpenRouter) to Settings → Integrations: accept the provider's policy, paste the key, find a model and test. Features ask cms.ai.generate(), with images from the media library and JSON answers.",
+      "Each user makes at most 100 AI requests a day by default; admins change it, and a role can have its own in Settings → Roles. Usage this month shows per connection, user and feature; prompts are never stored.",
+      "The Integrations page is one compact list by category with a search, a status on each row and the plugins you can install; each integration opens in a drawer. Integrations show their real logos, from simple-icons and Iconify."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/plugin-ai",
+      "@easy-cms/plugin-notify"
+    ],
+    "needsMigration": true
+  },
+  {
     "version": "1.32.0",
     "title": "Integrations and notifications",
     "date": "2026-11-03",
