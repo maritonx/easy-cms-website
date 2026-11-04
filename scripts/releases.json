@@ -1,5 +1,39 @@
 [
   {
+    "version": "1.35.0",
+    "title": "AI SEO and translation",
+    "date": "2026-11-04",
+    "kind": "minor",
+    "summary": "Write a page's search title and description with AI, and translate localized fields from the default language with their formatting kept.",
+    "changes": [
+      "The SEO plugin's search result preview has Write title and description with AI: one request writes both from the document's title and text, within the plugin's good lengths, into the meta fields for review with Undo. aiSource changes the text it reads.",
+      "Localized text, textarea and rich text fields edited in another language have Translate from the default language. Rich text keeps its bold, links, lists and blocks; a document missing translations offers to translate them all at once, with Undo.",
+      "Each feature can be turned off in Settings → Integrations, and counts toward each user's daily AI limit."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/plugin-seo"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.34.0",
+    "title": "AI alt text",
+    "date": "2026-11-04",
+    "kind": "minor",
+    "summary": "Write alt text for images with AI, and see which images in a document still have none.",
+    "changes": [
+      "With an AI provider connected, an image's Alternative text in the media library has Write with AI: the model looks at the image and writes one sentence of at most 125 characters, in the language being edited, into the field for review with Undo beside it.",
+      "Upload fields mark images without alt text; the mark opens the file to add it."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.33.0",
     "title": "AI providers and real logos",
     "date": "2026-11-04",
