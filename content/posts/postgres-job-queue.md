@@ -11,7 +11,7 @@ A CMS does a surprising amount of work when nobody is clicking. A post scheduled
 
 On one long-running server, that's a `setInterval`. It stops being simple when the same app runs as two instances behind a load balancer, or on Vercel, where nothing keeps running and a cron calls an endpoint once a minute. Now two processes can wake up at the same moment and both see "post 42 is due". If both act, the post publishes twice, the `afterChange` hook runs twice, and the webhook fires twice.
 
-This post is how Easy CMS handles that without adding Redis. The core of it is one conditional `UPDATE`, and it works the same on Postgres and SQLite. If you're building your own app with a little background work, you can lift the pattern as it is. ([The first post in this series](FIRST_POST_URL) covers what Easy CMS is.)
+This post is how Easy CMS handles that without adding Redis. The core of it is one conditional `UPDATE`, and it works the same on Postgres and SQLite. If you're building your own app with a little background work, you can lift the pattern as it is. ([The first post in this series](/blog/payload-style-cms-nuxt) covers what Easy CMS is.)
 
 ## The bug that started it
 

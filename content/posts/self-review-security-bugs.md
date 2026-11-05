@@ -11,7 +11,7 @@ A login rate limit, a request size limit, an SSRF guard, a file type check and a
 
 I found a broken version of each in my own project, Easy CMS, when I reviewed it against OWASP ASVS 5.0 Level 1 on 2026-10-09. To be precise about what that was: I read the monorepo (version 0.47.2) chapter by chapter, re-read the code for anything serious, and wrote a test that fails on the old code for each fix. It was a self-review, not a pentest or an external audit. It led to 17 fixes, released in 0.47.3, 0.47.4 and 0.48.0, and one of them needed a second part in 1.4.2. Twenty low-severity items went to a later milestone.
 
-The worst finding, a multi-tenant permissions bug, is in [the first post in this series](FIRST_POST_URL). These five are less dramatic, but none of them is specific to a CMS. Each one is a pattern I'd expect to find in ordinary Node, Next.js or Nuxt code.
+The worst finding, a multi-tenant permissions bug, is in [the first post in this series](/blog/payload-style-cms-nuxt). These five are less dramatic, but none of them is specific to a CMS. Each one is a pattern I'd expect to find in ordinary Node, Next.js or Nuxt code.
 
 | | Bug | Fixed in |
 |---|---|---|

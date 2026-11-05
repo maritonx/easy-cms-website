@@ -9,7 +9,7 @@ excerpt: "Show editors the real page next to the form, updated as they type, bef
 ---
 An editor changes a headline and wants to see how it wraps on the real page. In most setups that means saving a draft, opening the preview URL in another tab and reloading. Do that twenty times and the version history fills with twenty versions nobody wanted.
 
-I wanted editors to see the real page next to the form, updated as they type, with nothing saved. This post shows how to set that up in a Nuxt page and a Next.js page with [Easy CMS](https://github.com/maritonx/easy-cms), the embedded CMS I introduced in [the first post in this series](FIRST_POST_URL). The second half explains how it works: an iframe, `postMessage`, a handshake and a signed token. That part applies to any CMS or framework.
+I wanted editors to see the real page next to the form, updated as they type, with nothing saved. This post shows how to set that up in a Nuxt page and a Next.js page with [Easy CMS](https://github.com/maritonx/easy-cms), the embedded CMS I introduced in [the first post in this series](/blog/payload-style-cms-nuxt). The second half explains how it works: an iframe, `postMessage`, a handshake and a signed token. That part applies to any CMS or framework.
 
 ![The Easy CMS admin with the edit form on the left and the live page on the right](/screenshots/preview-en-light.webp)
 

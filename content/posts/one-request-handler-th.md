@@ -11,7 +11,7 @@ excerpt: "CMS ที่เป็น (Request) => Promise<Response> ต่อเ�
 
 จริงๆ มีทางที่สาม และมันมาจากมาตรฐานที่น่าเบื่อที่สุดอย่าง `Request` กับ `Response` ของ Fetch API ถ้า CMS เป็นแค่ function ที่รับ `Request` แล้วคืน `Promise<Response>` การเอามันไปต่อกับเว็บก็เหลือแค่เรื่อง routing และทุก framework ในบทความนี้ให้ `Request` มาอยู่แล้ว
 
-บทความนี้จะเอา Easy CMS ไป mount ใน Hono ก่อน ตามด้วย Astro แล้วก็ SvelteKit และอ่าน content จากแต่ละตัวผ่าน Local API ส่วนภาพรวมของ architecture ผมเล่าไว้แล้วใน[บทความแรกของซีรีส์นี้](FIRST_POST_URL) บทนี้จะเน้นที่โค้ดล้วนๆ
+บทความนี้จะเอา Easy CMS ไป mount ใน Hono ก่อน ตามด้วย Astro แล้วก็ SvelteKit และอ่าน content จากแต่ละตัวผ่าน Local API ส่วนภาพรวมของ architecture ผมเล่าไว้แล้วใน[บทความแรกของซีรีส์นี้](/th/blog/payload-style-cms-nuxt-th) บทนี้จะเน้นที่โค้ดล้วนๆ
 
 **ขอเตือนไว้ก่อนจะ copy อะไรไป** Easy CMS มี package สำหรับ Nuxt และ Next.js และมี standalone server สามตัวนี้ผ่านการทดสอบแบบ end to end ส่วน Astro, SvelteKit และ Hono ยังไม่ได้ทดสอบ ซึ่งในเอกสารก็เขียนไว้ตรงๆ ให้มองบทความนี้เป็นสูตร (recipe) ตัวอย่างข้างล่างผมรันกับ Easy CMS 1.4.1 คู่กับ Hono 4.13, Astro 7.4 และ SvelteKit 3.1 บน Node 24 และนั่นคือการทดสอบทั้งหมดที่มันเคยผ่านมา
 
