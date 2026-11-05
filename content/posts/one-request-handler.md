@@ -11,7 +11,7 @@ Say your site is in Astro, or SvelteKit, or a small Hono server. You want editor
 
 There is a third option, and it comes from a boring standard: the Fetch API's `Request` and `Response`. If a CMS is a function from `Request` to `Promise<Response>`, then mounting it is a routing problem. Every framework in this post hands you a `Request`.
 
-This post mounts Easy CMS in Hono, then Astro, then SvelteKit, and reads content from each with the Local API. [The first post in this series](FIRST_POST_URL) explained the architecture at a high level. This one is about the code.
+This post mounts Easy CMS in Hono, then Astro, then SvelteKit, and reads content from each with the Local API. [The first post in this series](/blog/payload-style-cms-nuxt) explained the architecture at a high level. This one is about the code.
 
 **A caveat before you copy anything.** Easy CMS has packages for Nuxt and Next.js and a standalone server. Those three are tested end to end. Astro, SvelteKit and Hono are not. The docs say so plainly. Treat this as a recipe. The examples below were run against Easy CMS 1.4.1 with Hono 4.13, Astro 7.4 and SvelteKit 3.1 on Node 24, and that is all the testing they have had.
 

@@ -11,7 +11,7 @@ A WordPress move usually starts with **Tools → Export**. You get one XML file,
 
 I prefer a different shape: an import script that reads the live WordPress site and writes into the new CMS, and that you can run as many times as you like. The first run shows you what breaks. You fix the mapping and run it again. On launch day you run it one last time, and the final posts come across with everything else.
 
-This post walks through such a script. The target is [Easy CMS](https://github.com/maritonx/easy-cms), the embedded CMS for Nuxt and Next.js I wrote about in [the first post in this series](FIRST_POST_URL), but the ideas apply to any CMS with a programmatic API. The full script is in the [WordPress recipe](/docs/recipes/wordpress); here I'll go through the parts that make it safe to repeat.
+This post walks through such a script. The target is [Easy CMS](https://github.com/maritonx/easy-cms), the embedded CMS for Nuxt and Next.js I wrote about in [the first post in this series](/blog/payload-style-cms-nuxt), but the ideas apply to any CMS with a programmatic API. The full script is in the [WordPress recipe](/docs/recipes/wordpress); here I'll go through the parts that make it safe to repeat.
 
 [TODO: your story — one line on a WordPress move where a one-shot export went stale, or delete this line]
 

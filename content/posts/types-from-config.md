@@ -11,7 +11,7 @@ Most typed CMS setups have two sources of truth. There is the schema, which the 
 
 [TODO: your story — one line about a stale generated types file you ran into, or delete this line]
 
-In Easy CMS, the CMS I build for Nuxt and Next.js (introduced in [the first post in this series](FIRST_POST_URL)), the schema is already TypeScript: an `easy-cms.config.ts` file. So the types can come straight from the config, with no generated file in between. This post walks through how that works at the type level, in simplified but faithful code, and what it costs. The techniques carry over to any library that takes a config object: form builders, routers, API clients.
+In Easy CMS, the CMS I build for Nuxt and Next.js (introduced in [the first post in this series](/blog/payload-style-cms-nuxt)), the schema is already TypeScript: an `easy-cms.config.ts` file. So the types can come straight from the config, with no generated file in between. This post walks through how that works at the type level, in simplified but faithful code, and what it costs. The techniques carry over to any library that takes a config object: form builders, routers, API clients.
 
 ## What you get
 

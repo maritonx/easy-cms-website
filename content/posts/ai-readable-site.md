@@ -9,7 +9,7 @@ excerpt: "Crawler rules by group, llms.txt as a table of contents, a Markdown UR
 ---
 Ask an AI assistant about a page on your site and one of three things happens. It answers from what it learned in training, it answers from a search index it built earlier, or it fetches your page right now. In all three, a crawler read your HTML at some point. What it was allowed to read, and how easily, is the part you can shape.
 
-I built four pieces for that into the SEO plugin of Easy CMS, my embedded CMS for Nuxt and Next.js ([the first post in this series](FIRST_POST_URL) introduces it). The ideas work in any server-rendered site:
+I built four pieces for that into the SEO plugin of Easy CMS, my embedded CMS for Nuxt and Next.js ([the first post in this series](/blog/payload-style-cms-nuxt) introduces it). The ideas work in any server-rendered site:
 
 1. `robots.txt` rules for AI crawlers, by what they do.
 2. `/llms.txt`, a short Markdown index of the site, and `/llms-full.txt`, the whole site in one file.

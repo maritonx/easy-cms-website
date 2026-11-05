@@ -11,7 +11,7 @@ excerpt: "บล็อก Nuxt ที่มี content model จริง หน
 
 บทความนี้ตอบคำถามพวกนี้ผ่านบล็อก Nuxt เล็ก ๆ หนึ่งตัว ในบล็อกมีบทความ หมวดหมู่ และข้อมูลเว็บไซต์ หน้าเว็บแสดงเฉพาะเนื้อหาที่เผยแพร่แล้ว editor มี draft กับ live preview มี SEO กับ sitemap แล้วปิดท้ายด้วยการ deploy พร้อม migration โค้ดตัดมาจาก [ตัวอย่าง Nuxt](https://github.com/maritonx/easy-cms/tree/main/examples/nuxt-blog) ใน repo ของ Easy CMS แนวคิดส่วนใหญ่ใช้ได้กับ CMS ที่เก็บข้อมูลใน database ทุกตัวที่อยู่หลังเว็บ Nuxt
 
-ถ้ายังไม่รู้จัก Easy CMS อ่าน[บทความแรกของซีรีส์นี้](FIRST_POST_URL)ก่อนได้ สรุปสั้น ๆ คือมันเป็น headless CMS ที่รันอยู่ในแอป Nuxt หรือ Next.js ของเราเอง
+ถ้ายังไม่รู้จัก Easy CMS อ่าน[บทความแรกของซีรีส์นี้](/th/blog/payload-style-cms-nuxt-th)ก่อนได้ สรุปสั้น ๆ คือมันเป็น headless CMS ที่รันอยู่ในแอป Nuxt หรือ Next.js ของเราเอง
 
 ## เตรียมโปรเจกต์
 

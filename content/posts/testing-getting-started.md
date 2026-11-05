@@ -15,7 +15,7 @@ In a monorepo, CI installs the workspace. Packages point at each other through `
 
 [TODO: your story — the first time a fresh install broke for someone, or for you, while CI was green]
 
-This post is how [Easy CMS](https://github.com/maritonx/easy-cms), a CMS that installs into a Nuxt or Next.js app ([the first post in this series](FIRST_POST_URL) introduces it), tests that path. Its Getting Started is one command: `npm create easy-cms@latest`.
+This post is how [Easy CMS](https://github.com/maritonx/easy-cms), a CMS that installs into a Nuxt or Next.js app ([the first post in this series](/blog/payload-style-cms-nuxt) introduces it), tests that path. Its Getting Started is one command: `npm create easy-cms@latest`.
 
 ## Two tests, two different questions
 

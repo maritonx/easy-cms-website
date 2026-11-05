@@ -11,7 +11,7 @@ excerpt: "A Nuxt blog with a real content model, draft-aware pages, live preview
 
 This post answers those questions with a small Nuxt blog. It has posts, categories and site settings, pages that show only published content, drafts with live preview for editors, SEO fields with a sitemap, and a deploy with migrations. The code comes from the [Nuxt example](https://github.com/maritonx/easy-cms/tree/main/examples/nuxt-blog) in the Easy CMS repository, trimmed down. Most of the ideas apply to any database-backed CMS you put behind a Nuxt site.
 
-If you haven't seen Easy CMS before, [the first post in this series](FIRST_POST_URL) explains what it is. The short version: it's a headless CMS that runs inside your Nuxt or Next.js app.
+If you haven't seen Easy CMS before, [the first post in this series](/blog/payload-style-cms-nuxt) explains what it is. The short version: it's a headless CMS that runs inside your Nuxt or Next.js app.
 
 ## Setup
 

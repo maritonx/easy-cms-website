@@ -11,7 +11,7 @@ Many CMS admins are written in English first. Translations often come later, fro
 
 Easy CMS is built for that editor. The design doc lists the editor's needs in one line: an admin that's easy to use, in Thai, with drafts, preview and history. The localization ADR starts the same way: most of my clients build Thai websites that also need English. So Thai went in at v0.1, next to English, and it was never a "later" item.
 
-This post covers what that took: a hand-rolled i18n file instead of vue-i18n, keeping the admin's language apart from the content's language, a few places where Thai text breaks English assumptions, and docs kept in two languages. [The first post in this series](FIRST_POST_URL) explains what Easy CMS is, so I won't repeat it here.
+This post covers what that took: a hand-rolled i18n file instead of vue-i18n, keeping the admin's language apart from the content's language, a few places where Thai text breaks English assumptions, and docs kept in two languages. [The first post in this series](/blog/payload-style-cms-nuxt) explains what Easy CMS is, so I won't repeat it here.
 
 [TODO: your story — the first time a Thai editor used the admin in Thai, and what they said or did]
 

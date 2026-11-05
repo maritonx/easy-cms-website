@@ -15,7 +15,7 @@ excerpt: "CI ที่ใช้ workspace link บอกไม่ได้ว่
 
 [TODO: เรื่องของคุณ — ครั้งแรกที่การติดตั้งใหม่พังให้ใครสักคน (หรือตัวคุณเอง) ทั้งที่ CI ยังเขียวอยู่]
 
-บทความนี้เล่าว่า [Easy CMS](https://github.com/maritonx/easy-cms) ซึ่งเป็น CMS ที่ติดตั้งลงในแอป Nuxt หรือ Next.js ([บทความแรกของซีรีส์](FIRST_POST_URL) แนะนำตัวมันไว้แล้ว) ทดสอบเส้นทางนี้ยังไง หน้า Getting Started ของมันมีคำสั่งเดียวคือ `npm create easy-cms@latest`
+บทความนี้เล่าว่า [Easy CMS](https://github.com/maritonx/easy-cms) ซึ่งเป็น CMS ที่ติดตั้งลงในแอป Nuxt หรือ Next.js ([บทความแรกของซีรีส์](/th/blog/payload-style-cms-nuxt-th) แนะนำตัวมันไว้แล้ว) ทดสอบเส้นทางนี้ยังไง หน้า Getting Started ของมันมีคำสั่งเดียวคือ `npm create easy-cms@latest`
 
 ถ้าคุณดูแลแพ็กเกจ npm หรือ template ของตัวเองที่มีคำสั่ง `npm create` หรือ `npx` ให้คนรันเป็นอย่างแรก เนื้อหาส่วนใหญ่ข้างล่างใช้ได้กับโปรเจกต์คุณด้วย ไม่ต้องใช้ Easy CMS เลยก็ได้
 
