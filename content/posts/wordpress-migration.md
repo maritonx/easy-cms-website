@@ -150,6 +150,21 @@ In Next.js 16 the same call goes in `proxy.ts`, which runs on Node.js. Redirects
 
 Old category, tag and date archive URLs aren't redirected. Add the ones that get traffic by hand in **Settings → Redirects**.
 
+### When slugs change
+
+Slugs change in two more ways, and both lose links without anyone noticing.
+
+An editor renames a post in WordPress between two runs. The next run creates a redirect from the new WordPress address, but the one the first run made still points to the post's old address on the new site, which no longer exists. So the script compares the slug with what the last run stored, and when it changed, it moves every redirect that pointed to the old address over to the new one.
+
+A post renamed long before the move is the other half. WordPress keeps each old slug of a published post in `_wp_old_slug` and redirects it, so old links work today. The REST API doesn't return fields that start with `_`, so the script can't see them. If you can run WP-CLI on the old site, one query exports them, and the script adds a 301 for each:
+
+```bash
+wp db query "SELECT post_id, meta_value FROM $(wp db prefix)postmeta WHERE meta_key = '_wp_old_slug'" --skip-column-names > old-slugs.tsv
+npx tsx --env-file=.env scripts/import-wordpress.ts https://old-site.com --old-slugs old-slugs.tsv
+```
+
+That step needs shell access to the old site, unlike the rest of the script. WordPress keeps old slugs for posts, not for pages. Thanks to the reader who pointed out the `_wp_old_slug` case in the comments.
+
 ## What comes across, and what doesn't
 
 | Comes across | Doesn't |
@@ -167,9 +182,10 @@ Custom post types work the same way if they're exposed in the REST API (`show_in
 ## Launch day
 
 1. Run it locally with `--limit 10` and read the posts in `/admin`: headings, lists, images, the cover, the categories.
-2. Fix the mapping and run it again, as often as you need. Documents and images are updated, not copied, and existing redirects are kept.
+2. Fix the mapping and run it again, as often as you need. Documents and images are updated, not copied, and existing redirects are kept, except that a renamed post's redirects follow it.
 3. Create a migration for the new collections (`npx easy-cms migrate:create wordpress`). For production, run `easy-cms migrate` first, then the script with the production settings and `NODE_ENV=production`, so the schema isn't pushed into that database. On serverless hosts, make sure uploads go to S3, R2 or Vercel Blob, not to a local folder.
-4. Back up, run it one last time, switch DNS.
+4. On staging, ask the new site for every address in the old sitemap (`/wp-sitemap.xml`, or `/sitemap_index.xml` with Yoast). The recipe's `check-redirects.ts` does it in one command, following redirects. Any 404 is a missing redirect, or one that ends at a page that doesn't exist.
+5. Back up, run it one last time, switch DNS.
 
 Two things follow from the design, and you should agree with them before you start. A re-run overwrites imported documents with what WordPress has, so editors keep writing in WordPress until the switch and don't edit imported posts in the new admin until then. And the script only creates and updates: a post deleted in WordPress stays in Easy CMS.
 
