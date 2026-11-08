@@ -5,6 +5,7 @@ import { smtp } from '@easy-cms/email-smtp'
 import { aiPlugin } from '@easy-cms/plugin-ai'
 import { notifyPlugin } from '@easy-cms/plugin-notify'
 import { seoPlugin } from '@easy-cms/plugin-seo'
+import { socialPlugin } from '@easy-cms/plugin-social'
 import { vercelBlobStorage } from '@easy-cms/storage-vercel-blob'
 
 /**
@@ -178,6 +179,12 @@ export default defineConfig({
     notifyPlugin(),
     // AI providers for the admin's AI features (Settings → Integrations, AI).
     aiPlugin(),
+    // Social posts (Content): Share on an article writes one, sent to the channels connected in
+    // Settings → Integrations (a Make or n8n webhook for X; Facebook and LINE later, #313).
+    socialPlugin({
+      collections: ['posts'],
+      url: ({ doc }) => (postPath(doc) ? `${SITE_URL}${postPath(doc)}` : null),
+    }),
   ],
   globals: [
     {
