@@ -1,5 +1,37 @@
 [
   {
+    "version": "1.37.0",
+    "title": "Write social posts with AI",
+    "date": "2026-11-08",
+    "kind": "minor",
+    "summary": "With an AI provider connected, write a social post's text from the document it shares.",
+    "changes": [
+      "A social post's text and each channel's text have Write with AI: written from the shared document, within the channel's length, into the field for review with Undo."
+    ],
+    "packages": [
+      "@easy-cms/plugin-social"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.36.0",
+    "title": "Social posts",
+    "date": "2026-11-08",
+    "kind": "minor",
+    "summary": "Write a post once and send it to several channels, now or at a time, with a state per channel.",
+    "changes": [
+      "The new @easy-cms/plugin-social (experimental) adds Social posts to Content: a text, a link, an image and the channels it goes to, each with its own text if needed. The first channel is a signed webhook to a Make, n8n or Zapier scenario.",
+      "Share on social media on a document writes a post from it. The Posting panel posts now or at a time, each channel on its own with retries and Retry, says up front what would stop it, and links to each post.",
+      "Posting is a right of its own in Settings → Roles, so one person can write and another post. The notify plugin tells your chat when a post fails."
+    ],
+    "packages": [
+      "@easy-cms/plugin-social",
+      "@easy-cms/core",
+      "@easy-cms/plugin-notify"
+    ],
+    "needsMigration": true
+  },
+  {
     "version": "1.35.0",
     "title": "AI SEO and translation",
     "date": "2026-11-04",
