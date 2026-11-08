@@ -73,7 +73,6 @@ the migration and the code, and check it locally against `cms.db` (`pnpm dev`).
    | `DATABASE_URL` | the `libsql://…` URL |
    | `DATABASE_AUTH_TOKEN` | the Turso token |
    | `SITE_URL` | the deployment's address |
-   | `CRON_SECRET` | `openssl rand -hex 32`: Vercel's cron and `jobs.yml` send it |
    | `DOCS_REF` | `main`, until an Easy CMS release includes `website/sidebar.json` |
 
 3. Put `DATABASE_URL` and `DATABASE_AUTH_TOKEN` in `.env.turso` (not committed), then fill the
@@ -82,10 +81,10 @@ the migration and the code, and check it locally against `cms.db` (`pnpm dev`).
    development schema into the Turso database. Open `/admin` to create the first admin.
 
 Limits of the trial: uploads are not kept between deploys (add `@easy-cms/storage-s3` for that),
-and Vercel Hobby crons run once a day. The GitHub Actions workflow `jobs.yml` runs the jobs every
-10 minutes instead, so scheduled publishing and social posts go out on time: set `CRON_SECRET` on
-Vercel and as a repository secret (the same value, `openssl rand -hex 32`), and `SITE_URL` as a
-repository variable.
+and Vercel Hobby crons run once a day. easycms.dev has cron-job.org call `/api/cms/jobs/run` every
+minute with `Authorization: Bearer $CRON_SECRET` (the Vercel variable), and keeps vercel.json's
+daily cron as a fallback; without such a service, scheduled publishing and social posts aren't
+on time.
 
 ### VPS (production)
 
