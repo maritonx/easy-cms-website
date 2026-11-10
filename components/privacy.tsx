@@ -15,7 +15,7 @@ export function Privacy({ locale }: { locale: 'en' | 'th' }) {
         </header>
         <div className="prose">
           <p>
-            easycms.dev เป็นเว็บของโปรเจกต์โอเพนซอร์ส Easy CMS ดูแลโดย Kanawoot K. เป็นการส่วนตัว
+            easycms.dev เป็นเว็บของโปรเจกต์โอเพนซอร์ส Easy CMS ดูแลโดย Kanawut K. เป็นการส่วนตัว
             หน้านี้อธิบายข้อมูลที่เว็บและหน้า admin ของเว็บเก็บ
           </p>
           <h2>ผู้เยี่ยมชม</h2>
@@ -77,7 +77,7 @@ export function Privacy({ locale }: { locale: 'en' | 'th' }) {
       </header>
       <div className="prose">
         <p>
-          easycms.dev is the website of Easy CMS, an open-source project run personally by Kanawoot K. This
+          easycms.dev is the website of Easy CMS, an open-source project run personally by Kanawut K. This
           page says what the site and its admin keep.
         </p>
         <h2>Visitors</h2>

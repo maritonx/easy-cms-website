@@ -111,7 +111,7 @@ export default defineConfig({
           options: ['Release', 'Guide', 'Engineering', 'Community'],
         },
         { name: 'publishedAt', type: 'date', required: true },
-        { name: 'author', type: 'text', defaultValue: 'Kanawoot K.' },
+        { name: 'author', type: 'text', defaultValue: 'Kanawut K.' },
         // Short monospace text drawn on the generated cover when there is no image.
         { name: 'coverText', type: 'text', maxLength: 24 },
         { name: 'cover', type: 'upload' },

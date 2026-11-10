@@ -117,7 +117,7 @@ export function SiteFooter({ lang = 'en' }: { lang?: 'en' | 'th' }) {
         </div>
         <div className="foot-bottom">
           <span>
-            © 2026 Kanawoot K. · MIT License ·{' '}
+            © 2026 Kanawut K. · MIT License ·{' '}
             <Link href={lang === 'th' ? '/th/privacy' : '/privacy'}>
               {lang === 'th' ? 'นโยบายความเป็นส่วนตัว' : 'Privacy'}
             </Link>
