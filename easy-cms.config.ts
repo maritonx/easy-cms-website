@@ -2,6 +2,7 @@ import { google } from '@easy-cms/auth-oauth'
 import { consoleEmail, defineConfig } from '@easy-cms/core'
 import { sqlite } from '@easy-cms/db-sqlite'
 import { aiPlugin } from '@easy-cms/plugin-ai'
+import { backupsPlugin } from '@easy-cms/plugin-backups'
 import { emailPlugin } from '@easy-cms/plugin-email'
 import { notifyPlugin } from '@easy-cms/plugin-notify'
 import { seoPlugin } from '@easy-cms/plugin-seo'
@@ -67,6 +68,11 @@ export default defineConfig({
   // Printed to the log until an admin chooses a provider (Resend) in Settings → Integrations →
   // Email: the provider's API key is kept there, encrypted, and the choice reaches every server.
   email: consoleEmail({ from: 'Easy CMS <no-reply@easycms.dev>' }),
+  // Backups go to Google Drive (Settings → Backups), encrypted when EASY_CMS_BACKUP_KEY is set:
+  // keep a copy of the key somewhere else, or the files can't be restored.
+  ...(process.env.EASY_CMS_BACKUP_KEY
+    ? { backups: { encryptionKey: process.env.EASY_CMS_BACKUP_KEY } }
+    : {}),
   admin: { locale: 'en', siteURL: SITE_URL },
   auth: { providers: [googleProvider], ...(googleConfigured ? { password: false } : {}) },
   collections: [
@@ -181,6 +187,9 @@ export default defineConfig({
     // Email providers (Settings → Integrations → Email): Resend, Postmark or Brevo, chosen in the
     // admin, with bounces kept off the list.
     emailPlugin(),
+    // Backup destinations (Settings → Integrations → Backups): Google Drive, with the same Google
+    // client as sign-in (GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET), and S3-compatible storage.
+    backupsPlugin(),
     // Social posts (Content): Share on an article writes one, sent to the channels connected in
     // Settings → Integrations (a Make or n8n webhook for X; Facebook and LINE later, #313).
     socialPlugin({
