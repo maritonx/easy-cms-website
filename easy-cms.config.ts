@@ -1,8 +1,8 @@
 import { google } from '@easy-cms/auth-oauth'
 import { consoleEmail, defineConfig } from '@easy-cms/core'
 import { sqlite } from '@easy-cms/db-sqlite'
-import { smtp } from '@easy-cms/email-smtp'
 import { aiPlugin } from '@easy-cms/plugin-ai'
+import { emailPlugin } from '@easy-cms/plugin-email'
 import { notifyPlugin } from '@easy-cms/plugin-notify'
 import { seoPlugin } from '@easy-cms/plugin-seo'
 import { socialPlugin } from '@easy-cms/plugin-social'
@@ -64,10 +64,9 @@ export default defineConfig({
   ...(onVercel ? { upload: { storage: vercelBlobStorage() } } : {}),
   // The public address: absolute media URLs, email links, the sitemap and robots.txt.
   serverURL: SITE_URL,
-  // Invitations and password links through Gmail's SMTP (SMTP_HOST, SMTP_PORT, SMTP_USER,
-  // SMTP_PASSWORD with an app password, SMTP_FROM) where they're set; printed to the log
-  // elsewhere. Always set, so the email queue's table is in the schema everywhere.
-  email: process.env.SMTP_HOST ? smtp() : consoleEmail(),
+  // Printed to the log until an admin chooses a provider (Resend) in Settings → Integrations →
+  // Email: the provider's API key is kept there, encrypted, and the choice reaches every server.
+  email: consoleEmail({ from: 'Easy CMS <no-reply@easycms.dev>' }),
   admin: { locale: 'en', siteURL: SITE_URL },
   auth: { providers: [googleProvider], ...(googleConfigured ? { password: false } : {}) },
   collections: [
@@ -179,6 +178,9 @@ export default defineConfig({
     notifyPlugin(),
     // AI providers for the admin's AI features (Settings → Integrations, AI).
     aiPlugin(),
+    // Email providers (Settings → Integrations → Email): Resend, Postmark or Brevo, chosen in the
+    // admin, with bounces kept off the list.
+    emailPlugin(),
     // Social posts (Content): Share on an article writes one, sent to the channels connected in
     // Settings → Integrations (a Make or n8n webhook for X; Facebook and LINE later, #313).
     socialPlugin({
