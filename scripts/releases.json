@@ -1,5 +1,134 @@
 [
   {
+    "version": "1.42.1",
+    "title": "Backups that finish on Vercel",
+    "date": "2026-11-10",
+    "kind": "patch",
+    "summary": "Backups work on serverless hosts such as Vercel and Netlify, where a backup used to be cut off when the function stopped.",
+    "changes": [
+      "A backup runs after the admin's request has its answer. On Turso it was cut off with \"Failed query: select … from ecms_login_attempts\".",
+      "The API handler asks the host to keep the function running for that work, with Next.js's `after`, Nitro's `waitUntil`, or Vercel's and Netlify's own. Pass your own with `ApiHandlerOptions.waitUntil`.",
+      "A backup that never started is made by the next jobs run after two minutes instead of thirty.",
+      "`cms.settle()` waits for work after the response, emails being sent included."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/next",
+      "@easy-cms/nuxt"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.42.0",
+    "title": "Email providers chosen in the admin",
+    "date": "2026-11-10",
+    "kind": "minor",
+    "summary": "Connect Resend, Postmark, Brevo or any SMTP server in the admin. The config's `email` stays the default.",
+    "changes": [
+      "`@easy-cms/plugin-email` adds Resend, Postmark and Brevo to Settings → Integrations → Email, and `smtpProvider` from `@easy-cms/email-smtp` adds any SMTP server. An admin sends a test email to themselves before switching.",
+      "Provider webhooks mark each email in the log as delivered, bounced or reported as spam.",
+      "Addresses that bounced for good or reported spam go on a list of blocked addresses in Settings → Email and get no more email, except emails people ask for after a spam report.",
+      "`defineEmailProvider()` writes your own provider. `EmailAdapter.send()` may return the provider's `{ id }`.",
+      "`email.bounced` and `email.complained` are new system events, sent by `@easy-cms/plugin-notify` to chats that tick them."
+    ],
+    "packages": [
+      "@easy-cms/plugin-email",
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/email-smtp",
+      "@easy-cms/plugin-notify"
+    ],
+    "needsMigration": true
+  },
+  {
+    "version": "1.41.0",
+    "title": "Backups set up in the admin",
+    "date": "2026-11-10",
+    "kind": "minor",
+    "summary": "Settings → Backups changes when backups run, how many to keep and where they go, and Settings → Email keeps a log of emails sent.",
+    "changes": [
+      "Backups go to this server and to destinations that plugins add through Integrations, each with its own number to keep. A destination that fails is tried again after 1, 5 and 30 minutes, then `backup.failed`.",
+      "`@easy-cms/plugin-backups` adds Google Drive (the `drive.file` scope, a folder of its own, resumable uploads) and S3-compatible storage (Cloudflare R2, Backblaze B2, AWS S3, Wasabi).",
+      "`backups.frequency`, `at` and `keep` in the config are defaults an admin can change, and **Use the code's** sets one back. `backups.locked: true` keeps them as the config sets them.",
+      "Turso and other remote libSQL databases are backed up by copying them into a local SQLite file.",
+      "OAuth integrations take their app's keys in the admin, with the redirect URI to copy. Environment variables still win.",
+      "A log of emails sent in Settings → Email: when, to whom, the subject, its kind and how it went. It never keeps an email's content and is kept 30 days (`emailLog: { keepDays }`, or `emailLog: false`)."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "@easy-cms/plugin-backups",
+      "@easy-cms/db-sqlite",
+      "@easy-cms/plugin-social"
+    ],
+    "needsMigration": true
+  },
+  {
+    "version": "1.40.0",
+    "title": "Actions",
+    "date": "2026-11-09",
+    "kind": "minor",
+    "summary": "Buttons that run your code on a document, declared on a collection with `actions`.",
+    "changes": [
+      "They show on the edit page, in a list row's menu, in the bar of selected documents and in ⌘K.",
+      "Easy CMS checks who may press them (`access`, and with `auth.rbac` a right of its own in Settings → Roles), `when` they apply and their form (`fields`), and asks first with `confirm`.",
+      "Bulk runs go through background operations, and each run is recorded in the audit log.",
+      "An action says what it did with `message`, `open` or `ActionError`.",
+      "Also `POST <api>/<collection>/<id>/actions/<name>`, `POST <api>/<collection>/actions/<name>` and `cms.runAction()`."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.39.1",
+    "title": "No warning for admin.permissions",
+    "date": "2026-11-08",
+    "kind": "patch",
+    "summary": "`admin.permissions` on a collection, which `@easy-cms/plugin-social` sets, no longer warns that it is not an option Easy CMS knows.",
+    "changes": [
+      "The known option lists of a collection's and global's `admin` are checked against their types, so they can't fall behind again."
+    ],
+    "packages": [
+      "@easy-cms/core"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.39.0",
+    "title": "Post to X",
+    "date": "2026-11-08",
+    "kind": "minor",
+    "summary": "Social posts go to X too, with your own X app's keys.",
+    "changes": [
+      "Connect your X account with OAuth 1.0a keys that don't expire and post the text with its link.",
+      "The admin's counter and Write with AI count X's way (a link 23, an emoji 2).",
+      "The panel shows what the post costs on X's pay-per-use API before posting.",
+      "The built-in channels (`facebook`, `line`, `x`) are exported for sites that set `channels` themselves."
+    ],
+    "packages": [
+      "@easy-cms/plugin-social"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.38.0",
+    "title": "Facebook Pages and LINE OA",
+    "date": "2026-11-08",
+    "kind": "minor",
+    "summary": "Social posts go to Facebook Pages and LINE Official Accounts.",
+    "changes": [
+      "Connect Pages you manage through your Meta app (`META_APP_ID`, `META_APP_SECRET`) and post photos or links to them.",
+      "Connect a LINE Official Account with its channel access token and broadcast each post as a card, with the friends it reaches and the month's message quota shown before posting."
+    ],
+    "packages": [
+      "@easy-cms/plugin-social"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.37.0",
     "title": "Write social posts with AI",
     "date": "2026-11-08",
