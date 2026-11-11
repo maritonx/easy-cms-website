@@ -1,7 +1,9 @@
 /** Links and facts used across the site. */
+import pkg from '../package.json'
 export const GITHUB_URL = 'https://github.com/maritonx/easy-cms'
 export const NPM_URL = 'https://www.npmjs.com/org/easy-cms'
-export const VERSION = '1.37'
+/** The Easy CMS version this site runs, major.minor: follows `@easy-cms/core` in package.json. */
+export const VERSION = pkg.dependencies['@easy-cms/core'].replace(/^\D*(\d+\.\d+).*$/, '$1')
 /** This site's own source: it is built with Easy CMS. */
 export const SITE_REPO_URL = 'https://github.com/maritonx/easy-cms-website'
 export const DISCUSSIONS_URL = `${GITHUB_URL}/discussions`
