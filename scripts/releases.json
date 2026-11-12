@@ -1,5 +1,28 @@
 [
   {
+    "version": "1.43.0",
+    "title": "Sign-in providers in the admin",
+    "date": "2026-11-12",
+    "kind": "minor",
+    "summary": "Turn Google, Microsoft, GitHub or any OpenID Connect provider on in Settings → Integrations → Sign-in, after a test sign-in. The config's `auth.providers` stay the default.",
+    "changes": [
+      "`signInPlugin()` from `@easy-cms/auth-oauth`: enter the app's keys, copy the redirect URL, test a sign-in at the provider (nobody is signed in by it), then use it for sign-in.",
+      "The config's providers can be turned off in the admin, and a connection with the same id takes a provider's place. `auth.locked: true` keeps sign-in as the code sets it.",
+      "A change after which no admin could sign in is refused, and `easy-cms reset-sign-in` goes back to the config's providers.",
+      "Sessions record how they started, so turning a provider off signs out the people who used it.",
+      "Google Drive backups and signing in with Google share one Google Cloud app's keys.",
+      "Logging out of the admin shows the login page's provider buttons straight away."
+    ],
+    "packages": [
+      "@easy-cms/auth-oauth",
+      "@easy-cms/core",
+      "@easy-cms/admin",
+      "easy-cms",
+      "@easy-cms/plugin-backups"
+    ],
+    "needsMigration": true
+  },
+  {
     "version": "1.42.1",
     "title": "Backups that finish on Vercel",
     "date": "2026-11-10",
