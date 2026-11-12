@@ -1,5 +1,20 @@
 [
   {
+    "version": "1.43.1",
+    "title": "Two CLI commands that run",
+    "date": "2026-11-12",
+    "kind": "patch",
+    "summary": "`easy-cms secrets:rotate` and `easy-cms audit:resign` run instead of answering \"Unknown command\".",
+    "changes": [
+      "After rotating `EASY_CMS_SECRET`, the CLI can move connections and the audit log to the new secret again.",
+      "Every command `easy-cms --help` lists is now checked to run."
+    ],
+    "packages": [
+      "easy-cms"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.43.0",
     "title": "Sign-in providers in the admin",
     "date": "2026-11-12",
