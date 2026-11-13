@@ -14,7 +14,7 @@ import { AdminShowcase } from './admin-showcase'
 import { CodeSteps, type CodeStep } from './code-steps'
 import { InstallCommand } from './install-command'
 
-/** What Easy CMS is, for search results: free, MIT-licensed developer software on Node.js. */
+/** What Easy CMS is, for search results: free, MIT-licensed developer software for Node.js, Bun, Deno and Cloudflare Workers. */
 const softwareJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
@@ -22,7 +22,7 @@ const softwareJsonLd = {
   description: 'The embedded, code-first headless CMS for Nuxt and Next.js.',
   url: SITE_URL,
   applicationCategory: 'DeveloperApplication',
-  operatingSystem: 'Node.js 22.12 or later',
+  operatingSystem: 'Node.js 22.12 or later, Bun, Deno, Cloudflare Workers',
   softwareVersion: VERSION,
   license: 'https://opensource.org/licenses/MIT',
   downloadUrl: NPM_URL,
@@ -217,7 +217,7 @@ export async function HomePage({ locale }: { locale: Locale }) {
             <li>SQLite <small>· Turso</small></li>
             <li>PGlite</li>
             <li>S3 <small>· R2 · MinIO</small></li>
-            <li>Vercel <small>· Netlify</small></li>
+            <li>Vercel <small>· Netlify · Cloudflare Workers</small></li>
           </ul>
         </div>
       </div>
