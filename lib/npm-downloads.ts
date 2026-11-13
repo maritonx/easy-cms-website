@@ -66,4 +66,4 @@ export function dailyDownloads(pkg: string) {
 }
 
 /** The CLI package everyone installs (`npx easy-cms`; `npm create easy-cms` pulls it in). */
-export const npmDownloadsLastWeek = () => weeklyDownloads('easy-cms')
+export const npmDownloadsTotal = () => totalDownloads('easy-cms')

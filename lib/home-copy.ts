@@ -134,7 +134,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
     },
     stack: {
       label: 'Runs with',
-      downloads: 'npm downloads last week',
+      downloads: 'npm downloads in total',
       releases: 'releases since 1.0 on 17 Oct',
       tests: 'tests on every pull request',
       paywall: 'features behind a paywall',
@@ -324,7 +324,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
     },
     stack: {
       label: 'ใช้ได้กับ',
-      downloads: 'ดาวน์โหลดจาก npm สัปดาห์ที่แล้ว',
+      downloads: 'ดาวน์โหลดจาก npm ทั้งหมด',
       releases: 'release ตั้งแต่ 1.0 เมื่อ 17 ต.ค.',
       tests: 'test ที่รันทุก pull request',
       paywall: 'ฟีเจอร์ที่ต้องจ่ายเงิน',

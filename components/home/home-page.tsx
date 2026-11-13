@@ -5,7 +5,7 @@ import { SITE_URL } from '@/easy-cms.config'
 import { getRoadmapLevels, getSite } from '@/lib/cms'
 import { highlight } from '@/lib/highlight'
 import { HOME_COPY, type Locale } from '@/lib/home-copy'
-import { npmDownloadsLastWeek } from '@/lib/npm-downloads'
+import { npmDownloadsTotal } from '@/lib/npm-downloads'
 import { GITHUB_URL, NPM_URL, SITE_REPO_URL, VERSION } from '@/lib/site'
 import { type Brand, BrandLogo } from '../brand-logo'
 import { CompareMatrix } from '../compare-matrix'
@@ -196,7 +196,7 @@ export async function HomePage({ locale }: { locale: Locale }) {
   const [site, levels, downloads, configHtml, routesHtml, pageHtml, heroHtml, aiHtml, runtimeHtml] = await Promise.all([
     getSite(),
     getRoadmapLevels(),
-    npmDownloadsLastWeek(),
+    npmDownloadsTotal(),
     highlight(code.config, 'ts'),
     highlight(code.routes, 'ts'),
     highlight(code.page, 'tsx'),
