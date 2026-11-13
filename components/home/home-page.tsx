@@ -16,6 +16,7 @@ import { StabilityNote } from '../stability-note'
 import { AdminSpotlight } from './admin-spotlight'
 import { AiChat } from './ai-chat'
 import { CodeSteps, type CodeStep } from './code-steps'
+import { HeroNet } from './hero-net'
 import { HomeMotion } from './home-motion'
 import { InstallCommand } from './install-command'
 import { RuntimePicker } from './runtime-picker'
@@ -223,7 +224,7 @@ export async function HomePage({ locale }: { locale: Locale }) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(softwareJsonLd) }} />
       <HomeMotion />
-      <section className="hero">
+      <section className="hero hero-dark spot-band">
         <div className="wrap">
           <div className="hero-copy">
             {announcement?.label && (
@@ -252,6 +253,7 @@ export async function HomePage({ locale }: { locale: Locale }) {
             </div>
           </div>
           <div className="hero-visual">
+            <HeroNet />
             <div className="window">
               <div className="window-bar">
                 <div className="dots"><i /><i /><i /></div>

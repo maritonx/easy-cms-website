@@ -1306,3 +1306,33 @@ a.feature:hover .go, a.feature:focus-visible .go { opacity: 1; transform: none; 
 .pl-h1 > span { white-space: nowrap; }
 .pl-h1 em { font-style: normal; color: var(--accent); }
 @media (max-width: 520px) { .pl-h1 > span { white-space: normal; } }
+
+/* ===================== Home hero on the dark stage ===================== */
+.hero-dark { color: var(--fg); padding-bottom: 96px; }
+.hero-dark::before { mask-image: radial-gradient(ellipse at 75% 45%, #000 15%, transparent 65%); -webkit-mask-image: radial-gradient(ellipse at 75% 45%, #000 15%, transparent 65%); }
+.hero-dark .lede { color: #a9bdb5; }
+.hero-dark .lede code { background: rgba(255, 255, 255, .06); color: #e4eee9; }
+.hero-dark .hero-meta { color: var(--muted); }
+.hero-dark .badge { background: rgba(255, 255, 255, .04); }
+.hero-dark .btn:not(.primary) { background: rgba(255, 255, 255, .04); }
+.hero-dark .btn:not(.primary):hover { border-color: var(--accent); }
+/* the window shows the admin's dark theme on the dark stage, in either site theme */
+.hero-dark img.shot.only-light { display: none !important; }
+.hero-dark img.shot.only-dark { display: block !important; }
+.hero-dark .hero-visual .window { position: relative; z-index: 1; box-shadow: 0 40px 90px -40px rgba(0, 0, 0, .9), 0 0 0 1px rgba(111, 191, 165, .2); }
+.hero-dark .hero-visual .float-code { z-index: 2; }
+
+/* one file, wired to every part of the backend */
+.hero-net { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.hero-net svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.hn-line { fill: none; stroke: #6fbfa5; stroke-opacity: .6; stroke-width: 1.5; stroke-dasharray: 4 4; vector-effect: non-scaling-stroke; }
+.hn-end { fill: #08110e; stroke: #6fbfa5; stroke-width: 1.6; }
+.hn-pulse { opacity: .95; }
+.hn-chip { position: absolute; z-index: 3; transform: translate(-50%, -50%); padding: 5px 11px; border-radius: 99px; white-space: nowrap;
+  font: 500 12px var(--font-mono); color: #c8f0e1; background: rgba(8, 17, 14, .85); border: 1px solid rgba(111, 191, 165, .45);
+  box-shadow: 0 0 0 4px rgba(111, 191, 165, .08); }
+@media (max-width: 1100px) { .hero-net { display: none; } }
+@media (prefers-reduced-motion: reduce) { .hn-pulse { display: none; } }
+.hero-dark { --accent-ink: #08110e; }
+.hero-dark .btn.primary { color: #08110e; }
+.hero-dark .btn.primary:hover { background: #8fd3bc; }
