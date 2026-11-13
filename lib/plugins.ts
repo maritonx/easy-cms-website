@@ -24,6 +24,8 @@ export type Plugin = {
   features: List
   /** How it goes into easy-cms.config.ts. */
   usage: string
+  /** A second list on the plugin's page, e.g. what the SEO plugin does for AI search. */
+  extra?: { title: T; text: T; items: List; doc: string }
 }
 
 export const PLUGIN_GROUPS: readonly { key: PluginGroup; title: T; text: T }[] = [
@@ -38,12 +40,34 @@ export const PLUGINS: readonly Plugin[] = [
   {
     slug: 'seo', pkg: '@easy-cms/plugin-seo', group: 'content', icon: 'seo', doc: 'seo',
     name: { en: 'SEO', th: 'SEO' },
-    summary: { en: 'Meta fields with length meters and a search preview, sitemaps and structured data.', th: 'field meta พร้อมตัววัดความยาวและตัวอย่างผลค้นหา sitemap และ structured data' },
+    summary: { en: 'Meta fields with a search preview, sitemaps and structured data, and SEO for AI search: llms.txt, crawler rules and IndexNow.', th: 'field meta พร้อมตัวอย่างผลค้นหา sitemap และ structured data รวมถึง SEO สำหรับ AI search: llms.txt, กฎสำหรับ crawler และ IndexNow' },
     features: {
       en: ['A meta title, description and share image on each document, with length meters', 'A preview of the search result as you type', 'Generators that fill the fields from the document', 'A sitemap, robots.txt and JSON-LD structured data', 'Page metadata for Next.js and Nuxt'],
       th: ['meta title, description และรูปสำหรับแชร์ในทุกเอกสาร พร้อมตัววัดความยาว', 'ตัวอย่างผลค้นหาขณะพิมพ์', 'ตัวช่วยเติม field จากเนื้อหาเอกสาร', 'sitemap, robots.txt และ structured data แบบ JSON-LD', 'metadata ของหน้าสำหรับ Next.js และ Nuxt'],
     },
     usage: "seoPlugin({ collections: ['posts'] })",
+    extra: {
+      title: { en: 'SEO for AI search', th: 'SEO สำหรับ AI search' },
+      text: {
+        en: 'ChatGPT, Claude, Perplexity and Google’s AI answers find pages the way search engines do, then read and cite them. The plugin gives them what they need.',
+        th: 'ChatGPT, Claude, Perplexity และคำตอบ AI ของ Google หาหน้าเว็บแบบเดียวกับ search engine แล้วอ่านและอ้างอิง plugin นี้ให้สิ่งที่พวกมันต้องใช้',
+      },
+      items: {
+        en: [
+          'Rules for AI crawlers by kind in robots.txt: let AI search and assistants in, keep training crawlers out, or the other way round',
+          'An llms.txt that lists your pages for AI assistants, with a title and summary',
+          'Markdown versions of your pages, which assistants read more easily than HTML',
+          'IndexNow: Bing, which feeds ChatGPT search, hears about a changed page at once',
+        ],
+        th: [
+          'กฎสำหรับ AI crawler แยกตามประเภทใน robots.txt: ให้ AI search และผู้ช่วยเข้าได้ แต่กัน crawler ที่เก็บข้อมูลไปเทรนโมเดล หรือกลับกัน',
+          'llms.txt ที่บอกรายการหน้าเว็บของคุณให้ผู้ช่วย AI พร้อมชื่อและสรุป',
+          'หน้าเว็บแบบ Markdown ที่ผู้ช่วย AI อ่านได้ง่ายกว่า HTML',
+          'IndexNow: แจ้ง Bing ซึ่งเป็นแหล่งข้อมูลของ ChatGPT search ทันทีที่หน้าเปลี่ยน',
+        ],
+      },
+      doc: 'ai-search',
+    },
   },
   {
     slug: 'redirects', pkg: '@easy-cms/plugin-redirects', group: 'content', icon: 'link', doc: 'redirects',

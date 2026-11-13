@@ -144,6 +144,20 @@ export async function PluginPage({ plugin: p, locale }: { plugin: Plugin; locale
                 <li key={f}>{f}</li>
               ))}
             </ul>
+            {p.extra && (
+              <div className="pl-extra">
+                <h2>{p.extra.title[locale]}</h2>
+                <p>{p.extra.text[locale]}</p>
+                <ul className="pl-features">
+                  {p.extra.items[locale].map((f) => (
+                    <li key={f}>{f}</li>
+                  ))}
+                </ul>
+                <Link className="why-more" href={docHref(p.extra.doc, locale)}>
+                  {p.extra.title[locale]} <ArrowIcon />
+                </Link>
+              </div>
+            )}
             <div className="cta-row" style={{ marginTop: 28 }}>
               <Link className="btn primary" href={docHref(p.doc, locale)}>
                 {t.docs} <ArrowIcon />

@@ -1282,3 +1282,8 @@ a.feature:hover .go, a.feature:focus-visible .go { opacity: 1; transform: none; 
 .pl-spark figcaption { margin-top: 10px; font-size: 13px; color: var(--muted); }
 .pl-spark b { font-family: var(--font-mono); color: var(--fg); }
 @media (max-width: 900px) { .pl-detail { grid-template-columns: minmax(0, 1fr); } .pl-side { position: static; } }
+.pl-extra { margin-top: 36px; padding: 26px; border-radius: 16px; border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line)); background: radial-gradient(80% 90% at 100% 0%, var(--glow), transparent 60%), var(--bg-2); }
+.pl-extra h2 { margin-bottom: 8px; }
+.pl-extra > p { margin: 0 0 18px; color: var(--muted); line-height: 1.6; }
+.pl-extra .pl-features li { background: var(--bg); }
+.pl-extra .why-more { display: inline-flex; margin-top: 16px; }
