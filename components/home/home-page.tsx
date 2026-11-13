@@ -305,7 +305,7 @@ export async function HomePage({ locale }: { locale: Locale }) {
         </div>
       </div>
 
-      <section className="section flush-top" id="code">
+      <section className="section" id="code">
         <div className="wrap">
           <div className="section-head">
             <span className="eyebrow">{t.code.eyebrow}</span>
