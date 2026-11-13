@@ -7,6 +7,7 @@ import { postLanguage } from './posts'
 export type Post = CollectionDocument<typeof config, 'posts'>
 export type Release = CollectionDocument<typeof config, 'releases'>
 export type ShowcaseSite = CollectionDocument<typeof config, 'showcase'>
+export type RoadmapLevel = CollectionDocument<typeof config, 'roadmap-levels'>
 
 export const cms = () => getEasyCMS(config)
 
@@ -73,4 +74,10 @@ export function mediaURL(value: unknown): string | null {
     return value.url
   }
   return null
+}
+
+/** The roadmap's levels, 1 to 6 (the `roadmap-levels` collection). */
+export async function getRoadmapLevels() {
+  const { docs } = await (await cms()).find('roadmap-levels', { sort: 'level', limit: 20 })
+  return docs
 }

@@ -1,25 +1,32 @@
 import Link from 'next/link'
+import { Fragment } from 'react'
 import { jsonLdScript } from '@easy-cms/plugin-seo'
 import { SITE_URL } from '@/easy-cms.config'
-import { getPosts, getSite, type Post } from '@/lib/cms'
+import { getRoadmapLevels, getSite } from '@/lib/cms'
 import { highlight } from '@/lib/highlight'
-import { HOME_COPY, type HomeCopy, type Locale } from '@/lib/home-copy'
-import { GITHUB_URL, NPM_URL, VERSION } from '@/lib/site'
+import { HOME_COPY, type Locale } from '@/lib/home-copy'
+import { npmDownloadsTotal } from '@/lib/npm-downloads'
+import { GITHUB_URL, NPM_URL, SITE_REPO_URL, VERSION } from '@/lib/site'
+import { type Brand, BrandLogo } from '../brand-logo'
+import { CompareMatrix } from '../compare-matrix'
+import { LevelsStrip } from '../levels-strip'
 import { DeployButtons } from '../deploy-buttons'
 import { ArrowIcon, FeatureIcon, GitHubIcon } from '../icons'
-import { PostCard } from '../post-card'
 import { StabilityNote } from '../stability-note'
-import { WhyStrip } from '../why/parts'
-import { AdminShowcase } from './admin-showcase'
+import { AdminSpotlight } from './admin-spotlight'
+import { AiChat } from './ai-chat'
 import { CodeSteps, type CodeStep } from './code-steps'
+import { HeroNet } from './hero-net'
+import { HomeMotion } from './home-motion'
 import { InstallCommand } from './install-command'
+import { RuntimePicker } from './runtime-picker'
 
-/** What Easy CMS is, for search results: free, MIT-licensed developer software for Node.js, Bun, Deno and Cloudflare Workers. */
+/** What Easy CMS is, for search results: free, MIT-licensed developer software. */
 const softwareJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
   name: 'Easy CMS',
-  description: 'The embedded, code-first headless CMS for Nuxt and Next.js.',
+  description: 'The TypeScript backend with an admin built in: data, sign-in, files, jobs and an API from one config file.',
   url: SITE_URL,
   applicationCategory: 'DeveloperApplication',
   operatingSystem: 'Node.js 22.12 or later, Bun, Deno, Cloudflare Workers',
@@ -30,16 +37,11 @@ const softwareJsonLd = {
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
 }
 
-const PLUGIN_NAMES = [
-  ['@easy-cms/plugin-seo', 'seo'],
-  ['@easy-cms/plugin-form-builder', 'forms'],
-  ['@easy-cms/plugin-redirects', 'seo'],
-  ['@easy-cms/plugin-nested-docs', 'pages'],
-  ['@easy-cms/plugin-multi-tenant', '0.44'],
-  ['@easy-cms/plugin-ecommerce', '0.46'],
-  ['@easy-cms/plugin-graphql', '0.43'],
-  ['@easy-cms/plugin-mcp', 'ai'],
-] as const
+const STACK: Brand[] = ['nextjs', 'nuxt', 'nodejs', 'bun', 'deno', 'cloudflareworkers', 'vercel', 'docker', 'postgresql', 'sqlite', 'turso']
+const TESTED: Brand[] = ['nodejs', 'bun', 'deno', 'cloudflareworkers', 'sqlite', 'postgresql']
+const AI_TOOLS: Brand[] = ['claude', 'cursor', 'copilot']
+/** Test cases in the Easy CMS repo's unit, integration and e2e suites, rounded down (Nov 2026). */
+const TESTS = '1,200+'
 
 /** Copy text with `backticks` as code. */
 function Rich({ text }: { text: string }) {
@@ -52,8 +54,25 @@ function Rich({ text }: { text: string }) {
   )
 }
 
+/** Text that may break only at its spaces: Thai would otherwise break inside a phrase. */
+function Phrases({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(' ').map((word, i) => (
+        <Fragment key={i}>
+          {i > 0 && ' '}
+          <span className="nw">{word}</span>
+        </Fragment>
+      ))}
+    </>
+  )
+}
+
 /** The code samples, in English apart from the comments. */
-function samples(c: HomeCopy['code']['comments']) {
+function samples(locale: Locale) {
+  const t = HOME_COPY[locale]
+  const c = t.code.comments
+  const r = t.runtimes.comments
   return {
     config: `
 import { defineConfig } from '@easy-cms/core'
@@ -117,34 +136,79 @@ export default async function Posts() {
   )
 }`,
     hero: `
-const cms = await getEasyCMS(config)
-const { docs } = await cms.find('posts')
+hooks: { beforeChange: [checkSlotIsFree] },
+access: { delete: ({ user }) => user?.role === 'admin' },
+actions: [{ name: 'remind', run: sendReminder }],
 // ${c.hero}`,
+    ai: `
+const staff = ({ user }) => ['admin', 'front-desk'].includes(user?.role)
+
+{ slug: 'bookings',
+  fields: [
+    { name: 'customer', type: 'relationship', to: 'customers' },
+    { name: 'service', type: 'relationship', to: 'services' },
+    { name: 'startsAt', type: 'date', required: true },
+    { name: 'status', type: 'select', options: ['waiting', 'confirmed'] },
+  ],
+  access: {
+    create: staff, update: staff,
+    delete: ({ user }) => user?.role === 'admin',
+  },
+}`,
+    runtimes: {
+      vps: `
+db: sqlite({ url: 'file:./cms.db' }),
+upload: { dir: 'uploads' },
+// ${r.vps}`,
+      vercel: `
+db: postgres({ url: process.env.DATABASE_URL }),
+upload: { storage: vercelBlobStorage() },
+// ${r.vercel}`,
+      workers: `
+db: sqlite({ url: process.env.DATABASE_URL }),
+upload: { storage: s3Storage({ bucket, region: 'auto' }) },
+// ${r.workers}`,
+      docker: `
+db: postgres({ url: process.env.DATABASE_URL }),
+upload: { storage: s3Storage({ bucket: 'media' }) },
+// ${r.docker}`,
+      deno: `
+db: sqlite({ url: 'file:./cms.db' }),
+// ${r.deno}`,
+    } as Record<string, string>,
   }
 }
 
-/** Three posts for the home page: in its language, then English ones while Thai posts are few. */
-async function latestPosts(locale: Locale): Promise<Post[]> {
-  const own = await getPosts(3, locale)
-  if (locale === 'en' || own.length >= 3) return own
-  return [...own, ...(await getPosts(3 - own.length, 'en'))]
+/** The logos on each host's card and the command that runs it there. */
+const RUNTIME_RUN: Record<string, { logos: Brand[]; command: string }> = {
+  vps: { logos: ['nodejs', 'bun', 'sqlite'], command: 'npx easy-cms serve --port 3000' },
+  vercel: { logos: ['nextjs', 'vercel', 'postgresql'], command: 'vercel deploy' },
+  workers: { logos: ['cloudflareworkers', 'turso'], command: 'npx easy-cms build --target workers && npx wrangler deploy' },
+  docker: { logos: ['docker', 'postgresql'], command: 'docker run ghcr.io/maritonx/easy-cms:1' },
+  deno: { logos: ['deno', 'sqlite'], command: 'deno run -A npm:easy-cms serve' },
 }
 
-/** The home page in English (/) or Thai (/th). Reads the latest posts and the announcement. */
+/** The home page in English (/) or Thai (/th). Reads the announcement and the roadmap's levels. */
 export async function HomePage({ locale }: { locale: Locale }) {
   const t = HOME_COPY[locale]
-  const code = samples(t.code.comments)
-  const [posts, site, configHtml, routesHtml, pageHtml, heroHtml] = await Promise.all([
-    latestPosts(locale),
+  const code = samples(locale)
+  const runtimeKeys = t.runtimes.options.map(([key]) => key)
+  const [site, levels, downloads, configHtml, routesHtml, pageHtml, heroHtml, aiHtml, runtimeHtml] = await Promise.all([
     getSite(),
+    getRoadmapLevels(),
+    npmDownloadsTotal(),
     highlight(code.config, 'ts'),
     highlight(code.routes, 'ts'),
     highlight(code.page, 'tsx'),
     highlight(code.hero, 'ts'),
+    highlight(code.ai, 'ts'),
+    Promise.all(runtimeKeys.map((k) => highlight(code.runtimes[k] ?? '', 'ts'))),
   ])
   const announcement = site.announcement
   const docs = (page: string) => `${t.docs}/${page}`
   const shots = locale === 'th' ? 'th' : 'en'
+  // Minor releases since 1.0: 1.46 is the 46th.
+  const releases = Number(VERSION.split('.')[1] ?? 0)
 
   const files = ['easy-cms.config.ts', 'app/admin/[[...path]]/route.ts', 'app/posts/page.tsx']
   const html = [configHtml, routesHtml, pageHtml]
@@ -159,7 +223,8 @@ export async function HomePage({ locale }: { locale: Locale }) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(softwareJsonLd) }} />
-      <section className="hero">
+      <HomeMotion />
+      <section className="hero hero-dark spot-band">
         <div className="wrap">
           <div className="hero-copy">
             {announcement?.label && (
@@ -169,7 +234,7 @@ export async function HomePage({ locale }: { locale: Locale }) {
               </Link>
             )}
             <h1>
-              <span>{t.hero.title}</span> <em>{t.hero.accent}</em>
+              <span><Phrases text={t.hero.title} /></span> <em><Phrases text={t.hero.accent} /></em>
             </h1>
             <p className="lede">
               <Rich text={t.hero.lede} />
@@ -183,89 +248,49 @@ export async function HomePage({ locale }: { locale: Locale }) {
                 <GitHubIcon /> {t.hero.star}
               </a>
             </div>
-            <DeployButtons locale={locale} from={`home-hero-${locale}`} compact />
             <div className="hero-meta">
               {t.hero.meta.map((m) => <span key={m}>{m}</span>)}
             </div>
           </div>
           <div className="hero-visual">
+            <HeroNet />
             <div className="window">
               <div className="window-bar">
                 <div className="dots"><i /><i /><i /></div>
                 <div className="url">localhost:3000<b>/admin</b></div>
               </div>
               {/* eslint-disable @next/next/no-img-element -- static screenshots, one per theme */}
-              <img className="shot only-dark" src={`/screenshots/dashboard-${shots}-dark.webp`} alt={t.admin.alts[0]} fetchPriority="high" />
-              <img className="shot only-light" src={`/screenshots/dashboard-${shots}-light.webp`} alt={t.admin.alts[0]} />
+              <img className="shot only-dark" src={`/screenshots/dashboard-${shots}-dark.webp`} alt={t.admin.title} fetchPriority="high" />
+              <img className="shot only-light" src={`/screenshots/dashboard-${shots}-light.webp`} alt={t.admin.title} />
               {/* eslint-enable @next/next/no-img-element */}
             </div>
-            <div className="float-code">
-              <div className="fname"><span>app/page.tsx</span><span>Server Component</span></div>
-              <div dangerouslySetInnerHTML={{ __html: heroHtml }} />
+            <div className="float-code" data-type-lines>
+              <div className="fname"><span>easy-cms.config.ts</span><span>collection: bookings</span></div>
+              <div className="typing" dangerouslySetInnerHTML={{ __html: heroHtml }} />
             </div>
           </div>
         </div>
       </section>
 
-      <div className="stack">
+      <div className="stack stack-logos">
         <div className="wrap">
-          <span className="label">{t.stackLabel}</span>
+          <span className="label">{t.stack.label}</span>
           <ul>
-            <li>Next.js <small>15+</small></li>
-            <li>Nuxt</li>
-            <li>PostgreSQL</li>
-            <li>SQLite <small>· Turso</small></li>
-            <li>PGlite</li>
-            <li>S3 <small>· R2 · MinIO</small></li>
-            <li>Vercel <small>· Netlify · Cloudflare Workers</small></li>
+            {STACK.map((b) => <li key={b}><BrandLogo name={b} label /></li>)}
           </ul>
+          <dl className="proof">
+            {downloads !== null && (
+              <div><dt>{t.stack.downloads}</dt><dd>{downloads.toLocaleString('en-US')}</dd></div>
+            )}
+            <div><dt>{t.stack.releases}</dt><dd>{releases}</dd></div>
+            <div><dt>{t.stack.tests}</dt><dd>{TESTS}</dd></div>
+            <div><dt>{t.stack.paywall}</dt><dd>0</dd></div>
+          </dl>
+          <a className="proof-link" href={SITE_REPO_URL}>{t.stack.source} <ArrowIcon /></a>
         </div>
       </div>
 
-      <WhyStrip locale={locale} />
-
-      <section className="section" id="why">
-        <div className="wrap">
-          <div className="section-head">
-            <span className="eyebrow">{t.why.eyebrow}</span>
-            <h2>{t.why.title}</h2>
-            <p>{t.why.text}</p>
-          </div>
-          <div className="compare">
-            <div className="arch">
-              <div><div className="tag">{t.why.hosted.tag}</div><h3>{t.why.hosted.title}</h3></div>
-              <div className="diagram">
-                <div className="node"><b>{t.why.hosted.app}</b><div className="chips"><span className="chip">pages</span><span className="chip">fetch()</span></div></div>
-                <div className="link-line">{t.why.hosted.link}</div>
-                <div className="split-row">
-                  <div className="node"><b>{t.why.hosted.service}</b><span>{t.why.hosted.serviceNote}</span></div>
-                  <div className="node"><b>{t.why.hosted.db}</b><span>{t.why.hosted.dbNote}</span></div>
-                </div>
-              </div>
-              <ul>
-                {t.why.hosted.points.map((p) => <li key={p}>{p}</li>)}
-              </ul>
-            </div>
-            <div className="arch is-ours">
-              <div><div className="tag">Easy CMS</div><h3>{t.why.ours.title}</h3></div>
-              <div className="diagram">
-                <div className="node solid">
-                  <b>{t.why.ours.app}</b>
-                  <div className="chips"><span className="chip">pages → getEasyCMS()</span><span className="chip">/admin</span><span className="chip">/api/cms</span></div>
-                  <div className="chips"><span className="chip">@easy-cms/next</span><span className="chip">@easy-cms/core</span></div>
-                </div>
-                <div className="link-line">{t.why.ours.link}</div>
-                <div className="node solid"><b>{t.why.ours.db}</b><span><Rich text={t.why.ours.dbNote} /></span></div>
-              </div>
-              <ul>
-                {t.why.ours.points.map((p) => <li key={p}><Rich text={p} /></li>)}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section flush-top" id="code">
+      <section className="section" id="code">
         <div className="wrap">
           <div className="section-head">
             <span className="eyebrow">{t.code.eyebrow}</span>
@@ -276,33 +301,121 @@ export async function HomePage({ locale }: { locale: Locale }) {
         </div>
       </section>
 
+      <section className="section spot-band" id="admin">
+        <div className="wrap">
+          <div className="section-head">
+            <span className="eyebrow">{t.admin.eyebrow}</span>
+            <h2>{t.admin.title} <em className="accent">{t.admin.accent}</em></h2>
+            <p>{t.admin.text}</p>
+          </div>
+          <AdminSpotlight
+            items={t.admin.items}
+            lang={shots}
+            labels={{ list: t.admin.eyebrow, language: t.admin.language, larger: t.admin.larger, close: t.admin.close }}
+          />
+        </div>
+      </section>
+
+      <section className="section" id="runtimes">
+        <div className="wrap">
+          <div className="section-head">
+            <span className="eyebrow">{t.runtimes.eyebrow}</span>
+            <h2>{t.runtimes.title}</h2>
+            <p>{t.runtimes.text}</p>
+          </div>
+          <RuntimePicker
+            label={t.runtimes.eyebrow}
+            guide={t.runtimes.guide}
+            options={t.runtimes.options.map(([key, title, uses, page], i) => ({
+              key,
+              title,
+              uses,
+              logos: RUNTIME_RUN[key]?.logos ?? [],
+              html: runtimeHtml[i] ?? '',
+              command: RUNTIME_RUN[key]?.command ?? '',
+              guide: docs(page),
+            }))}
+          />
+          <div className="tested">
+            <b>{t.runtimes.tested}</b>
+            <div className="tested-logos">
+              {TESTED.map((b) => <BrandLogo key={b} name={b} label />)}
+            </div>
+            <span>{t.runtimes.testedMore}</span>
+          </div>
+        </div>
+      </section>
+
       <section className="section flush-top" id="features">
         <div className="wrap">
           <div className="section-head">
-            <span className="eyebrow">{t.features.eyebrow}</span>
-            <h2>{t.features.title}</h2>
+            <span className="eyebrow">{t.backend.eyebrow}</span>
+            <h2>{t.backend.title}</h2>
+            <p>{t.backend.text}</p>
           </div>
-          <div className="features">
-            {t.features.items.map(([icon, title, text]) => (
-              <div className="feature" key={title}>
-                <FeatureIcon name={icon} />
-                <h3>{title}</h3>
-                <p>{text}</p>
+          <div className="feat-groups">
+            {t.backend.groups.map(([group, sub, items]) => (
+              <div className="feat-group" key={group}>
+                <div className="feat-label">
+                  <h3>{group}</h3>
+                  <p>{sub}</p>
+                </div>
+                <div className="features">
+                  {items.map(([icon, title, text, page]) => (
+                    <Link className="feature" href={docs(page)} key={title}>
+                      <FeatureIcon name={icon} />
+                      <h4>{title}</h4>
+                      <p><Rich text={text} /></p>
+                      <span className="go" aria-hidden="true"><ArrowIcon /></span>
+                    </Link>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section flush-top" id="performance">
+      <section className="section flush-top" id="compare">
         <div className="wrap">
           <div className="section-head">
-            <span className="eyebrow">{t.performance.eyebrow}</span>
-            <h2>{t.performance.title}</h2>
-            <p>{t.performance.text}</p>
+            <span className="eyebrow">{t.compare.eyebrow}</span>
+            <h2>{t.compare.title} <em className="accent">{t.compare.accent}</em></h2>
+            <p>{t.compare.text}</p>
+          </div>
+          <CompareMatrix locale={locale} />
+        </div>
+      </section>
+
+      <section className="section flush-top" id="ai">
+        <div className="wrap ai-split">
+          <div className="section-head">
+            <span className="eyebrow">{t.ai.eyebrow}</span>
+            <h2>{t.ai.title}</h2>
+            <p><Rich text={t.ai.text} /></p>
+            <div className="works-with">
+              <span>{t.ai.worksWith}</span>
+              {AI_TOOLS.map((b) => <BrandLogo key={b} name={b} label />)}
+            </div>
+            <div className="cta-row">
+              <a className="btn" href="/llms.txt">{t.ai.open} <ArrowIcon /></a>
+            </div>
+          </div>
+          <AiChat prompt={t.ai.prompt} html={aiHtml} labels={{ you: t.ai.you, added: t.ai.added, replay: t.ai.replay }} />
+        </div>
+      </section>
+
+      <LevelsStrip locale={locale} levels={levels} />
+
+      <section className="section band-tint" id="performance">
+        <div className="wrap">
+          <div className="section-head">
+            <span className="eyebrow">{t.proven.eyebrow}</span>
+            <h2>{t.proven.title}</h2>
+            <p>{t.proven.text}</p>
           </div>
           <dl className="perf-stats">
-            {t.performance.stats.map(([value, unit, label]) => (
+            {t.proven.stats.map(([value, unit, label]) => (
               <div className="perf-stat" key={label}>
                 <dt>{label}</dt>
                 <dd>
@@ -312,76 +425,41 @@ export async function HomePage({ locale }: { locale: Locale }) {
               </div>
             ))}
           </dl>
-          <p className="perf-setup">{t.performance.setup}</p>
-          <p className="perf-limits"><Rich text={t.performance.limits} /></p>
-          <div className="cta-row" style={{ marginTop: 20 }}>
-            <Link className="btn" href={docs(t.performance.page)}>
-              {t.performance.link} <ArrowIcon />
-            </Link>
+          <p className="perf-setup">{t.proven.setup}</p>
+          <p className="perf-limits">
+            <Rich text={t.proven.limits} /> <Link href={docs(t.proven.page)}>{t.proven.link}</Link>
+          </p>
+          <div style={{ marginTop: 40 }}>
+            <StabilityNote locale={locale} />
           </div>
         </div>
       </section>
 
-      <section className="section flush-top" id="plugins">
-        <div className="wrap plugins-grid">
+      <section className="section" id="faq">
+        <div className="wrap faq-split">
           <div className="section-head">
-            <span className="eyebrow">{t.plugins.eyebrow}</span>
-            <h2><Rich text={t.plugins.title} /></h2>
-            <p>{t.plugins.text}</p>
-            <div className="cta-row" style={{ marginTop: 8 }}>
-              <Link className="btn" href={docs('plugins')}>{t.plugins.browse} <ArrowIcon /></Link>
-            </div>
+            <span className="eyebrow">{t.faq.eyebrow}</span>
+            <h2>{t.faq.title}</h2>
+            <p>
+              {t.faq.text} <a href={`${GITHUB_URL}/discussions`}>{t.faq.ask}</a>.
+            </p>
           </div>
-          <div className="plugin-list">
-            {PLUGIN_NAMES.map(([name, since], i) => (
-              <div className="plugin" key={name}>
-                <code>{name}</code>
-                <p>{t.plugins.items[i]}</p>
-                <span className="since">{since}</span>
-              </div>
+          <div className="faq">
+            {t.faq.items.map(([q, a]) => (
+              <details key={q}>
+                <summary>
+                  {q}
+                  <span className="plus" aria-hidden="true" />
+                </summary>
+                <p><Rich text={a} /></p>
+              </details>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section showcase-band" id="admin">
-        <div className="wrap">
-          <div className="section-head">
-            <span className="eyebrow">{t.admin.eyebrow}</span>
-            <h2>{t.admin.title}</h2>
-            <p>{t.admin.text}</p>
-          </div>
-          <AdminShowcase labels={t.admin.tabs} alts={t.admin.alts} lang={shots} />
-          <div className="lang-note">
-            <span>{t.admin.note}</span>
-            <span>· admin.locale: &apos;en&apos; | &apos;th&apos;</span>
-          </div>
-        </div>
-      </section>
-
-      <section className="section" id="blog">
-        <div className="wrap">
-          <div className="row-head">
-            <div className="section-head">
-              <span className="eyebrow">{t.blog.eyebrow}</span>
-              <h2>{t.blog.title}</h2>
-              {t.blog.note && <p>{t.blog.note}</p>}
-            </div>
-            <Link className="btn" href={locale === 'th' ? '/th/blog' : '/blog'}>{t.blog.all} <ArrowIcon /></Link>
-          </div>
-          {posts.length > 0 ? (
-            <div className="post-grid">
-              {posts.map((post) => <PostCard key={post.id} post={post} />)}
-            </div>
-          ) : (
-            <p className="empty"><Rich text={t.blog.empty} /></p>
-          )}
-        </div>
-      </section>
-
       <section className="section flush-top">
         <div className="wrap">
-          <StabilityNote locale={locale} />
           <div className="final-box">
             <div>
               <h2>{t.final.title}</h2>

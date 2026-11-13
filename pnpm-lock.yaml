@@ -29,6 +29,9 @@ importers:
       '@easy-cms/plugin-email':
         specifier: 1.46.0
         version: 1.46.0(@easy-cms/core@1.46.0(sharp@0.35.5(@types/node@20.19.43)))
+      '@easy-cms/plugin-form-builder':
+        specifier: 1.46.0
+        version: 1.46.0(@easy-cms/core@1.46.0(sharp@0.35.5(@types/node@20.19.43)))
       '@easy-cms/plugin-notify':
         specifier: 1.46.0
         version: 1.46.0(@easy-cms/core@1.46.0(sharp@0.35.5(@types/node@20.19.43)))
@@ -249,6 +252,12 @@ packages:
 
   '@easy-cms/plugin-email@1.46.0':
     resolution: {integrity: sha512-XtRUs6RbtIVXZIRB6XX5Zu1v2vnMF+VyYHyJfQzbFjEFL7GhxeaqY5CyCRBGulSVlHNnq0DhYn++7pQoMQnhkA==}
+    engines: {node: '>=22.12'}
+    peerDependencies:
+      '@easy-cms/core': ^1.46.0
+
+  '@easy-cms/plugin-form-builder@1.46.0':
+    resolution: {integrity: sha512-aNni+wXvv4dQlW0mLuZFjzrpy2bZJ+O2L7WUFwGk1yFOwI2p7ehazqW6+phd4cmjlZSOMDQyu2I90l2JAOd1Hg==}
     engines: {node: '>=22.12'}
     peerDependencies:
       '@easy-cms/core': ^1.46.0
@@ -3429,6 +3438,11 @@ snapshots:
   '@easy-cms/plugin-email@1.46.0(@easy-cms/core@1.46.0(sharp@0.35.5(@types/node@20.19.43)))':
     dependencies:
       '@easy-cms/core': 1.46.0(sharp@0.35.5(@types/node@20.19.43))
+
+  '@easy-cms/plugin-form-builder@1.46.0(@easy-cms/core@1.46.0(sharp@0.35.5(@types/node@20.19.43)))':
+    dependencies:
+      '@easy-cms/core': 1.46.0(sharp@0.35.5(@types/node@20.19.43))
+      '@easy-cms/richtext': 1.46.0
 
   '@easy-cms/plugin-notify@1.46.0(@easy-cms/core@1.46.0(sharp@0.35.5(@types/node@20.19.43)))':
     dependencies:

@@ -4,7 +4,7 @@ import { docHref, type Locale, type Persona, WHY_UI, whyHref } from '@/lib/why/c
 import { ArrowIcon } from '../icons'
 import { StabilityNote } from '../stability-note'
 import { WhyJsonLd } from './json-ld'
-import { HonestNote, PersonaCards, WhyCta } from './parts'
+import { PersonaCards, WhyCta } from './parts'
 
 /** The developer page's sample: the content model, and a page reading it with types. */
 const CODE = `
@@ -111,7 +111,6 @@ export async function PersonaPage({ persona, locale }: { persona: Persona; local
                 <li key={item}>{item}</li>
               ))}
             </ul>
-            <HonestNote locale={locale} />
           </div>
         </div>
       </section>

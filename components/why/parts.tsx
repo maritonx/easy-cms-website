@@ -75,42 +75,6 @@ export function CompareTable({ products, locale }: { products: readonly Product[
   )
 }
 
-/** A strip on the home page: who Easy CMS is for, and the comparisons. */
-export function WhyStrip({ locale }: { locale: Locale }) {
-  const t = WHY_UI[locale]
-  return (
-    <div className="why-strip">
-      <div className="wrap">
-        <div>
-          <span className="label">{t.forTitle}</span>
-          <ul>
-            {PERSONAS.map((p) => (
-              <li key={p.slug}>
-                <Link href={whyHref(p.slug, locale)}>{p[locale].menu.label}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <span className="label">{t.compareTitle}</span>
-          <ul>
-            {COMPETITORS.map((c) => (
-              <li key={c.slug}>
-                <Link href={whyHref(`compare/${c.slug}`, locale)}>{c.name}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-/** The note the comparisons and "When it isn't a fit" carry: Easy CMS is young. */
-export function HonestNote({ locale }: { locale: Locale }) {
-  return <p className="why-honest">{WHY_UI[locale].honest}</p>
-}
-
 /**
  * The closing call to action: the create command to copy, a starter to deploy, the demo once it
  * is up, and where to ask. `from` names the page for the analytics events.

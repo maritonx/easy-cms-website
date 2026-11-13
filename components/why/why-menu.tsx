@@ -49,6 +49,10 @@ export function WhyMenu({ locale, pathname }: { locale: Locale; pathname: string
         </svg>
       </button>
       <div className="why-panel" id={id} hidden={!open}>
+        <Link className="why-panel-lead" href={whyHref('', locale)} onClick={close}>
+          <b>{t.lead}</b>
+          <span>{t.leadHint}</span>
+        </Link>
         <div>
           <p className="why-panel-title">{t.forTitle}</p>
           <ul>

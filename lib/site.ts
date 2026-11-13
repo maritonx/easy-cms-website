@@ -30,14 +30,16 @@ export const UMAMI = {
 export const NAV = {
   en: [
     { href: '/docs', label: 'Docs' },
+    { href: '/plugins', label: 'Plugins' },
+    { href: '/roadmap', label: 'Roadmap' },
     { href: '/blog', label: 'Blog' },
-    { href: '/showcase', label: 'Showcase' },
     { href: '/changelog', label: 'Changelog' },
   ],
   th: [
     { href: '/th/docs', label: 'เอกสาร' },
+    { href: '/th/plugins', label: 'Plugin' },
+    { href: '/th/roadmap', label: 'Roadmap' },
     { href: '/th/blog', label: 'บล็อก' },
-    { href: '/showcase', label: 'ผลงาน' },
     { href: '/changelog', label: 'Changelog' },
   ],
 } as const
@@ -46,10 +48,11 @@ export const NAV = {
 export const localeOf = (pathname: string) => (pathname === '/th' || pathname.startsWith('/th/') ? 'th' : 'en')
 
 /** English pages that have a Thai version at /th plus the same path. */
-const BILINGUAL = /^\/(docs|why)(\/|$)|^\/blog$/
+const BILINGUAL = /^\/(docs|why|plugins)(\/|$)|^\/(blog|roadmap)$/
 
 /**
- * The same page in the other language: the home page, the docs, the Why pages and the blog exist in both;
+ * The same page in the other language: the home page, the docs, the Why pages, the plugins, the
+ * roadmap and the blog exist in both;
  * any other English page switches to the Thai home page.
  */
 export function otherLanguagePath(pathname: string) {

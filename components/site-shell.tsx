@@ -3,6 +3,7 @@ import { jsonLdScript, siteJsonLd } from '@easy-cms/plugin-seo'
 import { Bricolage_Grotesque, Geist, Geist_Mono, IBM_Plex_Sans_Thai } from 'next/font/google'
 import { SITE_URL } from '@/easy-cms.config'
 import { GITHUB_URL, UMAMI } from '@/lib/site'
+import { ContactWidget } from './contact-widget'
 import { SiteFooter } from './site-footer'
 import { SiteHeader } from './site-header'
 import { themeScript } from './theme-toggle'
@@ -18,11 +19,11 @@ const thai = IBM_Plex_Sans_Thai({ variable: '--font-thai', subsets: ['thai'], we
 export const siteMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Easy CMS: the embedded headless CMS for Next.js and Nuxt',
+    default: 'Easy CMS: one TypeScript file, a whole backend',
     template: '%s · Easy CMS',
   },
   description:
-    'Easy CMS runs inside your Next.js or Nuxt app. Define content in TypeScript and get an admin, a typed API and REST on one deployment and your own database.',
+    'Define data, access and logic in one TypeScript config. Easy CMS gives you a database, a typed API and REST, sign-in, files, jobs and an admin your clients can use. MIT licensed.',
   icons: { icon: '/logo.svg' },
   openGraph: {
     siteName: 'Easy CMS',
@@ -61,6 +62,7 @@ export function SiteShell({ lang, children }: { lang: 'en' | 'th'; children: Rea
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter lang={lang} />
+        <ContactWidget />
       </body>
     </html>
   )

@@ -3,6 +3,7 @@ import { sitemap } from '@easy-cms/plugin-seo'
 import { SITE_URL } from '@/easy-cms.config'
 import { cms } from '@/lib/cms'
 import { ALL_DOCS, hrefFor } from '@/lib/docs/sidebar'
+import { PLUGINS } from '@/lib/plugins'
 import { WHY_RESTS, whyHref } from '@/lib/why/copy'
 
 export const dynamic = 'force-dynamic'
@@ -16,6 +17,17 @@ export default async function Sitemap(): Promise<MetadataRoute.Sitemap> {
     ...[`${SITE_URL}/blog`, `${SITE_URL}/th/blog`].map((url) => ({
       url,
       alternates: { languages: { en: `${SITE_URL}/blog`, th: `${SITE_URL}/th/blog` } },
+    })),
+    ...['', ...PLUGINS.map((p) => `/${p.slug}`)].flatMap((rest) => {
+      const languages = { en: `${SITE_URL}/plugins${rest}`, th: `${SITE_URL}/th/plugins${rest}` }
+      return [
+        { url: languages.en, alternates: { languages } },
+        { url: languages.th, alternates: { languages } },
+      ]
+    }),
+    ...[`${SITE_URL}/roadmap`, `${SITE_URL}/th/roadmap`].map((url) => ({
+      url,
+      alternates: { languages: { en: `${SITE_URL}/roadmap`, th: `${SITE_URL}/th/roadmap` } },
     })),
     ...['/changelog', '/showcase', '/privacy', '/th/privacy'].map((p) => ({ url: `${SITE_URL}${p}` })),
   ]

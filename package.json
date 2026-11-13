@@ -23,6 +23,7 @@
     "@easy-cms/plugin-ai": "1.46.0",
     "@easy-cms/plugin-backups": "1.46.0",
     "@easy-cms/plugin-email": "1.46.0",
+    "@easy-cms/plugin-form-builder": "1.46.0",
     "@easy-cms/plugin-notify": "1.46.0",
     "@easy-cms/plugin-seo": "1.46.0",
     "@easy-cms/plugin-social": "1.46.0",

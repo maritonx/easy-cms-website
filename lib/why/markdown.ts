@@ -67,7 +67,6 @@ function overview(locale: Locale) {
     '',
     ...COMPETITORS.map((c) => `- [${ui.vs(c.name)}](${md(`compare/${c.slug}`, locale)}): ${c.summary[locale]}`),
     '',
-    ui.honest,
   ]
 }
 
@@ -92,7 +91,6 @@ function personaPage(slug: string, locale: Locale) {
     '',
     ...list(t.notFit),
     '',
-    ui.honest,
   ]
 }
 
@@ -106,8 +104,6 @@ function compareOverview(locale: Locale) {
     ...table([EASY_CMS, ...COMPETITORS], locale),
     '',
     ...COMPETITORS.map((c) => `- [${ui.vs(c.name)}](${md(`compare/${c.slug}`, locale)}): ${c.summary[locale]}`),
-    '',
-    ui.honest,
     '',
     ...sources(COMPETITORS, locale),
   ]
@@ -130,8 +126,6 @@ function comparePage(slug: string, locale: Locale) {
     ...list(c.chooseThem[locale]),
     '',
     ...(c.moveGuide ? [`${c.moveGuide.text[locale]} ${abs(docHref(c.moveGuide.doc, locale))}`, ''] : []),
-    ui.honest,
-    '',
     ...sources([c], locale),
   ]
 }
