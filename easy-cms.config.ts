@@ -4,6 +4,7 @@ import { sqlite } from '@easy-cms/db-sqlite'
 import { aiPlugin } from '@easy-cms/plugin-ai'
 import { backupsPlugin } from '@easy-cms/plugin-backups'
 import { emailPlugin } from '@easy-cms/plugin-email'
+import { formBuilderPlugin } from '@easy-cms/plugin-form-builder'
 import { notifyPlugin } from '@easy-cms/plugin-notify'
 import { seoPlugin } from '@easy-cms/plugin-seo'
 import { socialPlugin } from '@easy-cms/plugin-social'
@@ -230,7 +231,16 @@ export default defineConfig({
       llms: false,
       indexNow: { key: INDEXNOW_KEY },
     }),
-    // Telegram messages to admins when something fails (Settings → Integrations).
+    // The contact form behind the button in the corner (components/contact-widget.tsx), seeded
+    // as the "contact" form. Cloudflare Turnstile joins the built-in bot checks once
+    // TURNSTILE_SITE_KEY and TURNSTILE_SECRET_KEY are set; submissions are deleted after a year.
+    formBuilderPlugin({
+      retentionDays: 365,
+      ...(process.env.TURNSTILE_SITE_KEY && process.env.TURNSTILE_SECRET_KEY
+        ? { turnstile: { siteKey: process.env.TURNSTILE_SITE_KEY, secretKey: process.env.TURNSTILE_SECRET_KEY } }
+        : {}),
+    }),
+    // Telegram messages to admins when a form is sent or something fails (Settings → Integrations).
     notifyPlugin(),
     // AI providers for the admin's AI features (Settings → Integrations, AI).
     aiPlugin(),

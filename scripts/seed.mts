@@ -1217,6 +1217,48 @@ if (!reset) {
   console.log(`roadmap: ${missing.length ? `levels ${missing.map((l) => l.level).join(', ')} added` : 'up to date'}`)
 }
 
+// The contact form behind the button in the corner (components/contact-widget.tsx). Created when
+// missing; editors may change the emails and texts in the admin, but not the field names or the
+// kind values, which the button sends.
+{
+  const { docs } = await cms.find('forms', { where: { slug: { equals: 'contact' } }, limit: 1, draft: true })
+  if (docs.length > 0) {
+    console.log('forms: contact is there')
+  } else {
+    await cms.create('forms', {
+      title: 'Contact',
+      slug: 'contact',
+      status: 'published',
+      submitLabel: 'Send',
+      fields: [
+        {
+          blockType: 'select',
+          name: 'kind',
+          label: 'Type',
+          required: true,
+          width: 'full',
+          display: 'dropdown',
+          options: [
+            { label: 'A question about using Easy CMS', value: 'usage' },
+            { label: 'A project or business enquiry', value: 'project' },
+            { label: 'A problem or bug', value: 'bug' },
+            { label: 'A feature request', value: 'feature' },
+            { label: 'Something else', value: 'other' },
+          ],
+        },
+        { blockType: 'textarea', name: 'message', label: 'Question', required: true, width: 'full' },
+        { blockType: 'email', name: 'email', label: 'Email', required: true, width: 'half' },
+        { blockType: 'text', name: 'name', label: 'Name', required: false, width: 'half' },
+      ],
+      confirmationType: 'message',
+      confirmationMessage: richText('Thanks, we got your message. We will reply by email.'),
+      // "To" is left for an admin to fill in (Content → Forms → Contact → Emails).
+      emails: [{ to: '', replyTo: '{{email}}', subject: 'Easy CMS contact: {{kind}}', message: richText('{{*}}') }],
+    } as never)
+    console.log('forms: contact added (set its email recipient in the admin)')
+  }
+}
+
 await cms.updateGlobal('site', {
   siteName: 'Easy CMS',
   announcement: {

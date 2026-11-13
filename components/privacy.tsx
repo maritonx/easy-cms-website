@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { GITHUB_URL } from '@/lib/site'
 
-const UPDATED = { en: '10 November 2026', th: '10 พฤศจิกายน 2569' }
+const UPDATED = { en: '13 November 2026', th: '13 พฤศจิกายน 2569' }
 
 /** The privacy policy of easycms.dev: what the site and its admin keep, and why. */
 export function Privacy({ locale }: { locale: 'en' | 'th' }) {
@@ -20,7 +20,12 @@ export function Privacy({ locale }: { locale: 'en' | 'th' }) {
           </p>
           <h2>ผู้เยี่ยมชม</h2>
           <ul>
-            <li>ไม่มีบัญชีผู้ใช้ ฟอร์ม หรือการสมัครรับข่าวสารสำหรับผู้เยี่ยมชม</li>
+            <li>ไม่มีบัญชีผู้ใช้หรือการสมัครรับข่าวสารสำหรับผู้เยี่ยมชม</li>
+            <li>
+              ฟอร์มติดต่อ (ปุ่มมุมขวาล่าง) เก็บประเภท คำถาม อีเมล ชื่อถ้ากรอก และหน้าที่ส่งมา เพื่อตอบกลับเท่านั้น
+              ไม่เก็บ IP address ลบข้อความเองหลัง 365 วัน ผู้ดูแลได้รับแจ้งทางอีเมลและ Telegram (บอกว่าใครส่ง
+              ไม่บอกคำถาม) และถ้าเปิด Cloudflare Turnstile ไว้ Cloudflare จะตรวจว่าผู้ส่งไม่ใช่บอท
+            </li>
             <li>
               นับจำนวนผู้เข้าชมด้วย Umami Cloud ซึ่งไม่ใช้คุกกี้และไม่เก็บข้อมูลที่ระบุตัวบุคคล เช่น หน้าที่เปิด
               เว็บที่ส่งต่อมา ประเทศ และประเภทอุปกรณ์
@@ -82,7 +87,13 @@ export function Privacy({ locale }: { locale: 'en' | 'th' }) {
         </p>
         <h2>Visitors</h2>
         <ul>
-          <li>There are no visitor accounts, forms or newsletters.</li>
+          <li>There are no visitor accounts or newsletters.</li>
+          <li>
+            The contact form (the button in the bottom-right corner) keeps the type, the question, your email,
+            your name if you give it and the page you sent it from, only to reply. It keeps no IP address, and
+            messages are deleted after 365 days. Maintainers are told by email and Telegram (who sent it, not the
+            question), and when Cloudflare Turnstile is on, Cloudflare checks that the sender isn’t a bot.
+          </li>
           <li>
             Visits are counted with Umami Cloud, which uses no cookies and keeps nothing that identifies
             you: the pages opened, the referring site, the country and the kind of device.

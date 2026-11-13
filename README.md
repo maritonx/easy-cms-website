@@ -74,6 +74,7 @@ the migration and the code, and check it locally against `cms.db` (`pnpm dev`).
    | `DATABASE_AUTH_TOKEN` | the Turso token |
    | `SITE_URL` | the deployment's address |
    | `DOCS_REF` | `main`, until an Easy CMS release includes `website/sidebar.json` |
+   | `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` | optional: Cloudflare Turnstile on the contact form (without them, the form builder's own bot checks still apply) |
 
 3. Put `DATABASE_URL` and `DATABASE_AUTH_TOKEN` in `.env.turso` (not committed), then fill the
    database once from your machine with `pnpm seed:turso`. `pnpm migrate:turso` runs pending

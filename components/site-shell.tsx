@@ -3,6 +3,7 @@ import { jsonLdScript, siteJsonLd } from '@easy-cms/plugin-seo'
 import { Bricolage_Grotesque, Geist, Geist_Mono, IBM_Plex_Sans_Thai } from 'next/font/google'
 import { SITE_URL } from '@/easy-cms.config'
 import { GITHUB_URL, UMAMI } from '@/lib/site'
+import { ContactWidget } from './contact-widget'
 import { SiteFooter } from './site-footer'
 import { SiteHeader } from './site-header'
 import { themeScript } from './theme-toggle'
@@ -61,6 +62,7 @@ export function SiteShell({ lang, children }: { lang: 'en' | 'th'; children: Rea
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter lang={lang} />
+        <ContactWidget />
       </body>
     </html>
   )
