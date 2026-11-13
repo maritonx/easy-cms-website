@@ -1,5 +1,41 @@
 [
   {
+    "version": "1.45.0",
+    "title": "Deploy to Cloudflare Workers",
+    "date": "2026-11-13",
+    "kind": "minor",
+    "summary": "`easy-cms build --target workers` turns the standalone server, admin and REST API, into a Cloudflare Worker that `wrangler deploy` sends to the edge.",
+    "changes": [
+      "The build writes the Worker and the admin app to `.easy-cms/workers/`, and a `wrangler.jsonc` with `nodejs_compat`, the admin's assets and Cron Triggers every minute for scheduled jobs.",
+      "On Workers, content lives in Turso and uploads in R2 (or any S3 storage). Images aren't resized there.",
+      "Every pull request now deploys a new project as a Worker in `wrangler dev` and signs in, uploads, edits posts and runs the Cron Trigger.",
+      "A new guide: Deploy on Cloudflare Workers."
+    ],
+    "packages": [
+      "easy-cms",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.44.0",
+    "title": "Ready for more runtimes",
+    "date": "2026-11-13",
+    "kind": "minor",
+    "summary": "Passwords use lighter scrypt settings that are as strong by OWASP's measure, and the core moves toward running on Bun, Deno and Cloudflare Workers.",
+    "changes": [
+      "Passwords are hashed with scrypt N=2^15, r=8, p=3 (32 MB of memory instead of 128 MB). Older hashes still verify and are replaced at the next sign-in.",
+      "Bun and Deno run the CLI and the standalone server, checked on every pull request.",
+      "In production, a database whose last migration matches the config starts without the migration files on disk.",
+      "On Cloudflare Workers the visitor's IP comes from `CF-Connecting-IP`."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/drizzle"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.43.1",
     "title": "Two CLI commands that run",
     "date": "2026-11-12",
