@@ -51,7 +51,7 @@ export const PERSONAS: readonly Persona[] = [
       },
       pointsTitle: 'How Easy CMS helps',
       points: [
-        { title: 'One deployment', body: 'Route handlers in Next.js or a module in Nuxt mount the admin and the API inside your app. Other frontends use the standalone server.', doc: 'what-is-easy-cms' },
+        { title: 'One deployment', body: 'Route handlers in Next.js or a module in Nuxt mount the admin and the API inside your app. Other frontends use the standalone server, edge-ready: it runs on Node.js, Bun, Deno and Cloudflare Workers.', doc: 'what-is-easy-cms' },
         { title: 'Content model in TypeScript', body: 'Collections, fields, access rules and hooks live in easy-cms.config.ts, reviewed in pull requests like any other code.', doc: 'configuration' },
         { title: 'A typed Local API', body: 'Server code calls cms.find() with types generated from your config. No HTTP round trip, no hand-written types.', doc: 'local-api' },
         { title: 'Your database, real tables', body: 'SQLite (a file or Turso) or Postgres. Documents are rows and columns you can still query with SQL.', doc: 'databases' },
@@ -60,7 +60,7 @@ export const PERSONAS: readonly Persona[] = [
       ],
       notFit: [
         'Editors must change the content model themselves, without a developer: here the model is code.',
-        'You need edge runtimes: Easy CMS needs Node.js 22.12 or newer.',
+        'You need the CMS inside a Next.js or Nuxt app on the edge: there it needs Node.js 22.12 or newer. (The standalone server runs on Cloudflare Workers.)',
         'You need a large marketplace of ready-made integrations today.',
       ],
     },
@@ -85,7 +85,7 @@ export const PERSONAS: readonly Persona[] = [
       },
       pointsTitle: 'Easy CMS ช่วยอย่างไร',
       points: [
-        { title: 'deploy ครั้งเดียว', body: 'route handler ใน Next.js หรือ module ใน Nuxt ติดตั้งหน้า admin และ API ไว้ในแอปของคุณ frontend อื่นใช้ standalone server', doc: 'what-is-easy-cms' },
+        { title: 'deploy ครั้งเดียว', body: 'route handler ใน Next.js หรือ module ใน Nuxt ติดตั้งหน้า admin และ API ไว้ในแอปของคุณ frontend อื่นใช้ standalone server ซึ่งพร้อมรันบน edge: รันได้บน Node.js, Bun, Deno และ Cloudflare Workers', doc: 'what-is-easy-cms' },
         { title: 'โครงสร้างเนื้อหาเป็น TypeScript', body: 'collection, field, กฎการเข้าถึง และ hook อยู่ใน easy-cms.config.ts และ review ใน pull request เหมือนโค้ดอื่น', doc: 'configuration' },
         { title: 'Local API ที่มี type', body: 'โค้ดฝั่ง server เรียก cms.find() พร้อม type ที่สร้างจาก config ไม่ต้องยิง HTTP ไม่ต้องเขียน type เอง', doc: 'local-api' },
         { title: 'ฐานข้อมูลของคุณ ตารางจริง', body: 'SQLite (ไฟล์หรือ Turso) หรือ Postgres เอกสารเป็นแถวและคอลัมน์ที่ยัง query ด้วย SQL ได้', doc: 'databases' },
@@ -94,7 +94,7 @@ export const PERSONAS: readonly Persona[] = [
       ],
       notFit: [
         'editor ต้องแก้โครงสร้างเนื้อหาเองโดยไม่มีนักพัฒนา: ที่นี่โครงสร้างเป็นโค้ด',
-        'ต้องรันบน edge runtime: Easy CMS ต้องใช้ Node.js 22.12 ขึ้นไป',
+        'ต้องรัน CMS ในแอป Next.js หรือ Nuxt บน edge: แบบนั้นต้องใช้ Node.js 22.12 ขึ้นไป (standalone server รันบน Cloudflare Workers ได้)',
         'ต้องการ marketplace ของ integration สำเร็จรูปจำนวนมากตอนนี้',
       ],
     },
@@ -205,7 +205,7 @@ export const PERSONAS: readonly Persona[] = [
       notFit: [
         'Easy CMS is new: 1.0 came out in October 2026, and the shop, GraphQL and MCP plugins are still experimental.',
         'Clients must change the content model themselves, without your developers.',
-        'You need a large marketplace of ready-made integrations, or edge runtimes.',
+        'You need a large marketplace of ready-made integrations.',
       ],
     },
     th: {
@@ -239,7 +239,7 @@ export const PERSONAS: readonly Persona[] = [
       notFit: [
         'Easy CMS ยังใหม่: 1.0 ออกเมื่อตุลาคม 2026 และ plugin ร้านค้า, GraphQL และ MCP ยังเป็นรุ่นทดลอง',
         'ลูกค้าต้องแก้โครงสร้างเนื้อหาเองโดยไม่มีนักพัฒนาของคุณ',
-        'ต้องการ marketplace ของ integration สำเร็จรูปจำนวนมาก หรือ edge runtime',
+        'ต้องการ marketplace ของ integration สำเร็จรูปจำนวนมาก',
       ],
     },
   },
