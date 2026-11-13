@@ -30,6 +30,32 @@ export function weeklyDownloads(pkg: string) {
   })
 }
 
+/** Before the first Easy CMS package was published (easy-cms, 25 September 2026). */
+const FIRST_DAY = '2026-09-01'
+/** npm answers a date range of up to 18 months; ask in windows of 500 days. */
+const WINDOW_DAYS = 500
+
+const iso = (d: Date) => d.toISOString().slice(0, 10)
+
+/** Every download of one package since it was published, summed over npm's date windows. */
+export async function totalDownloads(pkg: string) {
+  const today = new Date()
+  const windows: string[] = []
+  for (let start = new Date(`${FIRST_DAY}T00:00:00Z`); start <= today; start = new Date(start.getTime() + WINDOW_DAYS * 864e5)) {
+    const end = new Date(Math.min(today.getTime(), start.getTime() + (WINDOW_DAYS - 1) * 864e5))
+    windows.push(`${iso(start)}:${iso(end)}`)
+  }
+  const counts = await Promise.all(
+    windows.map((range) =>
+      fromNpm(`point/${range}/${pkg}`, (body) => {
+        const n = (body as { downloads?: unknown }).downloads
+        return typeof n === 'number' ? n : null
+      }),
+    ),
+  )
+  return counts.some((n) => n === null) ? null : counts.reduce<number>((sum, n) => sum + (n ?? 0), 0)
+}
+
 /** Downloads per day over the last 30 days, oldest first. */
 export function dailyDownloads(pkg: string) {
   return fromNpm(`range/last-month/${pkg}`, (body) => {

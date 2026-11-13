@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { Locale } from '@/lib/home-copy'
 import { highlight } from '@/lib/highlight'
-import { dailyDownloads, weeklyDownloads } from '@/lib/npm-downloads'
+import { dailyDownloads, totalDownloads, weeklyDownloads } from '@/lib/npm-downloads'
 import { ADAPTER_GROUPS, type Plugin, PLUGIN_GROUPS, PLUGINS, PLUGINS_COPY } from '@/lib/plugins'
 import { docHref } from '@/lib/why/copy'
 import { ArrowIcon, FeatureIcon } from '../icons'
@@ -13,7 +13,7 @@ const npmUrl = (pkg: string) => `https://www.npmjs.com/package/${pkg}`
 /** /plugins and /th/plugins: every plugin as a card by group, then the adapters. */
 export async function PluginsPage({ locale }: { locale: Locale }) {
   const t = PLUGINS_COPY[locale]
-  const downloads = await Promise.all(PLUGINS.map((p) => weeklyDownloads(p.pkg)))
+  const downloads = await Promise.all(PLUGINS.map((p) => totalDownloads(p.pkg)))
   const cards = PLUGINS.map((p, i) => ({
     slug: p.slug,
     pkg: p.pkg,
@@ -40,7 +40,7 @@ export async function PluginsPage({ locale }: { locale: Locale }) {
           <PluginGrid
             cards={cards}
             groups={groups}
-            labels={{ all: t.all, search: t.search, none: t.none, experimental: t.experimental, stable: t.stable, downloads: t.downloads }}
+            labels={{ all: t.all, search: t.search, none: t.none, experimental: t.experimental, stable: t.stable, downloads: t.total }}
           />
           <p className="pl-note">{t.downloadsNote}</p>
         </div>
@@ -99,7 +99,8 @@ function Sparkline({ days, label }: { days: { day: string; downloads: number }[]
 export async function PluginPage({ plugin: p, locale }: { plugin: Plugin; locale: Locale }) {
   const t = PLUGINS_COPY[locale]
   const group = PLUGIN_GROUPS.find((g) => g.key === p.group)
-  const [week, days, usageHtml] = await Promise.all([
+  const [total, week, days, usageHtml] = await Promise.all([
+    totalDownloads(p.pkg),
     weeklyDownloads(p.pkg),
     dailyDownloads(p.pkg),
     highlight(`import { defineConfig } from '@easy-cms/core'\nimport { ${p.usage.split('(')[0]} } from '${p.pkg}'\n\nexport default defineConfig({\n  // …\n  plugins: [${p.usage}],\n})`, 'ts'),
@@ -121,6 +122,11 @@ export async function PluginPage({ plugin: p, locale }: { plugin: Plugin; locale
           <p className="lede">{p.summary[locale]}</p>
           <div className="pl-meta">
             <code>{p.pkg}</code>
+            {total !== null && (
+              <span>
+                <b>{total.toLocaleString('en-US')}</b> {t.total}
+              </span>
+            )}
             {week !== null && (
               <span>
                 <b>{week.toLocaleString('en-US')}</b> {t.downloads}

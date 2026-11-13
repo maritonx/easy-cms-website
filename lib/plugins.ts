@@ -219,6 +219,7 @@ export const PLUGINS_COPY: Record<
     experimental: string
     stable: string
     downloads: string
+    total: string
     adaptersTitle: string
     adaptersText: string
     back: string
@@ -245,6 +246,7 @@ export const PLUGINS_COPY: Record<
     experimental: 'Experimental',
     stable: 'Stable',
     downloads: 'downloads last week',
+    total: 'downloads in total',
     adaptersTitle: 'Adapters',
     adaptersText: 'Where it runs, where data and files go, and how people sign in.',
     back: 'All plugins',
@@ -270,6 +272,7 @@ export const PLUGINS_COPY: Record<
     experimental: 'ทดลอง',
     stable: 'เสถียร',
     downloads: 'ดาวน์โหลดสัปดาห์ที่แล้ว',
+    total: 'ดาวน์โหลดทั้งหมด',
     adaptersTitle: 'Adapter',
     adaptersText: 'รันที่ไหน ข้อมูลและไฟล์ไปเก็บที่ไหน และผู้ใช้ล็อกอินอย่างไร',
     back: 'plugin ทั้งหมด',
