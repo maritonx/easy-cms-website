@@ -1,5 +1,19 @@
 [
   {
+    "version": "1.46.1",
+    "title": "Screenshots of AI and Integrations",
+    "date": "2026-11-13",
+    "kind": "patch",
+    "summary": "The docs and this site show the admin's AI writing a post's SEO title and description, and the Integrations page.",
+    "changes": [
+      "New screenshots in English and Thai, light and dark: the SEO tab with the AI-written title and description and its Undo, and the Integrations page with an AI provider connected."
+    ],
+    "packages": [
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.46.0",
     "title": "Who can sign in, from the admin",
     "date": "2026-11-13",
