@@ -267,8 +267,6 @@ export const WHY_UI = {
     sources: 'Sources',
     checked: (date: string) => `Checked against each product’s own site on ${date}. Prices and versions change; follow the links for today’s.`,
     seeOfficial: 'See the official site',
-    honest:
-      'Easy CMS is young: its first release was in September 2026 and its community is small. Every other product here has been in production longer, with more people answering questions.',
     feature: 'Feature',
     otherComparisons: 'Other comparisons',
     moveGuide: 'Read the guide',
@@ -299,8 +297,6 @@ export const WHY_UI = {
     sources: 'แหล่งข้อมูล',
     checked: (date: string) => `ตรวจสอบจากเว็บของแต่ละผลิตภัณฑ์เมื่อ ${date} ราคาและเวอร์ชันเปลี่ยนได้ ดูข้อมูลล่าสุดได้จากลิงก์`,
     seeOfficial: 'ดูเว็บทางการ',
-    honest:
-      'Easy CMS ยังใหม่: ออกครั้งแรกเมื่อกันยายน 2026 และชุมชนยังเล็ก ผลิตภัณฑ์อื่นในหน้านี้ใช้งานจริงมานานกว่า และมีคนช่วยตอบคำถามมากกว่า',
     feature: 'หัวข้อ',
     otherComparisons: 'การเปรียบเทียบอื่น',
     moveGuide: 'อ่านคู่มือ',

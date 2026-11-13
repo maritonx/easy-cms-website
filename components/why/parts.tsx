@@ -75,11 +75,6 @@ export function CompareTable({ products, locale }: { products: readonly Product[
   )
 }
 
-/** The note the comparisons and "When it isn't a fit" carry: Easy CMS is young. */
-export function HonestNote({ locale }: { locale: Locale }) {
-  return <p className="why-honest">{WHY_UI[locale].honest}</p>
-}
-
 /**
  * The closing call to action: the create command to copy, a starter to deploy, the demo once it
  * is up, and where to ask. `from` names the page for the analytics events.

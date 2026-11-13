@@ -552,7 +552,6 @@ code, kbd, pre { font-family: var(--font-mono); }
 
 .why-notfit { padding: 32px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-2); }
 .why-notfit li::before { content: "–"; position: absolute; left: 6px; color: var(--warn); }
-.why-honest { margin-top: 20px; padding: 14px 16px; border-left: 3px solid var(--warn); background: color-mix(in srgb, var(--warn) 7%, transparent); border-radius: 0 8px 8px 0; font-size: 14.5px; color: var(--muted); }
 
 .compare-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); }
 .compare-table { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.5; }

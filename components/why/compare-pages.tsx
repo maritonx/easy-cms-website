@@ -3,7 +3,7 @@ import { CHECKED, COMPETITORS, type Competitor, EASY_CMS } from '@/lib/why/compa
 import { COMPARE_OVERVIEW, docHref, type Locale, WHY_UI, whyHref } from '@/lib/why/copy'
 import { CompareMatrix } from '../compare-matrix'
 import { WhyJsonLd } from './json-ld'
-import { CompareCards, CompareTable, HonestNote, WhyCta } from './parts'
+import { CompareCards, CompareTable, WhyCta } from './parts'
 
 /** "17 October 2026" or "17 ตุลาคม 2569" style dates for "last checked". */
 const checkedOn = (locale: Locale) =>
@@ -110,7 +110,6 @@ export function ComparePage({ competitor: c, locale }: { competitor: Competitor;
       <section className="section flush-top">
         <div className="wrap">
           <CompareTable products={[EASY_CMS, c]} locale={locale} />
-          <HonestNote locale={locale} />
         </div>
       </section>
       <section className="section flush-top">
