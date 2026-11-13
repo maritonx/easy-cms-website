@@ -18,11 +18,11 @@ const thai = IBM_Plex_Sans_Thai({ variable: '--font-thai', subsets: ['thai'], we
 export const siteMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Easy CMS: the embedded headless CMS for Next.js and Nuxt',
+    default: 'Easy CMS: one TypeScript file, a whole backend',
     template: '%s · Easy CMS',
   },
   description:
-    'Easy CMS runs inside your Next.js or Nuxt app. Define content in TypeScript and get an admin, a typed API and REST on one deployment and your own database.',
+    'Define data, access and logic in one TypeScript config. Easy CMS gives you a database, a typed API and REST, sign-in, files, jobs and an admin your clients can use. MIT licensed.',
   icons: { icon: '/logo.svg' },
   openGraph: {
     siteName: 'Easy CMS',

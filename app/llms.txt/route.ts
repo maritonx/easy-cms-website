@@ -19,7 +19,7 @@ export async function GET() {
   const lines = [
     '# Easy CMS',
     '',
-    '> The embedded, code-first headless CMS for Nuxt and Next.js. It runs inside your app: the content model is TypeScript in your repo, the admin is at /admin, and pages read content with a typed Local API or REST, on your own database (SQLite or Postgres).',
+    '> The TypeScript backend with an admin built in. One config file (easy-cms.config.ts) defines the data, access rules and logic; Easy CMS serves a typed Local API, REST, sign-in, files, jobs and an admin at /admin, on your own database (SQLite, Turso or Postgres). It runs inside Next.js or Nuxt, or as its own server on Node.js, Bun, Deno or Cloudflare Workers.',
     '',
     `All docs in one file: ${SITE_URL}/llms-full.txt`,
     '',

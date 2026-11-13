@@ -17,6 +17,10 @@ export default async function Sitemap(): Promise<MetadataRoute.Sitemap> {
       url,
       alternates: { languages: { en: `${SITE_URL}/blog`, th: `${SITE_URL}/th/blog` } },
     })),
+    ...[`${SITE_URL}/roadmap`, `${SITE_URL}/th/roadmap`].map((url) => ({
+      url,
+      alternates: { languages: { en: `${SITE_URL}/roadmap`, th: `${SITE_URL}/th/roadmap` } },
+    })),
     ...['/changelog', '/showcase', '/privacy', '/th/privacy'].map((p) => ({ url: `${SITE_URL}${p}` })),
   ]
   // The Why pages, in English and Thai.

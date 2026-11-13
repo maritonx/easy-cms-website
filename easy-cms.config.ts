@@ -166,6 +166,56 @@ export default defineConfig({
         { name: 'order', type: 'number', defaultValue: 100 },
       ],
     },
+    {
+      // The six levels on /roadmap and the home page: what works today and what is still to
+      // build. Both pages read them on every request, so a save shows at once.
+      slug: 'roadmap-levels',
+      labels: { singular: 'Roadmap level', plural: 'Roadmap' },
+      admin: {
+        icon: 'layers',
+        order: 4,
+        views: [{ id: 'by-level', label: 'By level', sort: 'level', columns: ['level', 'status', 'next'] }],
+      },
+      useAsTitle: 'title',
+      access: { read: () => true },
+      fields: [
+        { name: 'level', type: 'number', required: true, unique: true, min: 1, max: 6 },
+        { name: 'title', type: 'text', required: true },
+        { name: 'titleTh', type: 'text', label: 'Title in Thai' },
+        // One line under the level's name on the home page.
+        { name: 'summary', type: 'text', maxLength: 90 },
+        { name: 'summaryTh', type: 'text', label: 'Summary in Thai', maxLength: 90 },
+        {
+          // Complete: what the level needs has shipped and CI tests it.
+          name: 'status',
+          type: 'select',
+          required: true,
+          defaultValue: 'in-progress',
+          options: [
+            { label: 'Complete', value: 'complete' },
+            { label: 'In progress', value: 'in-progress' },
+          ],
+        },
+        // The level being built now: it glows on the mountain and says "Building next".
+        { name: 'next', type: 'boolean' },
+        {
+          name: 'worksToday',
+          type: 'array',
+          fields: [
+            { name: 'text', type: 'text', required: true },
+            { name: 'textTh', type: 'text', label: 'Text in Thai' },
+          ],
+        },
+        {
+          name: 'stillToBuild',
+          type: 'array',
+          fields: [
+            { name: 'text', type: 'text', required: true },
+            { name: 'textTh', type: 'text', label: 'Text in Thai' },
+          ],
+        },
+      ],
+    },
   ],
   plugins: [
     seoPlugin({

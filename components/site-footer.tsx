@@ -9,8 +9,8 @@ const COLUMNS_EN = [
       ['/why', 'Why Easy CMS'],
       ['/why/compare', 'Compare'],
       ['/#features', 'Features'],
-      ['/#plugins', 'Plugins'],
       ['/#admin', 'Admin'],
+      ['/roadmap', 'Roadmap'],
       ['/changelog', 'Changelog'],
     ],
   },
@@ -50,8 +50,8 @@ const COLUMNS_TH = [
       ['/th/why', 'ทำไมต้อง Easy CMS'],
       ['/th/why/compare', 'เปรียบเทียบ'],
       ['/th#features', 'ฟีเจอร์'],
-      ['/th#plugins', 'Plugin'],
       ['/th#admin', 'หน้า admin'],
+      ['/th/roadmap', 'Roadmap'],
       ['/changelog', 'Changelog'],
     ],
   },
@@ -98,8 +98,8 @@ export function SiteFooter({ lang = 'en' }: { lang?: 'en' | 'th' }) {
             </Link>
             <p>
               {lang === 'th'
-                ? 'headless CMS แบบ code-first ที่ฝังอยู่ในแอป Nuxt และ Next.js'
-                : 'The embedded, code-first headless CMS for Nuxt and Next.js.'}
+                ? 'backend TypeScript ที่มีหน้า admin ในตัว'
+                : 'The TypeScript backend with an admin built in.'}
             </p>
           </div>
           {COLUMNS.map((col) => (
@@ -124,6 +124,11 @@ export function SiteFooter({ lang = 'en' }: { lang?: 'en' | 'th' }) {
           </span>
           <span>{lang === 'th' ? 'สร้างด้วย Next.js และ Easy CMS' : 'Built with Next.js and Easy CMS'}</span>
         </div>
+        <p className="foot-note">
+          {lang === 'th'
+            ? 'ชื่อและโลโก้ของผลิตภัณฑ์เป็นเครื่องหมายการค้าของเจ้าของ'
+            : 'Product names and logos are trademarks of their owners.'}
+        </p>
       </div>
     </footer>
   )

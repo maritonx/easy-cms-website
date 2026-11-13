@@ -1,8 +1,9 @@
 /**
  * Fills an empty database with the site's starting content: releases from the Easy CMS
- * changelog, blog posts, showcase entries and the home page announcement.
+ * changelog, blog posts, showcase entries, the roadmap's levels and the home page announcement.
  *
- *   pnpm seed            releases missing from the changelog; posts and showcase if empty
+ *   pnpm seed            releases missing from the changelog; posts and showcase if empty;
+ *                        roadmap levels that are missing
  *   pnpm seed --reset    delete what is there first
  *   pnpm seed --update-drafts=<slug,slug>   also rewrite these posts from the seed while they
  *                               are still drafts (never published), e.g. after their text changed
@@ -1002,6 +1003,89 @@ const showcase = [
   },
 ]
 
+type Pair = readonly [string, string]
+/** The six levels (docs/adr/0069 in the Easy CMS repo): English and Thai for each line. */
+const roadmapLevels: {
+  level: number
+  title: string
+  titleTh: string
+  summary: string
+  summaryTh: string
+  status: 'complete' | 'in-progress'
+  next?: boolean
+  worksToday: Pair[]
+  stillToBuild: Pair[]
+}[] = [
+  {
+    level: 1, title: 'Headless CMS', titleTh: 'Headless CMS', status: 'complete',
+    summary: 'Content, drafts, versions, Thai and English.', summaryTh: 'เนื้อหา ฉบับร่าง เวอร์ชัน ไทยและอังกฤษ',
+    worksToday: [
+      ['Collections, globals, drafts and versions', 'Collection, global, ฉบับร่างและเวอร์ชัน'],
+      ['Scheduled publishing', 'ตั้งเวลาเผยแพร่'],
+      ['Thai and English content, translation status', 'เนื้อหาไทยและอังกฤษ พร้อมสถานะการแปล'],
+      ['Media library, live preview, REST and GraphQL', 'คลังไฟล์ live preview, REST และ GraphQL'],
+    ],
+    stillToBuild: [],
+  },
+  {
+    level: 2, title: 'Backend as a service', titleTh: 'Backend as a service', status: 'in-progress', next: true,
+    summary: 'Database, sign-in, files. Realtime is next.', summaryTh: 'ฐานข้อมูล การล็อกอิน ไฟล์ ต่อไปคือ realtime',
+    worksToday: [
+      ['SQLite, Turso and Postgres with committed migrations', 'SQLite, Turso และ Postgres พร้อม migration ที่ commit ไว้'],
+      ['Passwords, single sign-on and site members', 'รหัสผ่าน single sign-on และสมาชิกของเว็บ'],
+      ['Files on S3, Cloudflare R2 and Vercel Blob', 'ไฟล์บน S3, Cloudflare R2 และ Vercel Blob'],
+      ['Node.js, Bun, Deno and Cloudflare Workers, tested on every pull request', 'Node.js, Bun, Deno และ Cloudflare Workers ทดสอบทุก pull request'],
+    ],
+    stillToBuild: [['Realtime: subscribe to changes in a collection', 'Realtime: รับการเปลี่ยนแปลงของ collection ทันที']],
+  },
+  {
+    level: 3, title: 'App framework', titleTh: 'App framework', status: 'complete',
+    summary: 'Typed config, hooks, roles, actions.', summaryTh: 'config ที่มี type, hook, บทบาท, action',
+    worksToday: [
+      ['The TypeScript config and a typed Local API', 'config TypeScript และ Local API ที่มี type'],
+      ['Hooks and access rules in code', 'hook และกฎสิทธิ์ในโค้ด'],
+      ['Roles down to single fields', 'บทบาทลงถึงระดับ field'],
+      ['Actions that run server code, inside Next.js and Nuxt', 'action ที่รันโค้ดฝั่ง server ใน Next.js และ Nuxt'],
+    ],
+    stillToBuild: [],
+  },
+  {
+    level: 4, title: 'Business engine', titleTh: 'Business engine', status: 'in-progress',
+    summary: 'Shop, tenants, forms. Kanban and templates next.', summaryTh: 'ร้านค้า หลาย tenant ฟอร์ม ต่อไปคือ kanban และ template',
+    worksToday: [
+      ['Shop plugin (preview)', 'plugin ร้านค้า (preview)'],
+      ['Many sites in one CMS', 'หลายเว็บใน CMS เดียว'],
+      ['Form builder, saved views, calendar view', 'ตัวสร้างฟอร์ม มุมมองที่บันทึกไว้ และมุมมองปฏิทิน'],
+    ],
+    stillToBuild: [
+      ['Kanban view', 'มุมมอง kanban'],
+      ['CRM and booking templates for create-easy-cms', 'template CRM และระบบจองสำหรับ create-easy-cms'],
+    ],
+  },
+  {
+    level: 5, title: 'Durable workflows', titleTh: 'Durable workflows', status: 'in-progress',
+    summary: 'Job queue and retries. Long workflows next.', summaryTh: 'คิวงานและการลองใหม่ ต่อไปคือ workflow ยาว',
+    worksToday: [
+      ['A job queue in your own database', 'คิวงานในฐานข้อมูลของคุณเอง'],
+      ['Retries, schedules and an outbox for webhooks and email', 'การลองใหม่ ตารางเวลา และ outbox สำหรับ webhook และอีเมล'],
+    ],
+    stillToBuild: [['Workflows of many steps that wait for days and resume after a crash', 'workflow หลายขั้นที่รอได้หลายวันและทำต่อได้หลังระบบล่ม']],
+  },
+  {
+    level: 6, title: 'AI-native', titleTh: 'AI-native', status: 'in-progress',
+    summary: 'AI plugin, MCP preview. Agent approval next.', summaryTh: 'plugin AI, MCP (preview) ต่อไปคือให้คนอนุมัติงานของ agent',
+    worksToday: [
+      ['AI plugin for Claude, GPT and Gemini with daily limits', 'plugin AI สำหรับ Claude, GPT และ Gemini พร้อมโควตารายวัน'],
+      ['MCP server (preview)', 'MCP server (preview)'],
+      ['API keys under roles, a signed audit log', 'API key ภายใต้บทบาท และ audit log ที่ลงลายเซ็น'],
+    ],
+    stillToBuild: [
+      ['MCP out of preview', 'MCP พ้นสถานะ preview'],
+      ['Agent changes that wait for a person to approve them', 'การแก้ไขของ agent ที่รอให้คนอนุมัติ'],
+    ],
+  },
+]
+
 // ---------- run ----------
 const cms = await createEasyCMS(config)
 
@@ -1118,9 +1202,28 @@ if (!reset) {
   console.log(`showcase: ${missing.length ? missing.map((s) => s.name).join(', ') + ' added' : 'up to date'}`)
 }
 
+// The roadmap's six levels, added by level number when missing; the admin owns them after that.
+{
+  const { docs } = await cms.find('roadmap-levels', { limit: 100 })
+  const known = new Set(docs.map((d) => d.level))
+  const missing = roadmapLevels.filter((l) => !known.has(l.level))
+  for (const l of missing) {
+    await cms.create('roadmap-levels', {
+      ...l,
+      worksToday: l.worksToday.map(([text, textTh]) => ({ text, textTh })),
+      stillToBuild: l.stillToBuild.map(([text, textTh]) => ({ text, textTh })),
+    } as never)
+  }
+  console.log(`roadmap: ${missing.length ? `levels ${missing.map((l) => l.level).join(', ')} added` : 'up to date'}`)
+}
+
 await cms.updateGlobal('site', {
   siteName: 'Easy CMS',
-  announcement: { badge: '1.0', label: 'Easy CMS 1.0 is out: stable from here on', href: '/changelog#v1.0.0' },
+  announcement: {
+    badge: '1.45',
+    label: 'Now runs on Cloudflare Workers, Bun and Deno',
+    href: '/docs/deploy/cloudflare-workers',
+  },
 })
 console.log('site: announcement set')
 
