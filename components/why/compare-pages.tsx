@@ -68,7 +68,6 @@ export function CompareOverview({ locale }: { locale: Locale }) {
             <h2>{t.allTitle}</h2>
           </div>
           <CompareTable products={[EASY_CMS, ...COMPETITORS]} locale={locale} />
-          <HonestNote locale={locale} />
         </div>
       </section>
       <section className="section flush-top">

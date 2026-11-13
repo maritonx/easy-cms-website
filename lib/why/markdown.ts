@@ -107,8 +107,6 @@ function compareOverview(locale: Locale) {
     '',
     ...COMPETITORS.map((c) => `- [${ui.vs(c.name)}](${md(`compare/${c.slug}`, locale)}): ${c.summary[locale]}`),
     '',
-    ui.honest,
-    '',
     ...sources(COMPETITORS, locale),
   ]
 }
