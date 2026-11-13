@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { CHECKED, COMPETITORS, type Competitor, EASY_CMS } from '@/lib/why/compare'
 import { COMPARE_OVERVIEW, docHref, type Locale, WHY_UI, whyHref } from '@/lib/why/copy'
+import { CompareMatrix } from '../compare-matrix'
 import { WhyJsonLd } from './json-ld'
 import { CompareCards, CompareTable, HonestNote, WhyCta } from './parts'
 
@@ -58,6 +59,14 @@ export function CompareOverview({ locale }: { locale: Locale }) {
       <Hero locale={locale} eyebrow={t.eyebrow} title={t.title} lede={t.lede} />
       <section className="section flush-top">
         <div className="wrap">
+          <CompareMatrix locale={locale} link={false} />
+        </div>
+      </section>
+      <section className="section flush-top">
+        <div className="wrap">
+          <div className="section-head">
+            <h2>{t.allTitle}</h2>
+          </div>
           <CompareTable products={[EASY_CMS, ...COMPETITORS]} locale={locale} />
           <HonestNote locale={locale} />
         </div>
@@ -86,20 +95,27 @@ export function ComparePage({ competitor: c, locale }: { competitor: Competitor;
       <Hero locale={locale} eyebrow={ui.compareTitle} title={ui.vs(c.name)} lede={c.summary[locale]} />
       <section className="section flush-top">
         <div className="wrap">
+          <div className="why-wins">
+            <h2>{ui.chooseUs}</h2>
+            <ol>
+              {c.chooseUs[locale].map((item, i) => (
+                <li key={item}>
+                  <span className="why-wins-num">{String(i + 1).padStart(2, '0')}</span>
+                  {item}
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+      <section className="section flush-top">
+        <div className="wrap">
           <CompareTable products={[EASY_CMS, c]} locale={locale} />
           <HonestNote locale={locale} />
         </div>
       </section>
       <section className="section flush-top">
-        <div className="wrap why-choose">
-          <div className="ours">
-            <h2>{ui.chooseUs}</h2>
-            <ul>
-              {c.chooseUs[locale].map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
+        <div className="wrap why-choose why-choose-them">
           <div>
             <h2>{ui.chooseThem(c.name)}</h2>
             <ul>

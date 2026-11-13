@@ -1151,3 +1151,69 @@ a.feature:hover .go, a.feature:focus-visible .go { opacity: 1; transform: none; 
 .hero h1 em { display: block; }
 .hero-copy { grid-template-columns: minmax(0, 1fr); }
 .hero-copy > * { min-width: 0; }
+
+/* ===================== Why: more than a CMS ===================== */
+.why-hero-big { padding-block: 96px 80px; }
+.why-hero-big h1 { max-width: 22ch; font-size: clamp(40px, 5.6vw, 70px); }
+.why-hero-big h1 em { display: block; font-style: normal; color: var(--accent); font-size: 0.62em; line-height: 1.15; margin-top: 10px; }
+.why-hero-big .cta-row { margin-top: 8px; }
+
+/* six services beside one file */
+.stitch { display: grid; grid-template-columns: minmax(0, 1fr) 56px minmax(0, 1fr); gap: 16px; align-items: stretch; }
+.stitch-side { display: grid; gap: 14px; align-content: start; padding: 26px; border-radius: 16px; border: 1px solid var(--line); }
+.stitch-side.usual { background: var(--bg-2); border-style: dashed; border-color: var(--line-strong); }
+.stitch-side.ours { border-color: color-mix(in srgb, var(--accent) 50%, var(--line)); background: radial-gradient(90% 80% at 100% 0%, var(--glow), transparent 60%), var(--surface); box-shadow: 0 30px 60px -40px color-mix(in srgb, var(--accent) 60%, transparent); }
+.stitch-label { margin: 0; font-size: 14px; color: var(--muted); }
+.stitch-label b { display: block; font: 600 18px/1.3 var(--font-display); color: var(--fg); }
+.stitch-side.usual ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.stitch-side.usual li { position: relative; display: grid; gap: 2px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
+.stitch-side.usual li:nth-child(odd) { transform: rotate(-0.8deg); }
+.stitch-side.usual li:nth-child(even) { transform: rotate(0.6deg) translateY(4px); }
+.stitch-side.usual li b { font: 600 14.5px/1.3 var(--font-body); }
+.stitch-side.usual li span { font-size: 12.5px; color: var(--muted); }
+.stitch-side.usual li i { position: absolute; top: -8px; right: 10px; padding: 2px 7px; border-radius: 99px; font: 500 10.5px var(--font-mono); font-style: normal; color: var(--warn); background: var(--bg); border: 1px solid color-mix(in srgb, var(--warn) 45%, var(--line)); }
+.stitch-arrow { display: grid; place-items: center; color: var(--accent); }
+.stitch-arrow svg { width: 28px; height: 28px; }
+.stitch-file { border-radius: 12px; overflow: hidden; background: var(--code-bg); border: 1px solid var(--code-line); }
+.stitch-file ul { list-style: none; margin: 0; padding: 14px 16px 16px; display: grid; gap: 10px; }
+.stitch-file li { display: grid; grid-template-columns: 22px minmax(0, auto) minmax(0, 1fr); align-items: center; gap: 10px; font-size: 13.5px; color: var(--code-dim); }
+.stitch-file li code { font: 500 13.5px var(--font-mono); color: var(--code-fg); background: none; padding: 0; }
+.stitch-check { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font: 700 11px/1 var(--font-body); }
+.stitch-total { margin: 0; font: 600 15px var(--font-mono); color: var(--faint); }
+.stitch-side.ours .stitch-total { color: var(--accent); }
+@media (max-width: 900px) {
+  .stitch { grid-template-columns: minmax(0, 1fr); }
+  .stitch-arrow { transform: rotate(90deg); height: 32px; }
+}
+@media (max-width: 520px) { .stitch-side.usual ul { grid-template-columns: minmax(0, 1fr); } .stitch-side { padding: 18px; } }
+
+/* six reasons */
+.reasons { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.reason { position: relative; display: grid; gap: 10px; align-content: start; padding: 26px 24px 24px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: inherit; transition: border-color .2s, transform .2s var(--ease-out), box-shadow .2s; }
+.reason:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 20px 40px -30px rgba(0, 0, 0, .4); }
+.reason > svg { width: 24px; height: 24px; color: var(--accent); }
+.reason-num { position: absolute; top: 22px; right: 22px; font: 500 12px var(--font-mono); color: var(--faint); }
+.reason h3 { font: 600 18px/1.3 var(--font-display); letter-spacing: -0.01em; }
+.reason p { font-size: 14.5px; color: var(--muted); line-height: 1.55; }
+.reason-proof { justify-self: start; margin-top: 4px; padding: 4px 10px; border-radius: 99px; font: 500 12px var(--font-mono); color: var(--accent); background: var(--glow); }
+.reason .why-more { margin-top: 6px; }
+@media (max-width: 1000px) { .reasons { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .reasons { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .reason:hover { transform: none; } }
+
+/* compare pages: where Easy CMS wins, first */
+.why-wins { padding: 32px; border-radius: 18px; border: 1.5px solid color-mix(in srgb, var(--accent) 50%, var(--line)); background: radial-gradient(70% 90% at 0% 0%, var(--glow), transparent 60%), var(--surface); }
+.why-wins h2 { font-size: clamp(24px, 2.8vw, 32px); font-weight: 650; margin-bottom: 20px; }
+.why-wins ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.why-wins li { display: grid; gap: 10px; align-content: start; padding: 18px; border-radius: 12px; background: var(--bg); border: 1px solid var(--line); font-size: 15px; line-height: 1.55; }
+.why-wins-num { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font: 600 12px var(--font-mono); }
+@media (max-width: 860px) { .why-wins ol { grid-template-columns: minmax(0, 1fr); } .why-wins { padding: 22px; } }
+.why-choose-them { grid-template-columns: minmax(0, 1fr); }
+.compare-table .ours { background: color-mix(in srgb, var(--accent) 10%, transparent); font-weight: 500; box-shadow: inset 2px 0 0 color-mix(in srgb, var(--accent) 55%, transparent), inset -2px 0 0 color-mix(in srgb, var(--accent) 55%, transparent); }
+.compare-table thead .ours { color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, var(--bg-2)); }
+
+/* the Why menu's first entry */
+.why-panel-lead { grid-column: 1 / -1; display: grid; gap: 2px; padding: 12px 14px; margin-bottom: 6px; border-radius: 10px; background: var(--glow); color: var(--fg); }
+.why-panel-lead b { font-weight: 600; color: var(--accent); }
+.why-panel-lead span { font-size: 13px; color: var(--muted); }
+.why-panel-lead:hover { background: color-mix(in srgb, var(--accent) 22%, transparent); }

@@ -4,10 +4,12 @@ import { jsonLdScript } from '@easy-cms/plugin-seo'
 import { SITE_URL } from '@/easy-cms.config'
 import { getRoadmapLevels, getSite } from '@/lib/cms'
 import { highlight } from '@/lib/highlight'
-import { COMPARED, HOME_COPY, type Locale, type Mark } from '@/lib/home-copy'
+import { HOME_COPY, type Locale } from '@/lib/home-copy'
 import { npmDownloadsLastWeek } from '@/lib/npm-downloads'
 import { GITHUB_URL, NPM_URL, SITE_REPO_URL, VERSION } from '@/lib/site'
 import { type Brand, BrandLogo } from '../brand-logo'
+import { CompareMatrix } from '../compare-matrix'
+import { LevelsStrip } from '../levels-strip'
 import { DeployButtons } from '../deploy-buttons'
 import { ArrowIcon, FeatureIcon, GitHubIcon } from '../icons'
 import { StabilityNote } from '../stability-note'
@@ -185,24 +187,6 @@ const RUNTIME_RUN: Record<string, { logos: Brand[]; command: string }> = {
   deno: { logos: ['deno', 'sqlite'], command: 'deno run -A npm:easy-cms serve' },
 }
 
-const MARK_PATHS: Record<Mark, string> = {
-  yes: 'M5 12.5l4.5 4.5L19 7.5',
-  part: 'M5 12h14',
-  no: 'M7 7l10 10M17 7L7 17',
-  unknown: 'M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5V14M12 17.5v.01',
-}
-
-/** A compare mark: a different shape for each answer, and its name for screen readers. */
-function CompareMark({ mark, label }: { mark: Mark; label: string }) {
-  return (
-    <span className={`mk ${mark}`} role="img" aria-label={label}>
-      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round">
-        <path d={MARK_PATHS[mark]} />
-      </svg>
-    </span>
-  )
-}
-
 /** The home page in English (/) or Thai (/th). Reads the announcement and the roadmap's levels. */
 export async function HomePage({ locale }: { locale: Locale }) {
   const t = HOME_COPY[locale]
@@ -224,7 +208,6 @@ export async function HomePage({ locale }: { locale: Locale }) {
   const shots = locale === 'th' ? 'th' : 'en'
   // Minor releases since 1.0: 1.46 is the 46th.
   const releases = Number(VERSION.split('.')[1] ?? 0)
-  const complete = levels.filter((l) => l.status === 'complete').length
 
   const files = ['easy-cms.config.ts', 'app/admin/[[...path]]/route.ts', 'app/posts/page.tsx']
   const html = [configHtml, routesHtml, pageHtml]
@@ -398,40 +381,7 @@ export async function HomePage({ locale }: { locale: Locale }) {
             <h2>{t.compare.title} <em className="accent">{t.compare.accent}</em></h2>
             <p>{t.compare.text}</p>
           </div>
-          <div className="vs-wrap">
-            <table className="vs">
-              <caption className="sr-only">{t.compare.caption}</caption>
-              <thead>
-                <tr>
-                  <td />
-                  {COMPARED.map((name, i) => (
-                    <th scope="col" key={name} className={i === 0 ? 'us' : undefined}>
-                      {i === 0 && <span className="us-tag">{t.compare.pick}</span>}
-                      {name}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {t.compare.rows.map((row) => (
-                  <tr key={row.title}>
-                    <th scope="row"><b>{row.title}</b><span>{row.sub}</span></th>
-                    {row.cells.map(([mark, text], i) => (
-                      <td key={COMPARED[i]} data-name={COMPARED[i]} className={i === 0 ? 'us' : undefined}>
-                        <CompareMark mark={mark} label={t.compare.marks[mark]} />
-                        <span className="vs-t">{text}</span>
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="vs-foot">
-            <p className="vs-tally"><b>{t.compare.tally}</b> {t.compare.tallyMore}</p>
-            <p className="vs-note">{t.compare.note}</p>
-            <Link className="btn" href={locale === 'th' ? '/th/why/compare' : '/why/compare'}>{t.compare.link} <ArrowIcon /></Link>
-          </div>
+          <CompareMatrix locale={locale} />
         </div>
       </section>
 
@@ -453,36 +403,7 @@ export async function HomePage({ locale }: { locale: Locale }) {
         </div>
       </section>
 
-      {levels.length > 0 && (
-        <section className="section flush-top" id="levels">
-          <div className="wrap">
-            <div className="section-head">
-              <span className="eyebrow">{t.levels.eyebrow}</span>
-              <h2>{t.levels.title}</h2>
-              <p>{t.levels.text(complete, levels.length)}</p>
-            </div>
-            <ol className="levels">
-              {levels.map((l) => {
-                const state = l.status === 'complete' ? 'done' : l.next ? 'is-next' : ''
-                return (
-                  <li key={l.id} className={state || undefined}>
-                    <span className="dot" aria-hidden="true" />
-                    <span className="num">{t.levels.level} {l.level}</span>
-                    <h3>{locale === 'th' ? l.titleTh || l.title : l.title}</h3>
-                    <p>{locale === 'th' ? l.summaryTh || l.summary : l.summary}</p>
-                    <span className={`state${state ? ` ${state}` : ''}`}>
-                      {state === 'done' ? t.levels.complete : state === 'is-next' ? t.levels.next : t.levels.progress}
-                    </span>
-                  </li>
-                )
-              })}
-            </ol>
-            <div className="cta-row" style={{ marginTop: 28 }}>
-              <Link className="btn" href={locale === 'th' ? '/th/roadmap' : '/roadmap'}>{t.levels.link} <ArrowIcon /></Link>
-            </div>
-          </div>
-        </section>
-      )}
+      <LevelsStrip locale={locale} levels={levels} />
 
       <section className="section band-tint" id="performance">
         <div className="wrap">
