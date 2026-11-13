@@ -2,7 +2,7 @@ import Link from 'next/link'
 import type { Locale } from '@/lib/home-copy'
 import { highlight } from '@/lib/highlight'
 import { dailyDownloads, totalDownloads, weeklyDownloads } from '@/lib/npm-downloads'
-import { ADAPTER_GROUPS, type Plugin, PLUGIN_GROUPS, PLUGINS, PLUGINS_COPY } from '@/lib/plugins'
+import { ADAPTER_GROUPS, BUILT_IN, type Plugin, PLUGIN_GROUPS, PLUGINS, PLUGINS_COPY } from '@/lib/plugins'
 import { docHref } from '@/lib/why/copy'
 import { ArrowIcon, FeatureIcon } from '../icons'
 import { PluginGrid } from './plugin-grid'
@@ -31,8 +31,34 @@ export async function PluginsPage({ locale }: { locale: Locale }) {
       <section className="why-hero">
         <div className="wrap">
           <span className="eyebrow">{t.eyebrow}</span>
-          <h1>{t.title}</h1>
+          <h1 className="pl-h1">
+            <span>{t.title}</span> <em>{t.accent}</em>
+          </h1>
           <p className="lede">{t.lede}</p>
+        </div>
+      </section>
+      <section className="section flush-top" id="built-in">
+        <div className="wrap">
+          <div className="pl-builtin">
+            <div className="pl-builtin-head">
+              <span className="pl-builtin-count">{t.builtInCount(BUILT_IN.length)}</span>
+              <h2>{t.builtInTitle}</h2>
+              <p>{t.builtInText}</p>
+            </div>
+            <ul>
+              {BUILT_IN.map((b) => (
+                <li key={b.name.en}>
+                  <Link href={docHref(b.doc, locale)}>
+                    <FeatureIcon name={b.icon} />
+                    <span>
+                      <b>{b.name[locale]}</b>
+                      <small>{b.summary[locale]}</small>
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
       <section className="section flush-top">

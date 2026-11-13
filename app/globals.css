@@ -1287,3 +1287,22 @@ a.feature:hover .go, a.feature:focus-visible .go { opacity: 1; transform: none; 
 .pl-extra > p { margin: 0 0 18px; color: var(--muted); line-height: 1.6; }
 .pl-extra .pl-features li { background: var(--bg); }
 .pl-extra .why-more { display: inline-flex; margin-top: 16px; }
+
+/* built into core */
+.pl-builtin { padding: 30px; border-radius: 18px; border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line)); background: radial-gradient(70% 90% at 0% 0%, var(--glow), transparent 60%), var(--bg-2); }
+.pl-builtin-head { display: grid; gap: 8px; margin-bottom: 22px; }
+.pl-builtin-count { justify-self: start; padding: 4px 10px; border-radius: 99px; font: 500 12px var(--font-mono); color: var(--accent-ink); background: var(--accent); }
+.pl-builtin-head h2 { font: 650 clamp(24px, 2.8vw, 32px)/1.2 var(--font-display); letter-spacing: -0.01em; }
+.pl-builtin-head p { margin: 0; color: var(--muted); }
+.pl-builtin ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+.pl-builtin a { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; align-items: start; height: 100%; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); color: inherit; transition: border-color .15s, transform .2s var(--ease-out); }
+.pl-builtin a:hover { border-color: var(--accent); transform: translateY(-1px); }
+.pl-builtin a svg { width: 20px; height: 20px; color: var(--accent); margin-top: 1px; }
+.pl-builtin b { display: block; font: 600 14.5px/1.3 var(--font-body); }
+.pl-builtin small { display: block; margin-top: 3px; font-size: 13px; line-height: 1.45; color: var(--muted); }
+@media (max-width: 620px) { .pl-builtin { padding: 20px; } .pl-builtin ul { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .pl-builtin a:hover { transform: none; } }
+.pl-h1 > span, .pl-h1 em { display: block; }
+.pl-h1 > span { white-space: nowrap; }
+.pl-h1 em { font-style: normal; color: var(--accent); }
+@media (max-width: 520px) { .pl-h1 > span { white-space: normal; } }

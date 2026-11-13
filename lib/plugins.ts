@@ -191,6 +191,24 @@ export const PLUGINS: readonly Plugin[] = [
   },
 ]
 
+/** In @easy-cms/core: what other CMSs often sell as a plugin or a paid plan. */
+export const BUILT_IN: readonly { icon: string; doc: string; name: T; summary: T }[] = [
+  { icon: 'history', doc: 'drafts', name: { en: 'Drafts & versions', th: 'ฉบับร่างและเวอร์ชัน' }, summary: { en: 'Edit without touching the live page; restore any version.', th: 'แก้ได้โดยไม่กระทบหน้าที่เผยแพร่ กู้คืนเวอร์ชันไหนก็ได้' } },
+  { icon: 'calendar', doc: 'drafts', name: { en: 'Scheduled publishing', th: 'ตั้งเวลาเผยแพร่' }, summary: { en: 'Publish or unpublish at a set time.', th: 'เผยแพร่หรือเลิกเผยแพร่ตามเวลาที่ตั้ง' } },
+  { icon: 'preview', doc: 'live-preview', name: { en: 'Live preview', th: 'Live preview' }, summary: { en: 'The real page beside the form, as people type.', th: 'หน้าเว็บจริงอยู่ข้างฟอร์ม เปลี่ยนตามที่พิมพ์' } },
+  { icon: 'shield', doc: 'roles', name: { en: 'Roles down to fields', th: 'บทบาทลงถึง field' }, summary: { en: 'Who may read, create, change and delete what.', th: 'ใครอ่าน สร้าง แก้ และลบอะไรได้' } },
+  { icon: 'key', doc: 'sso', name: { en: 'Single sign-on', th: 'Single sign-on' }, summary: { en: 'Google, Microsoft, GitHub or any OpenID Connect provider.', th: 'Google, Microsoft, GitHub หรือ OpenID Connect เจ้าไหนก็ได้' } },
+  { icon: 'clock', doc: 'audit-log', name: { en: 'Audit log', th: 'Audit log' }, summary: { en: 'Who changed what and when, signed so tampering shows.', th: 'ใครแก้อะไรเมื่อไร ลงลายเซ็นไว้ แก้ย้อนหลังจะรู้' } },
+  { icon: 'lock', doc: 'api-keys', name: { en: 'API keys', th: 'API key' }, summary: { en: 'Keys for other apps, each with a role.', th: 'key สำหรับแอปอื่น แต่ละตัวมีบทบาทของตัวเอง' } },
+  { icon: 'link', doc: 'webhooks', name: { en: 'Webhooks', th: 'Webhook' }, summary: { en: 'Tell other systems when something changes, with retries.', th: 'แจ้งระบบอื่นเมื่อมีการเปลี่ยนแปลง พร้อมลองใหม่' } },
+  { icon: 'clock', doc: 'jobs', name: { en: 'Jobs & schedules', th: 'งานเบื้องหลังและตั้งเวลา' }, summary: { en: 'A queue in your own database, with retries.', th: 'คิวงานในฐานข้อมูลของคุณ พร้อมลองใหม่' } },
+  { icon: 'bolt', doc: 'actions', name: { en: 'Actions', th: 'Action' }, summary: { en: 'Buttons in the admin that run your server code.', th: 'ปุ่มในหน้า admin ที่รันโค้ดฝั่ง server ของคุณ' } },
+  { icon: 'seo', doc: 'search', name: { en: 'Search', th: 'การค้นหา' }, summary: { en: 'Full-text search, Thai included.', th: 'ค้นหาข้อความเต็ม รวมภาษาไทย' } },
+  { icon: 'language', doc: 'localization', name: { en: 'Localization', th: 'หลายภาษา' }, summary: { en: 'One value per language, with translation status.', th: 'ค่าแยกตามภาษา พร้อมสถานะการแปล' } },
+  { icon: 'key', doc: 'members', name: { en: 'Site members', th: 'สมาชิกของเว็บ' }, summary: { en: 'Sign-up and sign-in for the people who use your app.', th: 'สมัครและล็อกอินสำหรับผู้ใช้แอปของคุณ' } },
+  { icon: 'media', doc: 'uploads', name: { en: 'Uploads & media', th: 'อัปโหลดและคลังไฟล์' }, summary: { en: 'Folders, image sizes and signed links for private files.', th: 'โฟลเดอร์ ขนาดรูป และลิงก์แบบเซ็นสำหรับไฟล์ส่วนตัว' } },
+]
+
 export type Adapter = { pkg: string; doc: string; summary: T }
 
 export const ADAPTER_GROUPS: readonly { title: T; items: readonly Adapter[] }[] = [
@@ -236,6 +254,7 @@ export const PLUGINS_COPY: Record<
     meta: { title: string; description: string }
     eyebrow: string
     title: string
+    accent: string
     lede: string
     all: string
     search: string
@@ -244,6 +263,9 @@ export const PLUGINS_COPY: Record<
     stable: string
     downloads: string
     total: string
+    builtInTitle: string
+    builtInText: string
+    builtInCount: (n: number) => string
     adaptersTitle: string
     adaptersText: string
     back: string
@@ -262,7 +284,8 @@ export const PLUGINS_COPY: Record<
       description: 'Every Easy CMS plugin by group: SEO, forms, AI, MCP, social posts, a shop, multi-tenant, backups, email and GraphQL. All MIT.',
     },
     eyebrow: 'Plugins',
-    title: 'Add what your app needs. All MIT.',
+    title: 'Add what your app needs.',
+    accent: 'All MIT.',
     lede: 'Each plugin is an npm package you add to the config. They use the same roles, jobs and admin as everything else, so nothing runs beside your app.',
     all: 'All',
     search: 'Search plugins',
@@ -271,6 +294,9 @@ export const PLUGINS_COPY: Record<
     stable: 'Stable',
     downloads: 'downloads last week',
     total: 'downloads in total',
+    builtInTitle: 'Built in. No plugin needed.',
+    builtInText: 'These come with @easy-cms/core. Other CMSs often sell them as a plugin or a paid plan.',
+    builtInCount: (n) => `${n} features in core`,
     adaptersTitle: 'Adapters',
     adaptersText: 'Where it runs, where data and files go, and how people sign in.',
     back: 'All plugins',
@@ -288,7 +314,8 @@ export const PLUGINS_COPY: Record<
       description: 'plugin ทั้งหมดของ Easy CMS แยกตามกลุ่ม: SEO, ฟอร์ม, AI, MCP, โพสต์โซเชียล, ร้านค้า, หลาย tenant, backup, อีเมล และ GraphQL เป็น MIT ทั้งหมด',
     },
     eyebrow: 'Plugin',
-    title: 'เพิ่มสิ่งที่แอปต้องมี เป็น MIT ทั้งหมด',
+    title: 'เพิ่มสิ่งที่แอปต้องมี',
+    accent: 'เป็น MIT ทั้งหมด',
     lede: 'แต่ละ plugin เป็นแพ็กเกจ npm ที่เพิ่มลงใน config ใช้บทบาท คิวงาน และหน้า admin เดียวกับส่วนอื่น จึงไม่มีอะไรต้องรันแยกจากแอป',
     all: 'ทั้งหมด',
     search: 'ค้นหา plugin',
@@ -297,6 +324,9 @@ export const PLUGINS_COPY: Record<
     stable: 'เสถียร',
     downloads: 'ดาวน์โหลดสัปดาห์ที่แล้ว',
     total: 'ดาวน์โหลดทั้งหมด',
+    builtInTitle: 'มีในตัว ไม่ต้องลง plugin',
+    builtInText: 'ทั้งหมดนี้มากับ @easy-cms/core ที่อื่นมักขายเป็น plugin หรือแพ็กเกจเสียเงิน',
+    builtInCount: (n) => `${n} ฟีเจอร์ใน core`,
     adaptersTitle: 'Adapter',
     adaptersText: 'รันที่ไหน ข้อมูลและไฟล์ไปเก็บที่ไหน และผู้ใช้ล็อกอินอย่างไร',
     back: 'plugin ทั้งหมด',
