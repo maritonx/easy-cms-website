@@ -1,5 +1,23 @@
 [
   {
+    "version": "1.46.0",
+    "title": "Who can sign in, from the admin",
+    "date": "2026-11-13",
+    "kind": "minor",
+    "summary": "In Settings → Single sign-on, admins choose who uses a password and which email domains sign themselves up with a provider. The config's `auth.password` and `auth.providerSignUp` stay the default.",
+    "changes": [
+      "Passwords for everyone, only admins, or only break-glass accounts chosen from admins with a password. Before saving, the admin sees how many accounts lose their password and how many sessions end.",
+      "A change after which no admin, or the admin saving, could sign in is refused, and the last admin on the break-glass list can't be deleted or deactivated.",
+      "Sign-up by email domain refuses public domains such as gmail.com, the admin role, and roles that can change other accounts. The same in the config is warned about.",
+      "`auth.locked` keeps the config's rules, and `easy-cms reset-sign-in` forgets the admin's."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.45.0",
     "title": "Deploy to Cloudflare Workers",
     "date": "2026-11-13",
