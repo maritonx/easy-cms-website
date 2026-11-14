@@ -1,5 +1,27 @@
 [
   {
+    "version": "1.47.0",
+    "title": "Realtime",
+    "date": "2026-11-14",
+    "kind": "minor",
+    "summary": "Apps see changes as they happen: collections with `realtime: true` stream every create, update, delete, publish and unpublish over Server-Sent Events.",
+    "changes": [
+      "`GET <api>/realtime?s=posts` is one Server-Sent Events stream for many subscriptions: a collection, a collection with a `where`, or one document. Each event carries the document as the subscriber reads it over REST, with access, field access and drafts applied.",
+      "A document that stops matching sends `leave`, only to those who could see it before. After a dropped connection, `Last-Event-ID` resumes from where it stopped.",
+      "`createClient()` gets `subscribe()` and `live()`, `@easy-cms/next/live` and `@easy-cms/nuxt` get `useLive()`, and the Local API gets `cms.subscribe()`.",
+      "Saves on any instance reach every instance's subscribers within `realtime.pollMs`, also on Cloudflare Workers, Bun and Deno.",
+      "`easy-cms serve` no longer logs \"Premature close\" when a client leaves a stream."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/drizzle",
+      "@easy-cms/next",
+      "@easy-cms/nuxt",
+      "easy-cms"
+    ],
+    "needsMigration": true
+  },
+  {
     "version": "1.46.1",
     "title": "Screenshots of AI and Integrations",
     "date": "2026-11-13",
