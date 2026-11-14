@@ -5,7 +5,7 @@ language: en
 category: Guide
 publishedAt: 2027-03-29
 coverText: "Resend/Postmark/Brevo"
-excerpt: "How Easy CMS lets an admin switch the site's email from the code's default to Resend, Postmark, Brevo or SMTP, after a test email proves it works. Plain fetch instead of three SDKs, encrypted keys, delivery webhooks, a suppression list, and a log that keeps who and what subject, never the content."
+excerpt: "How an admin switches the site's email from the code's default to Resend, Postmark, Brevo or SMTP after a test email works. Plain fetch instead of three SDKs, encrypted keys, delivery webhooks, a suppression list, and a log that never keeps the content."
 ---
 Easy CMS has sent email since September 2026: forgotten-password links, invitations, form notifications, shop orders, and whatever your own code sends with `cms.sendEmail()`. For most of that time, how it sent was a line in the config:
 
