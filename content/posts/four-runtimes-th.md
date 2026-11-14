@@ -4,7 +4,7 @@ slug: four-runtimes-th
 language: th
 category: Engineering
 publishedAt: 2027-03-08
-coverText: "node · bun · deno · workers"
+coverText: "bun · deno · workers"
 excerpt: "Easy CMS เปลี่ยนจากรันได้แค่ Node มาเป็น Bun, Deno และ Cloudflare Workers ภายในวันเดียว ต้องแก้อะไรบ้าง (crypto, file system, stream, ฐานข้อมูล) อะไรที่ยังต้องใช้ Node.js และ CI matrix ที่ต้องผ่านก่อนจะเรียกว่ารองรับ"
 ---
 จนถึงวันที่ 13 พฤศจิกายน 2026 Easy CMS รันได้บน Node.js อย่างเดียว วันนั้นออกสองเวอร์ชัน 1.44.0 ย้าย import ที่ผูกกับ Node ทั้งหมดใน core ไปไว้ในโฟลเดอร์เดียว และ 1.45.0 เพิ่ม `easy-cms build --target workers` ตั้งแต่นั้น standalone server ซึ่งก็คือหน้า admin กับ REST API รันบน Bun, Deno และ Cloudflare Workers ได้ด้วย

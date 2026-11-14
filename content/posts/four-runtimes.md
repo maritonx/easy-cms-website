@@ -4,7 +4,7 @@ slug: four-runtimes
 language: en
 category: Engineering
 publishedAt: 2027-03-08
-coverText: "node · bun · deno · workers"
+coverText: "bun · deno · workers"
 excerpt: "How Easy CMS went from Node-only to Bun, Deno and Cloudflare Workers in one day of releases. What had to change (crypto, the file system, streams, the database), what still needs Node.js, and the CI matrix that has to pass before a runtime counts as supported."
 ---
 Until 13 November 2026, Easy CMS ran on Node.js and nothing else. On that day two releases came out. 1.44.0 moved every Node-specific import in the core into one folder, and 1.45.0 added `easy-cms build --target workers`. Since then the standalone server, the admin and the REST API, also runs on Bun, Deno and Cloudflare Workers.
