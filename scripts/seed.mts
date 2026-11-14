@@ -1028,15 +1028,16 @@ const roadmapLevels: {
     stillToBuild: [],
   },
   {
-    level: 2, title: 'Backend as a service', titleTh: 'Backend as a service', status: 'in-progress', next: true,
-    summary: 'Database, sign-in, files. Realtime is next.', summaryTh: 'ฐานข้อมูล การล็อกอิน ไฟล์ ต่อไปคือ realtime',
+    level: 2, title: 'Backend as a service', titleTh: 'Backend as a service', status: 'complete',
+    summary: 'Database, sign-in, files, realtime.', summaryTh: 'ฐานข้อมูล การล็อกอิน ไฟล์ และ realtime',
     worksToday: [
       ['SQLite, Turso and Postgres with committed migrations', 'SQLite, Turso และ Postgres พร้อม migration ที่ commit ไว้'],
       ['Passwords, single sign-on and site members', 'รหัสผ่าน single sign-on และสมาชิกของเว็บ'],
       ['Files on S3, Cloudflare R2 and Vercel Blob', 'ไฟล์บน S3, Cloudflare R2 และ Vercel Blob'],
       ['Node.js, Bun, Deno and Cloudflare Workers, tested on every pull request', 'Node.js, Bun, Deno และ Cloudflare Workers ทดสอบทุก pull request'],
+      ['Realtime: subscribe to changes in a collection', 'Realtime: รับการเปลี่ยนแปลงของ collection ทันที'],
     ],
-    stillToBuild: [['Realtime: subscribe to changes in a collection', 'Realtime: รับการเปลี่ยนแปลงของ collection ทันที']],
+    stillToBuild: [],
   },
   {
     level: 3, title: 'App framework', titleTh: 'App framework', status: 'complete',
@@ -1050,7 +1051,7 @@ const roadmapLevels: {
     stillToBuild: [],
   },
   {
-    level: 4, title: 'Business engine', titleTh: 'Business engine', status: 'in-progress',
+    level: 4, title: 'Business engine', titleTh: 'Business engine', status: 'in-progress', next: true,
     summary: 'Shop, tenants, forms. Kanban and templates next.', summaryTh: 'ร้านค้า หลาย tenant ฟอร์ม ต่อไปคือ kanban และ template',
     worksToday: [
       ['Shop plugin (preview)', 'plugin ร้านค้า (preview)'],
