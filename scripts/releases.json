@@ -1,5 +1,24 @@
 [
   {
+    "version": "1.48.0",
+    "title": "Live updates in the admin",
+    "date": "2026-11-14",
+    "kind": "minor",
+    "summary": "In collections with `realtime: true`, the admin's lists, edit pages and drawers follow saves made elsewhere, so two editors no longer overwrite each other without knowing.",
+    "changes": [
+      "Lists update the rows on screen in place, grey out rows deleted elsewhere, and count new or moved documents as \"N changes — Show\" instead of moving rows under the cursor. A \"Live\" dot shows the connection.",
+      "The edit page and the drawer load another save by themselves when nothing is unsaved. Otherwise they say \"This document was saved elsewhere\" with \"Load new version\" or \"Keep mine\", and ask before a save overwrites it.",
+      "A document deleted, or no longer readable, while it is open turns saving off and keeps what was typed, to copy.",
+      "Each browser tab uses one stream for all of it. `createClient().subscribe()` takes `{ lastEventId }` to change subscriptions without missing events.",
+      "The Nuxt example has a live posts page at `/live`, like the Next.js one."
+    ],
+    "packages": [
+      "@easy-cms/admin",
+      "@easy-cms/core"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.47.0",
     "title": "Realtime",
     "date": "2026-11-14",
