@@ -4,7 +4,7 @@ slug: email-providers-th
 language: th
 category: Guide
 publishedAt: 2027-03-29
-coverText: "Resend · Postmark · Brevo"
+coverText: "Resend/Postmark/Brevo"
 excerpt: "Easy CMS ให้ admin สลับอีเมลของเว็บจากค่าในโค้ดไปใช้ Resend, Postmark, Brevo หรือ SMTP ได้ หลังอีเมลทดสอบพิสูจน์ว่าส่งได้จริง ใช้ fetch แทน SDK สามตัว เก็บ key แบบเข้ารหัส มี webhook บอกผลการส่ง รายชื่อที่ระงับ และ log ที่เก็บแค่ผู้รับกับหัวเรื่อง ไม่เก็บเนื้อหา"
 ---
 Easy CMS ส่งอีเมลได้ตั้งแต่กันยายน 2026: ลิงก์ลืมรหัสผ่าน คำเชิญ การแจ้งเตือนจากฟอร์ม คำสั่งซื้อของร้านค้า และอะไรก็ตามที่โค้ดของคุณส่งด้วย `cms.sendEmail()` ตลอดช่วงนั้น วิธีส่งเป็นแค่บรรทัดหนึ่งใน config:
