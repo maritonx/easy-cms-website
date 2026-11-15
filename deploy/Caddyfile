@@ -1,0 +1,8 @@
+# SITE_ADDRESS: ":80" while testing on the server's IP; "easycms.dev, www.easycms.dev" once DNS
+# points here, and Caddy gets the HTTPS certificates itself.
+{$SITE_ADDRESS} {
+	encode zstd gzip
+	@www host www.easycms.dev
+	redir @www https://easycms.dev{uri} permanent
+	reverse_proxy web:3000
+}

@@ -1,0 +1,50 @@
+# easycms.dev on the server, in /srv/easycms (README.md, Deploying):
+#   compose.yaml, Caddyfile   this folder, copied by the deploy workflow
+#   .env                      the production variables; written by hand, never committed
+#   data/, uploads/           the SQLite database and uploaded files
+#
+#   docker compose up -d
+
+services:
+  web:
+    image: ${WEB_IMAGE:-ghcr.io/maritonx/easy-cms-website:latest}
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: file:/app/data/cms.db
+    volumes:
+      - ./data:/app/data
+      - ./uploads:/app/uploads
+    mem_limit: 1536m
+    cpus: 1.5
+    networks: [web]
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/robots.txt').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      start_period: 60s
+      retries: 3
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:-:80}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    mem_limit: 128m
+    networks: [web]
+    depends_on: [web]
+
+networks:
+  web: {}
+
+volumes:
+  caddy-data: {}
+  caddy-config: {}
