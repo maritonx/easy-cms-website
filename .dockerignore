@@ -1,0 +1,12 @@
+.git
+.next
+node_modules
+.env*
+cms.db*
+uploads
+content/docs
+public/screenshots
+public/pagefind
+public/pagefind-th
+tsconfig.tsbuildinfo
+deploy

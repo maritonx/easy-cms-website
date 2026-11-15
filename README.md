@@ -55,50 +55,52 @@ Schema changes ship as migrations: after changing `easy-cms.config.ts`, run
 `easy-cms migrate` before the new version starts. A database made by development push (your local
 `cms.db`) can't take migrations; production databases start empty and are migrated.
 
-### Vercel (trial)
+### Server (production)
 
-Uses a Turso database, since Vercel has no persistent disk. `vercel.json` runs the migrations
-before each production build. Preview builds don't: they share the production database, and a
-pull request's migration would change it before anyone merged it. A preview whose pull request
-adds a migration therefore doesn't start until the migration runs; for a schema change, review
-the migration and the code, and check it locally against `cms.db` (`pnpm dev`).
+easycms.dev runs on a Hetzner Cloud server (CAX11, arm64, Ubuntu) with Docker: the `web`
+container (this app, `Dockerfile`) and Caddy for HTTPS, defined in `deploy/compose.yaml`. The
+SQLite database and uploads are files on the server's disk; no Turso, Blob store or S3.
 
-1. Create a Turso database: `turso db create easy-cms-io`, then `turso db show --url easy-cms-io`
-   and `turso db tokens create easy-cms-io`.
-2. Import `maritonx/easy-cms-website` in Vercel and add these environment variables:
+On the server, `/srv/easycms` holds:
 
-   | Variable | Value |
-   |---|---|
-   | `EASY_CMS_SECRET` | `openssl rand -hex 32` |
-   | `DATABASE_URL` | the `libsql://…` URL |
-   | `DATABASE_AUTH_TOKEN` | the Turso token |
-   | `SITE_URL` | the deployment's address |
-   | `DOCS_REF` | `main`, until an Easy CMS release includes `website/sidebar.json` |
-   | `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` | optional: Cloudflare Turnstile on the contact form (without them, the form builder's own bot checks still apply) |
+| | |
+|---|---|
+| `compose.yaml`, `Caddyfile` | copied from `deploy/` on every deploy |
+| `.env` | the production variables, written by hand (mode 600, never committed) |
+| `data/cms.db` | the database |
+| `uploads/` | uploaded files |
 
-3. Put `DATABASE_URL` and `DATABASE_AUTH_TOKEN` in `.env.turso` (not committed), then fill the
-   database once from your machine with `pnpm seed:turso`. `pnpm migrate:turso` runs pending
-   migrations against it. Keep these out of `.env`: `pnpm dev` reads `.env` and would push the
-   development schema into the Turso database. Open `/admin` to create the first admin.
+`.github/workflows/deploy.yml` deploys every push to `main`: it builds the image on an arm64
+runner, pushes it to `ghcr.io/maritonx/easy-cms-website` (tagged `latest` and the commit), and
+the server pulls it and restarts `web`, which runs `easy-cms migrate` before it serves. It needs
+the repository secrets `DEPLOY_HOST`, `DEPLOY_SSH_KEY` (the `deploy` user's key) and
+`DEPLOY_KNOWN_HOSTS` (`ssh-keyscan <host>`).
 
-Limits of the trial: uploads are not kept between deploys (add `@easy-cms/storage-s3` for that),
-and Vercel Hobby crons run once a day. easycms.dev has cron-job.org call `/api/cms/jobs/run` every
-minute with `Authorization: Bearer $CRON_SECRET` (the Vercel variable), and keeps vercel.json's
-daily cron as a fallback; without such a service, scheduled publishing and social posts aren't
-on time.
+The server's `.env`:
 
-### VPS (production)
+| Variable | Value |
+|---|---|
+| `EASY_CMS_SECRET` | the production secret: settings such as the Resend key are encrypted with it |
+| `SITE_ADDRESS` | `easycms.dev, www.easycms.dev` (Caddy gets the certificates); `:80` to test on the IP |
+| `CRON_SECRET` | what cron-job.org sends to `/api/cms/jobs/run` every minute |
+| `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | Google sign-in for the admin and Drive backups |
+| `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile on the contact form |
+| `EASY_CMS_BACKUP_KEY` | optional: encrypts backups |
 
-One Node process with the SQLite file and uploads on the server's disk; no Turso or S3 needed.
-Scheduled publishing works because the server keeps running.
+Day to day, from the server (`ssh deploy@<host>`, `cd /srv/easycms`):
 
-- Node 22.12 or later; build on the server (or the same OS and architecture), since SQLite uses
-  a native driver.
-- `.env` with `EASY_CMS_SECRET` and `SITE_URL`; `DATABASE_URL` defaults to `file:./cms.db`.
-- Deploy: `pnpm install --frozen-lockfile && pnpm exec easy-cms migrate && pnpm build`, then
-  `NODE_ENV=production pnpm start` from the project root, under systemd or pm2, behind Caddy or
-  nginx for HTTPS.
-- Back up `cms.db` and `uploads/` (see the Backups guide).
+- Logs: `docker compose logs -f web`
+- Starting content (new releases, posts): `docker compose exec web node --import tsx scripts/seed.mts`
+- Roll back: `WEB_IMAGE=ghcr.io/maritonx/easy-cms-website:<commit> docker compose up -d web`
+- Back up: Settings → Backups in the admin, or copy `data/cms.db` and `uploads/`
+
+Without Docker, the same app runs as one Node process: Node 22.12 or later, `.env` with
+`EASY_CMS_SECRET` and `SITE_URL`, then `pnpm install --frozen-lockfile && pnpm exec easy-cms
+migrate && pnpm build` and `NODE_ENV=production pnpm start`, behind Caddy or nginx. Build on
+the server's OS and architecture, since SQLite uses a native driver.
+
+Until November 2026 the site ran on Vercel with a Turso database; `pnpm migrate:turso` and
+`pnpm seed:turso` still reach that database while it exists.
 
 ## Scripts
 
