@@ -1,5 +1,67 @@
 [
   {
+    "version": "1.51.0",
+    "title": "Turn the admin off",
+    "date": "2026-11-17",
+    "kind": "minor",
+    "summary": "`admin: { enabled: false }` leaves the admin UI out in Next.js, Nuxt and `easy-cms serve`, for a team with an admin app of its own. The API, sign-in and sessions work as before.",
+    "changes": [
+      "Next.js's admin route answers 404 and logs that the file can go; the Nuxt module leaves the admin out of the build; `easy-cms serve` answers 404 at the admin and at `/`; the Workers build leaves the admin app out.",
+      "The routes only the admin UI uses (`/api/cms/admin/ui/*`) answer 404. The rest of the API stays, for your own admin app.",
+      "Password, invitation and verification emails link to `auth.members.pages` for everyone, with a warning at start when they aren't set. Signing in with a provider ends on your site.",
+      "`admin: false` is refused with the way to write it, so plugins that spread `config.admin` keep it off.",
+      "Fixed: `@easy-cms/drizzle` and `easy-cms` 1.50.0 failed to load beside `@easy-cms/core` 1.49. Upgrade every `@easy-cms/*` package together."
+    ],
+    "packages": [
+      "@easy-cms/admin",
+      "@easy-cms/core",
+      "@easy-cms/drizzle",
+      "@easy-cms/next",
+      "@easy-cms/nuxt",
+      "easy-cms"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.50.0",
+    "title": "Endpoint access, response hooks, data migrations and seed",
+    "date": "2026-11-17",
+    "kind": "minor",
+    "summary": "Your own endpoints say who may call them, `onResponse` and `onError` see every API response and failure, migrations take SQL and data steps you write, and `easy-cms seed` adds starting content.",
+    "changes": [
+      "Endpoints take `access`: who may call them, answered with 401 or 403 before the handler runs.",
+      "`onResponse` runs on each API response to add headers, log or replace it; `onError` runs when an API request fails, to report it (e.g. to Sentry) or send your own error. Both may be lists, so plugins add theirs.",
+      "`easy-cms migrate:create <name> --empty` writes an empty SQL migration for your app's own tables, views or indexes, run and recorded with the others.",
+      "`--data` adds a `.ts` data step that runs after the migration's SQL in the same transaction, so a failure rolls both back. `migrate:status` marks it.",
+      "`easy-cms seed` runs `easy-cms/seed.ts` with the Local API. The one-click template seeds its sample posts with it."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/drizzle",
+      "@easy-cms/db-sqlite",
+      "@easy-cms/db-postgres",
+      "easy-cms"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.49.0",
+    "title": "Transactions and raw SQL",
+    "date": "2026-11-17",
+    "kind": "minor",
+    "summary": "`cms.transaction()` runs several writes as one, and `` cms.sql`…` `` runs SQL the Local API can't express, both on SQLite and Postgres.",
+    "changes": [
+      "Every read and write inside `cms.transaction(async (tx) => …)` joins it: it commits when the function resolves and rolls back when it throws.",
+      "Access rules, validation and `before*` hooks run inside; `after*` hooks, webhooks, `cms.on()` listeners, `cms.emit()` events and realtime events wait for the commit and are dropped on a rollback.",
+      "`` cms.sql`select … ${value}` `` binds every value as a parameter and runs in the transaction when inside one. It goes around access rules, hooks, validation and versions."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/drizzle"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.48.0",
     "title": "Live updates in the admin",
     "date": "2026-11-14",
