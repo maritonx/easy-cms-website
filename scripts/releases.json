@@ -1,5 +1,38 @@
 [
   {
+    "version": "1.52.1",
+    "title": "Faster Postgres under load again",
+    "date": "2026-11-18",
+    "kind": "patch",
+    "summary": "`@easy-cms/db-postgres` is back on postgres.js 3.4.9. With postgres.js 4, the nightly load test (200 editors, 1M posts) saved twice as slowly and read 35–50% more slowly.",
+    "changes": [
+      "`@easy-cms/db-postgres` depends on `postgres` ^3.4.9 again. Version 4 comes back once the load test shows it is as fast."
+    ],
+    "packages": [
+      "@easy-cms/db-postgres"
+    ],
+    "needsMigration": false
+  },
+  {
+    "version": "1.52.0",
+    "title": "Admin components in Vue, React or Svelte",
+    "date": "2026-11-18",
+    "kind": "minor",
+    "summary": "`easy-cms build:admin` turns admin components written in Vue, React or Svelte into the admin's module: one ES module of custom elements for `admin.modules`.",
+    "changes": [
+      "Put `.vue`, `.tsx`, `.jsx` or `.svelte` files in `admin/components/`. Each becomes a custom element named after its file, with its styles in its shadow root, in `admin/dist/components.js`.",
+      "Components get the admin's properties as props, plus `change`, `setField` and `navigate`, typed as `AdminComponentProps` from `@easy-cms/core`.",
+      "The build lives in the new `@easy-cms/admin-build` package (Vite). Install it with your framework's Vite plugin. `--watch` builds again as files change.",
+      "A missing `admin/dist/…` module now says to run `easy-cms build:admin`. The Nuxt, Next.js and standalone examples each have one."
+    ],
+    "packages": [
+      "@easy-cms/admin-build",
+      "@easy-cms/core",
+      "easy-cms"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.51.0",
     "title": "Turn the admin off",
     "date": "2026-11-17",
