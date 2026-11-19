@@ -38,6 +38,8 @@ const COPY = {
     done: 'Thanks, we got your message. We will reply by email.',
     again: 'Send another',
     failed: 'Could not send it. Check your connection and try again.',
+    checking: 'Checking you are not a bot…',
+    unchecked: 'Could not check that you are not a bot. Reload the page and try again.',
     missing: 'The form isn’t available right now. Please ask in GitHub Discussions.',
     close: 'Close',
     required: 'required',
@@ -68,13 +70,21 @@ const COPY = {
     done: 'ได้รับข้อความแล้ว เราจะตอบกลับทางอีเมล',
     again: 'ส่งอีกข้อความ',
     failed: 'ส่งไม่สำเร็จ ตรวจสอบการเชื่อมต่อแล้วลองอีกครั้ง',
+    checking: 'กำลังตรวจสอบว่าไม่ใช่บอท…',
+    unchecked: 'ตรวจสอบว่าไม่ใช่บอทไม่สำเร็จ โปรดโหลดหน้าใหม่แล้วลองอีกครั้ง',
     missing: 'ฟอร์มยังใช้ไม่ได้ตอนนี้ ถามใน GitHub Discussions ได้เลย',
     close: 'ปิด',
     required: 'จำเป็น',
   },
 } as const
 
-type Turnstile = { render: (el: HTMLElement, opts: { sitekey: string; callback: (token: string) => void }) => string; reset: (id: string) => void }
+type Turnstile = {
+  render: (
+    el: HTMLElement,
+    opts: { sitekey: string; callback: (token: string) => void; 'expired-callback': () => void; 'error-callback': () => void },
+  ) => string
+  reset: (id: string) => void
+}
 
 let turnstileScript: Promise<void> | null = null
 function loadTurnstile() {
@@ -112,6 +122,12 @@ export function ContactWidget() {
   const button = useRef<HTMLButtonElement>(null)
   const turnstileBox = useRef<HTMLDivElement>(null)
   const turnstile = useRef<{ id?: string; token: string }>({ token: '' })
+  // A token is sent once and lasts 5 minutes: Send waits for a fresh one.
+  const [verified, setVerified] = useState(false)
+  const setToken = (token: string) => {
+    turnstile.current.token = token
+    setVerified(token !== '')
+  }
 
   useEffect(() => {
     const onScroll = () => setCompact(window.scrollY > 240)
@@ -151,13 +167,16 @@ export function ContactWidget() {
         if (!api || !turnstileBox.current) return
         turnstile.current.id = api.render(turnstileBox.current, {
           sitekey: key,
-          callback: (token) => {
-            turnstile.current.token = token
+          callback: setToken,
+          'expired-callback': () => setToken(''),
+          'error-callback': () => {
+            setToken('')
+            setFormError(t.unchecked)
           },
         })
       })
       .catch(() => setFormError(t.failed))
-  }, [open, form, t.failed])
+  }, [open, form, t.failed, t.unchecked])
 
   if (pathname.startsWith('/admin')) return null
 
@@ -190,6 +209,7 @@ export function ContactWidget() {
     } catch {
       result = { ok: false, status: 0, errors: [{ message: t.failed }] }
     }
+    if (form.turnstile) setToken('')
     if (result.ok) {
       setState('done')
       track('contact-sent')
@@ -218,6 +238,7 @@ export function ContactWidget() {
     setForm(undefined)
     setState('idle')
     turnstile.current = { token: '' }
+    setVerified(false)
     void load()
   }
 
@@ -289,7 +310,14 @@ export function ContactWidget() {
               )}
               {form?.turnstile && <div className="cw-turnstile" ref={turnstileBox} />}
               {formError && <p className="cw-status error" role="alert">{formError}</p>}
-              <button type="submit" className="btn primary cw-send" disabled={!form || state === 'sending'}>
+              {form?.turnstile && !verified && !formError && state === 'idle' && (
+                <p className="cw-status" role="status">{t.checking}</p>
+              )}
+              <button
+                type="submit"
+                className="btn primary cw-send"
+                disabled={!form || state === 'sending' || (!!form.turnstile && !verified)}
+              >
                 {state === 'sending' ? t.sending : t.send}
               </button>
               <p className="cw-privacy">
