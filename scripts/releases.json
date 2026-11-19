@@ -1,5 +1,24 @@
 [
   {
+    "version": "1.52.2",
+    "title": "Turnstile says what is wrong",
+    "date": "2026-11-19",
+    "kind": "patch",
+    "summary": "Cloudflare Turnstile no longer fails silently: keys that can't work are refused at start, the server logs when Cloudflare refuses the secret key, and `<easy-form>` waits for a fresh token before sending.",
+    "changes": [
+      "`formBuilderPlugin` and `auth.members.signUp` refuse a `turnstile.secretKey` that is the site key, or has spaces around it, when the server starts.",
+      "When Cloudflare refuses the secret key or can't be reached, the server logs it once, instead of every form answering only \"Verification failed\".",
+      "`<easy-form>` keeps Send off until Turnstile has answered, and again after each try and when the token expires.",
+      "`auth.members.signUp` is checked at start again (its role, `verifyEmail` and `turnstile`).",
+      "Docs and package descriptions: Easy CMS is the code-first CMS and app backend for Nuxt and Next.js. CMS stands for Code-first, Many systems one app, Secure."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/plugin-form-builder"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.52.1",
     "title": "Faster Postgres under load again",
     "date": "2026-11-18",
