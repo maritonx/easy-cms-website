@@ -1,5 +1,6 @@
 import { docSource } from '@/lib/docs/markdown'
 import { docsFor, findDoc, type Locale } from '@/lib/docs/sidebar'
+import { markdownResponse } from '@/lib/markdown-response'
 
 // Markdown versions of the docs pages at /docs/….md (rewritten here in next.config.ts), for AI
 // assistants and llms.txt.
@@ -19,5 +20,5 @@ export async function GET(_req: Request, { params }: RouteContext<'/docs-md/[[..
   const found = findDoc(locale === 'th' ? slug.slice(1) : slug, locale)
   const source = found && (await docSource(found.doc.file, locale))
   if (!source) return new Response('Not found', { status: 404 })
-  return new Response(source, { headers: { 'content-type': 'text/markdown; charset=utf-8' } })
+  return markdownResponse(source, found.doc.href)
 }
