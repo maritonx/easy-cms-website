@@ -1,4 +1,5 @@
 import { WHY_RESTS } from '@/lib/why/copy'
+import { markdownResponse } from '@/lib/markdown-response'
 import { whyMarkdown } from '@/lib/why/markdown'
 
 // Markdown versions of the Why pages at /why.md, /why/compare/payload.md and /th/why/….md
@@ -16,7 +17,8 @@ export function generateStaticParams() {
 export async function GET(_req: Request, { params }: RouteContext<'/why-md/[[...slug]]'>) {
   const slug = (await params).slug ?? []
   const th = slug[0] === 'th'
-  const text = whyMarkdown((th ? slug.slice(1) : slug).join('/'), th ? 'th' : 'en')
+  const rest = (th ? slug.slice(1) : slug).join('/')
+  const text = whyMarkdown(rest, th ? 'th' : 'en')
   if (!text) return new Response('Not found', { status: 404 })
-  return new Response(text, { headers: { 'content-type': 'text/markdown; charset=utf-8' } })
+  return markdownResponse(text, `${th ? '/th' : ''}/why${rest ? `/${rest}` : ''}`)
 }
