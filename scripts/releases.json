@@ -1,5 +1,25 @@
 [
   {
+    "version": "1.55.0",
+    "title": "GA4 purchases from the server",
+    "date": "2026-11-23",
+    "kind": "minor",
+    "summary": "Connect Google Analytics 4 in Settings → Integrations and the server sends `purchase` when a shop's order is paid, and `refund` when it is refunded, through GA4's Measurement Protocol: revenue that counts money received.",
+    "changes": [
+      "A new Analytics category in Settings → Integrations: Google Analytics 4, with the Measurement ID, an encrypted API secret and a Test button.",
+      "`purchase` on `order.paid` and `refund` on `order.refunded`, once per order, in the currency's main unit, retried by the `analytics:ga4` job.",
+      "At checkout the shop's client sends the Google Analytics client and session IDs, only with the customer's consent to analytics; orders keep them in a staff-only field.",
+      "With GA4 connected, the page no longer pushes its own `purchase`, so it isn't counted twice."
+    ],
+    "packages": [
+      "@easy-cms/plugin-analytics",
+      "@easy-cms/plugin-ecommerce",
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": true
+  },
+  {
     "version": "1.54.0",
     "title": "Google Tag Manager with consent",
     "date": "2026-11-23",
