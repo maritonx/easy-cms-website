@@ -150,6 +150,16 @@ export const PLUGINS: readonly Plugin[] = [
     usage: "ecommercePlugin({ currencies: { supported: ['THB', 'USD'] } })",
   },
   {
+    slug: 'analytics', pkg: '@easy-cms/plugin-analytics', group: 'business', icon: 'lock', doc: 'analytics', experimental: true,
+    name: { en: 'Analytics & consent', th: 'Analytics และความยินยอม' },
+    summary: { en: 'Google Tag Manager set up in the admin, with a consent banner for PDPA and GDPR and GA4 events.', th: 'Google Tag Manager ตั้งค่าในหน้า admin พร้อม banner ขอความยินยอมตาม PDPA และ GDPR และ event GA4' },
+    features: {
+      en: ['Tag Manager container set in the admin, no deploy', 'Consent Mode v2: denied until the visitor chooses', 'A banner in English and Thai, Accept and Reject side by side', 'Consent records without IP addresses', 'GA4 events from forms and the shop'],
+      th: ['ตั้ง container ของ Tag Manager ในหน้า admin ไม่ต้อง deploy', 'Consent Mode v2: ปฏิเสธไว้จนกว่าผู้เข้าชมจะเลือก', 'banner ภาษาไทยและอังกฤษ ปุ่มยอมรับและปฏิเสธคู่กัน', 'บันทึกความยินยอมโดยไม่เก็บ IP', 'event GA4 จากฟอร์มและร้านค้า'],
+    },
+    usage: 'analyticsPlugin({ defaults: { gtm: process.env.GTM_ID } })',
+  },
+  {
     slug: 'multi-tenant', pkg: '@easy-cms/plugin-multi-tenant', group: 'business', icon: 'shield', doc: 'multi-tenant',
     name: { en: 'Multi-tenant', th: 'หลาย tenant' },
     summary: { en: 'Several sites or clients in one CMS, each with its own content, members and roles.', th: 'หลายเว็บหรือหลายลูกค้าใน CMS เดียว แต่ละรายมีเนื้อหา สมาชิก และบทบาทของตัวเอง' },
