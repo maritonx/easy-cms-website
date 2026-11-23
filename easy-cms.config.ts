@@ -220,14 +220,14 @@ export default defineConfig({
     },
   ],
   plugins: [
+    // SEO fields on posts. The home page's title, description and share image are in code
+    // (components/site-shell.tsx, in English and Thai), so the site global has none.
     seoPlugin({
       collections: ['posts'],
-      globals: ['site'],
       generateTitle: ({ doc }) => (doc.title ? `${doc.title} · Easy CMS` : null),
       generateDescription: ({ doc }) => (doc.excerpt as string | undefined) ?? null,
       generateImage: ({ doc }) => (doc.cover as number | undefined) ?? null,
-      generateURL: ({ doc, collection }) =>
-        collection === 'posts' ? (postPath(doc) ? `${SITE_URL}${postPath(doc)}` : null) : `${SITE_URL}/`,
+      generateURL: ({ doc }) => (postPath(doc) ? `${SITE_URL}${postPath(doc)}` : null),
       // app/llms.txt builds its own file with the docs; this keeps the plugin's routes quiet.
       llms: false,
       indexNow: { key: INDEXNOW_KEY },
