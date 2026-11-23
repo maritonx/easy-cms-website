@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { GITHUB_URL } from '@/lib/site'
 
-const UPDATED = { en: '13 November 2026', th: '13 พฤศจิกายน 2569' }
+const UPDATED = { en: '23 November 2026', th: '23 พฤศจิกายน 2569' }
 
 /** The privacy policy of easycms.dev: what the site and its admin keep, and why. */
 export function Privacy({ locale }: { locale: 'en' | 'th' }) {
@@ -29,6 +29,12 @@ export function Privacy({ locale }: { locale: 'en' | 'th' }) {
             <li>
               นับจำนวนผู้เข้าชมด้วย Umami Cloud ซึ่งไม่ใช้คุกกี้และไม่เก็บข้อมูลที่ระบุตัวบุคคล เช่น หน้าที่เปิด
               เว็บที่ส่งต่อมา ประเทศ และประเภทอุปกรณ์
+            </li>
+            <li>
+              เมื่อคุณยินยอม เว็บใช้ Google Tag Manager และ Google Analytics ซึ่งใช้คุกกี้เพื่อวัดการใช้งาน (และเพื่อการตลาด
+              เมื่อยินยอมหมวดนั้น) ก่อนคุณเลือก ทุกหมวดถูกปฏิเสธไว้ เปลี่ยนการเลือกได้ทุกเมื่อจาก &ldquo;ตั้งค่าคุกกี้&rdquo; ท้ายหน้า
+              การเลือกของคุณเก็บในคุกกี้ easy_consent 12 เดือน และบันทึกไว้เป็นหลักฐาน (ID สุ่ม หมวดที่เลือก และเวลา
+              ไม่เก็บ IP address) เป็นเวลา 2 ปี
             </li>
             <li>เว็บโฮสต์บน Vercel ซึ่งเก็บ log คำขอ (รวม IP address) ไว้ระยะสั้นเพื่อดูแลระบบ</li>
           </ul>
@@ -97,6 +103,13 @@ export function Privacy({ locale }: { locale: 'en' | 'th' }) {
           <li>
             Visits are counted with Umami Cloud, which uses no cookies and keeps nothing that identifies
             you: the pages opened, the referring site, the country and the kind of device.
+          </li>
+          <li>
+            If you agree, the site uses Google Tag Manager and Google Analytics, which set cookies to measure how
+            the site is used (and for marketing, if you agree to that too). Until you choose, everything is
+            denied. Change your choice at any time with &ldquo;Cookie settings&rdquo; at the bottom of the page.
+            Your choice is kept in the easy_consent cookie for 12 months, and recorded as proof (a random ID,
+            the categories and the time, no IP address) for 2 years.
           </li>
           <li>The site is hosted on Vercel, which keeps request logs (IP addresses included) for a short time to run the service.</li>
         </ul>

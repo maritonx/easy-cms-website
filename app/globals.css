@@ -1341,6 +1341,8 @@ a.feature:hover .go, a.feature:focus-visible .go { opacity: 1; transform: none; 
 .hero-dark .btn.primary:hover { background: #8fd3bc; }
 
 /* ===================== Contact button and form ===================== */
+/* The consent banner (@easy-cms/plugin-analytics) sits at the bottom too: the contact button waits until the visitor has chosen. */
+body:has([data-easy-consent-banner]) .cw:not(.is-open) { visibility: hidden; }
 .cw { position: fixed; right: max(20px, env(safe-area-inset-right, 0px)); bottom: max(20px, env(safe-area-inset-bottom, 0px)); z-index: 40; display: grid; justify-items: end; gap: 12px; }
 body:has(.site-header.open) .cw { display: none; }
 .cw-button { display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 20px 0 16px; border: 0; border-radius: 99px; background: var(--accent); color: var(--accent-ink); font: 600 15px var(--font-body); cursor: pointer;

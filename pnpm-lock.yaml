@@ -23,6 +23,9 @@ importers:
       '@easy-cms/plugin-ai':
         specifier: 1.54.0
         version: 1.54.0(@easy-cms/core@1.54.0(sharp@0.35.5(@types/node@20.19.43)))
+      '@easy-cms/plugin-analytics':
+        specifier: 1.54.0
+        version: 1.54.0(@easy-cms/core@1.54.0(sharp@0.35.5(@types/node@20.19.43)))
       '@easy-cms/plugin-backups':
         specifier: 1.54.0
         version: 1.54.0(@easy-cms/core@1.54.0(sharp@0.35.5(@types/node@20.19.43)))
@@ -240,6 +243,12 @@ packages:
 
   '@easy-cms/plugin-ai@1.54.0':
     resolution: {integrity: sha512-DDzEbx32lW7Xohbc+25vdp6jY2uS85pdJv54sxhZvAB4SCfFPdIkl0HLp2Wk2R8ZR+W6WbR4zFolaAeY2dJhyg==}
+    engines: {node: '>=22.12'}
+    peerDependencies:
+      '@easy-cms/core': ^1.54.0
+
+  '@easy-cms/plugin-analytics@1.54.0':
+    resolution: {integrity: sha512-tdkhmURb3Lhq5l8ezhkjVjcxsd/A2ae+H7o4tSqMOQ8y4i5nIfjTyrdcHF7E2RfpdBwOn8/8hYYYGX8wX3oJXg==}
     engines: {node: '>=22.12'}
     peerDependencies:
       '@easy-cms/core': ^1.54.0
@@ -3427,6 +3436,10 @@ snapshots:
       - '@tiptap/pm'
 
   '@easy-cms/plugin-ai@1.54.0(@easy-cms/core@1.54.0(sharp@0.35.5(@types/node@20.19.43)))':
+    dependencies:
+      '@easy-cms/core': 1.54.0(sharp@0.35.5(@types/node@20.19.43))
+
+  '@easy-cms/plugin-analytics@1.54.0(@easy-cms/core@1.54.0(sharp@0.35.5(@types/node@20.19.43)))':
     dependencies:
       '@easy-cms/core': 1.54.0(sharp@0.35.5(@types/node@20.19.43))
 

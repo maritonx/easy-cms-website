@@ -21,6 +21,7 @@
     "@easy-cms/db-sqlite": "1.54.0",
     "@easy-cms/next": "1.54.0",
     "@easy-cms/plugin-ai": "1.54.0",
+    "@easy-cms/plugin-analytics": "1.54.0",
     "@easy-cms/plugin-backups": "1.54.0",
     "@easy-cms/plugin-email": "1.54.0",
     "@easy-cms/plugin-form-builder": "1.54.0",

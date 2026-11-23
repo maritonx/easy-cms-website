@@ -2,6 +2,7 @@ import { google } from '@easy-cms/auth-oauth'
 import { consoleEmail, defineConfig } from '@easy-cms/core'
 import { sqlite } from '@easy-cms/db-sqlite'
 import { aiPlugin } from '@easy-cms/plugin-ai'
+import { analyticsPlugin } from '@easy-cms/plugin-analytics'
 import { backupsPlugin } from '@easy-cms/plugin-backups'
 import { emailPlugin } from '@easy-cms/plugin-email'
 import { formBuilderPlugin } from '@easy-cms/plugin-form-builder'
@@ -240,6 +241,9 @@ export default defineConfig({
         ? { turnstile: { siteKey: process.env.TURNSTILE_SITE_KEY, secretKey: process.env.TURNSTILE_SECRET_KEY } }
         : {}),
     }),
+    // Google Tag Manager with the consent banner (Settings → Analytics & consent): the container
+    // is set there, or GTM_ID until it is. Umami still counts every visit, without cookies.
+    analyticsPlugin({ defaults: { gtm: process.env.GTM_ID || undefined } }),
     // Telegram messages to admins when a form is sent or something fails (Settings → Integrations).
     notifyPlugin(),
     // AI providers for the admin's AI features (Settings → Integrations, AI).

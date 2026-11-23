@@ -1260,6 +1260,14 @@ if (!reset) {
   }
 }
 
+// The consent banner links to the privacy page (Settings → Analytics & consent); kept if an admin
+// set another one.
+const analytics = (await cms.findGlobal('analytics' as never)) as { privacy?: string | null }
+if (!analytics.privacy) {
+  await cms.updateGlobal('analytics' as never, { privacy: '/privacy' } as never)
+  console.log('analytics: privacy page set')
+}
+
 await cms.updateGlobal('site', {
   siteName: 'Easy CMS',
   announcement: {
