@@ -122,7 +122,12 @@ export function SiteFooter({ lang = 'en' }: { lang?: 'en' | 'th' }) {
             © 2026 Kanawut K. · MIT License ·{' '}
             <Link href={lang === 'th' ? '/th/privacy' : '/privacy'}>
               {lang === 'th' ? 'นโยบายความเป็นส่วนตัว' : 'Privacy'}
-            </Link>
+            </Link>{' '}
+            ·{' '}
+            {/* Opens the consent banner again (@easy-cms/plugin-analytics). */}
+            <a href="#cookie-settings" data-easy-consent>
+              {lang === 'th' ? 'ตั้งค่าคุกกี้' : 'Cookie settings'}
+            </a>
           </span>
           <span>{lang === 'th' ? 'สร้างด้วย Next.js และ Easy CMS' : 'Built with Next.js and Easy CMS'}</span>
         </div>

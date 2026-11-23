@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { EasyAnalytics } from '@easy-cms/next/analytics'
 import { jsonLdScript, siteJsonLd } from '@easy-cms/plugin-seo'
 import { Bricolage_Grotesque, Geist, Geist_Mono, IBM_Plex_Sans_Thai } from 'next/font/google'
 import { SITE_URL } from '@/easy-cms.config'
@@ -63,6 +64,8 @@ export function SiteShell({ lang, children }: { lang: 'en' | 'th'; children: Rea
         <main>{children}</main>
         <SiteFooter lang={lang} />
         <ContactWidget />
+        {/* Tag Manager and the consent banner (@easy-cms/plugin-analytics). */}
+        <EasyAnalytics />
       </body>
     </html>
   )
