@@ -5,6 +5,14 @@
 #
 #   docker compose up -d
 
+# Logs are rotated: at most 3 files of 10 MB per service, a few weeks at today's volume. The
+# privacy policy says so (failed sign-ins are logged with the IP address).
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
 services:
   web:
     image: ${WEB_IMAGE:-ghcr.io/maritonx/easy-cms-website:latest}
@@ -17,6 +25,7 @@ services:
       - ./uploads:/app/uploads
     mem_limit: 1536m
     cpus: 1.5
+    logging: *logging
     networks: [web]
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/robots.txt').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))"]
@@ -39,6 +48,7 @@ services:
       - caddy-data:/data
       - caddy-config:/config
     mem_limit: 128m
+    logging: *logging
     networks: [web]
     depends_on: [web]
 

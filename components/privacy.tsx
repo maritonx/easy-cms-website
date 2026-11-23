@@ -36,7 +36,10 @@ export function Privacy({ locale }: { locale: 'en' | 'th' }) {
               การเลือกของคุณเก็บในคุกกี้ easy_consent 12 เดือน และบันทึกไว้เป็นหลักฐาน (ID สุ่ม หมวดที่เลือก และเวลา
               ไม่เก็บ IP address) เป็นเวลา 2 ปี
             </li>
-            <li>เว็บโฮสต์บน Vercel ซึ่งเก็บ log คำขอ (รวม IP address) ไว้ระยะสั้นเพื่อดูแลระบบ</li>
+            <li>
+              เว็บรันบน server ของ Hetzner ที่ Falkenstein ประเทศเยอรมนี server เก็บ log ระบบ ซึ่งมี IP address
+              เฉพาะตอนเข้าสู่ระบบไม่สำเร็จ ไว้ไม่กี่สัปดาห์เพื่อดูแลระบบ
+            </li>
           </ul>
           <h2>ผู้ดูแลเว็บ (หน้า admin)</h2>
           <ul>
@@ -69,7 +72,7 @@ export function Privacy({ locale }: { locale: 'en' | 'th' }) {
           </ul>
           <h2>ที่เก็บข้อมูล</h2>
           <p>
-            ฐานข้อมูลอยู่ที่ Turso ไฟล์ที่อัปโหลดอยู่ที่ Vercel Blob และ backup อยู่ใน Google Drive ที่เชื่อมต่อไว้
+            ฐานข้อมูลและไฟล์ที่อัปโหลดอยู่บน server นี้ และ backup อยู่ใน Google Drive ที่เชื่อมต่อไว้
             ความลับ เช่น API key ที่กรอกในหน้า admin ถูกเข้ารหัสก่อนเก็บ
           </p>
           <h2>ติดต่อ</h2>
@@ -111,7 +114,10 @@ export function Privacy({ locale }: { locale: 'en' | 'th' }) {
             Your choice is kept in the easy_consent cookie for 12 months, and recorded as proof (a random ID,
             the categories and the time, no IP address) for 2 years.
           </li>
-          <li>The site is hosted on Vercel, which keeps request logs (IP addresses included) for a short time to run the service.</li>
+          <li>
+            The site runs on a Hetzner server in Falkenstein, Germany. The server keeps system logs, with an
+            IP address only for failed sign-ins, for a few weeks to run the service.
+          </li>
         </ul>
         <h2>Maintainers (the admin)</h2>
         <ul>
@@ -150,7 +156,7 @@ export function Privacy({ locale }: { locale: 'en' | 'th' }) {
         </ul>
         <h2>Where it is kept</h2>
         <p>
-          The database is on Turso, uploaded files on Vercel Blob, and backups in the connected Google
+          The database and uploaded files are on that server, and backups in the connected Google
           Drive. Secrets entered in the admin, such as API keys, are encrypted before they are stored.
         </p>
         <h2>Contact</h2>
