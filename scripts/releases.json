@@ -1,5 +1,26 @@
 [
   {
+    "version": "1.54.0",
+    "title": "Google Tag Manager with consent",
+    "date": "2026-11-23",
+    "kind": "minor",
+    "summary": "New experimental `@easy-cms/plugin-analytics`: Google Tag Manager set up in the admin, a consent banner in English and Thai (Consent Mode v2), consent records for PDPA and GDPR, and GA4 events from forms and the shop.",
+    "changes": [
+      "Settings → Analytics & consent holds the container, the banner and consent records. Pages load one script, `<api>/analytics.js`: the Nuxt module adds it; Next.js has `<EasyAnalytics />` from `@easy-cms/next/analytics`.",
+      "Everything is denied until the visitor chooses. The banner has Accept all and Reject all side by side, Settings per category, and is remembered for 12 months. Use your own consent tool with `gtag('consent', 'update', …)` or `easyConsent.set()`.",
+      "Choices are recorded without an IP address (a random ID, the categories, the banner version) and deleted after the days you set.",
+      "GA4 events in the `dataLayer`: `generate_lead` from `<easy-form>`; `view_item`, `add_to_cart`, `remove_from_cart`, `begin_checkout` and `purchase` from the shop's client, in the currency's main unit; `login` and `sign_up`.",
+      "Nothing loads in the admin's live preview or on `?preview=` pages."
+    ],
+    "packages": [
+      "@easy-cms/plugin-analytics",
+      "@easy-cms/plugin-ecommerce",
+      "@easy-cms/nuxt",
+      "@easy-cms/next"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.53.0",
     "title": "Markdown pages name their HTML page",
     "date": "2026-11-23",
