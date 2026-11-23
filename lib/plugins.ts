@@ -42,8 +42,8 @@ export const PLUGINS: readonly Plugin[] = [
     name: { en: 'SEO', th: 'SEO' },
     summary: { en: 'Meta fields with a search preview, sitemaps and structured data, and SEO for AI search: llms.txt, crawler rules and IndexNow.', th: 'field meta พร้อมตัวอย่างผลค้นหา sitemap และ structured data รวมถึง SEO สำหรับ AI search: llms.txt, กฎสำหรับ crawler และ IndexNow' },
     features: {
-      en: ['A meta title, description and share image on each document, with length meters', 'A preview of the search result as you type', 'Generators that fill the fields from the document', 'A sitemap, robots.txt and JSON-LD structured data', 'Page metadata for Next.js and Nuxt'],
-      th: ['meta title, description และรูปสำหรับแชร์ในทุกเอกสาร พร้อมตัววัดความยาว', 'ตัวอย่างผลค้นหาขณะพิมพ์', 'ตัวช่วยเติม field จากเนื้อหาเอกสาร', 'sitemap, robots.txt และ structured data แบบ JSON-LD', 'metadata ของหน้าสำหรับ Next.js และ Nuxt'],
+      en: ['A meta title, description and share image on each document, with length meters', 'A preview of the search result as you type', 'Generators that fill the fields from the document', 'A sitemap, robots.txt, JSON-LD, llms.txt and Markdown pages for AI', 'Page metadata for Next.js and Nuxt'],
+      th: ['meta title, description และรูปสำหรับแชร์ในทุกเอกสาร พร้อมตัววัดความยาว', 'ตัวอย่างผลค้นหาขณะพิมพ์', 'ตัวช่วยเติม field จากเนื้อหาเอกสาร', 'sitemap, robots.txt, JSON-LD, llms.txt และหน้า Markdown สำหรับ AI', 'metadata ของหน้าสำหรับ Next.js และ Nuxt'],
     },
     usage: "seoPlugin({ collections: ['posts'] })",
     extra: {
@@ -144,8 +144,8 @@ export const PLUGINS: readonly Plugin[] = [
     name: { en: 'Shop', th: 'ร้านค้า' },
     summary: { en: 'Products and variants, carts, checkout with Stripe or bank transfer, orders and stock.', th: 'สินค้าและตัวเลือก ตะกร้า ชำระเงินด้วย Stripe หรือโอนเงิน คำสั่งซื้อ และสต็อก' },
     features: {
-      en: ['Products and variants, prices in several currencies', 'Carts, guests included, and customer accounts', 'Checkout with Stripe or bank transfer', 'Orders and stock in the admin', 'React and Vue hooks for your pages'],
-      th: ['สินค้าและตัวเลือก ราคาหลายสกุลเงิน', 'ตะกร้า รวมถึงผู้ซื้อที่ไม่ได้สมัคร และบัญชีลูกค้า', 'ชำระเงินด้วย Stripe หรือโอนเงิน', 'คำสั่งซื้อและสต็อกในหน้า admin', 'hook สำหรับ React และ Vue'],
+      en: ['Products and variants, prices in several currencies', 'Carts, guests included, and customer accounts', 'Checkout with Stripe or bank transfer', 'Orders and stock in the admin', 'React and Vue hooks for your pages', 'GA4 ecommerce events for Tag Manager, no code'],
+      th: ['สินค้าและตัวเลือก ราคาหลายสกุลเงิน', 'ตะกร้า รวมถึงผู้ซื้อที่ไม่ได้สมัคร และบัญชีลูกค้า', 'ชำระเงินด้วย Stripe หรือโอนเงิน', 'คำสั่งซื้อและสต็อกในหน้า admin', 'hook สำหรับ React และ Vue', 'event ecommerce แบบ GA4 สำหรับ Tag Manager โดยไม่ต้องเขียนโค้ด'],
     },
     usage: "ecommercePlugin({ currencies: { supported: ['THB', 'USD'] } })",
   },
@@ -154,8 +154,8 @@ export const PLUGINS: readonly Plugin[] = [
     name: { en: 'Analytics & consent', th: 'Analytics และความยินยอม' },
     summary: { en: 'Google Tag Manager set up in the admin, with a consent banner for PDPA and GDPR and GA4 events.', th: 'Google Tag Manager ตั้งค่าในหน้า admin พร้อม banner ขอความยินยอมตาม PDPA และ GDPR และ event GA4' },
     features: {
-      en: ['Tag Manager container set in the admin, no deploy', 'Consent Mode v2: denied until the visitor chooses', 'A banner in English and Thai, Accept and Reject side by side', 'Consent records without IP addresses', 'GA4 events from forms and the shop'],
-      th: ['ตั้ง container ของ Tag Manager ในหน้า admin ไม่ต้อง deploy', 'Consent Mode v2: ปฏิเสธไว้จนกว่าผู้เข้าชมจะเลือก', 'banner ภาษาไทยและอังกฤษ ปุ่มยอมรับและปฏิเสธคู่กัน', 'บันทึกความยินยอมโดยไม่เก็บ IP', 'event GA4 จากฟอร์มและร้านค้า'],
+      en: ['Tag Manager container set in the admin, no deploy', 'Consent Mode v2: denied until the visitor chooses', 'A banner in English and Thai, Accept and Reject side by side', 'Consent records without IP addresses', 'GA4 events from forms and the shop, and purchases sent by the server when the money arrives'],
+      th: ['ตั้ง container ของ Tag Manager ในหน้า admin ไม่ต้อง deploy', 'Consent Mode v2: ปฏิเสธไว้จนกว่าผู้เข้าชมจะเลือก', 'banner ภาษาไทยและอังกฤษ ปุ่มยอมรับและปฏิเสธคู่กัน', 'บันทึกความยินยอมโดยไม่เก็บ IP', 'event GA4 จากฟอร์มและร้านค้า และส่งการซื้อจาก server เมื่อได้รับเงินจริง'],
     },
     usage: 'analyticsPlugin({ defaults: { gtm: process.env.GTM_ID } })',
   },
