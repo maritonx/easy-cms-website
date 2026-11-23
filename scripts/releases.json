@@ -1,5 +1,21 @@
 [
   {
+    "version": "1.53.0",
+    "title": "Markdown pages name their HTML page",
+    "date": "2026-11-23",
+    "kind": "minor",
+    "summary": "`docMarkdownResponse()` serves a page's Markdown version with a `Link: <page>; rel=\"canonical\"` header naming the HTML page, so search engines that find the Markdown copy count it as that page instead of a second one.",
+    "changes": [
+      "`docMarkdownResponse(cms, { collection, doc })` from `@easy-cms/plugin-seo` returns the `.md` response: `text/markdown`, cached for 10 minutes, with the canonical `Link` header.",
+      "The page's address is `url`, else the plugin's `generateURL`, made absolute with `admin.siteURL`, `serverURL` or the request's origin. Thai slugs are percent-encoded.",
+      "The AI search docs and the next-blog example use it. `docMarkdown()` is unchanged, for responses you build yourself."
+    ],
+    "packages": [
+      "@easy-cms/plugin-seo"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.52.2",
     "title": "Turnstile says what is wrong",
     "date": "2026-11-19",
