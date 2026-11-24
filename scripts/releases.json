@@ -1,5 +1,22 @@
 [
   {
+    "version": "1.56.0",
+    "title": "AI usage shows retries and repeats",
+    "date": "2026-11-24",
+    "kind": "minor",
+    "summary": "AI usage records more, still without prompts: calls tried again after a 429 or 5xx, the bytes of images sent, and a hash of each request, so Settings → Integrations → AI shows Retries and Asked again per feature.",
+    "changes": [
+      "Each AI request records `attempts` (2 when a busy or failing provider was asked again, which providers may bill), `imageBytes` and `promptHash` (of the feature, the document and the text; never the text).",
+      "The AI box shows **Retries** and **Asked again** per feature this month. The daily limit still counts requests.",
+      "Three new columns in the `ai-usage` table, for sites using the AI plugin: create a migration after upgrading."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/admin"
+    ],
+    "needsMigration": true
+  },
+  {
     "version": "1.55.0",
     "title": "GA4 purchases from the server",
     "date": "2026-11-23",
