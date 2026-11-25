@@ -1,5 +1,21 @@
 [
   {
+    "version": "1.56.1",
+    "title": "Fixes from code scanning",
+    "date": "2026-11-25",
+    "kind": "patch",
+    "summary": "Three fixes found by GitHub code scanning: Telegram links stay inside their `href`, and file names and paths with long runs of separators are trimmed quickly.",
+    "changes": [
+      "Telegram notifications escape `\"` too, so a link stays inside its `href`.",
+      "Uploaded file names with a long run of separators, and paths with many `/` in `routes.api` or `admin.path`, are trimmed by a loop instead of regular expressions that could be slow on such input."
+    ],
+    "packages": [
+      "@easy-cms/core",
+      "@easy-cms/plugin-notify"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.56.0",
     "title": "AI usage shows retries and repeats",
     "date": "2026-11-24",
