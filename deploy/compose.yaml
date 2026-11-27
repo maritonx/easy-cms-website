@@ -2,6 +2,7 @@
 #   compose.yaml, Caddyfile   this folder, copied by the deploy workflow
 #   .env                      the production variables; written by hand, never committed
 #   data/, uploads/           the SQLite database and uploaded files
+#   studio/, studio.caddy     Studio's files and site blocks, from the Easy CMS repo's releases
 #
 #   docker compose up -d
 
@@ -45,6 +46,9 @@ services:
       SITE_ADDRESS: ${SITE_ADDRESS:-:80}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      # A file, which must exist before Caddy starts (the deploy workflow makes it).
+      - ./studio.caddy:/etc/caddy/studio.caddy:ro
+      - ./studio:/srv/studio:ro
       - caddy-data:/data
       - caddy-config:/config
     mem_limit: 128m

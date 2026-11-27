@@ -66,6 +66,7 @@ On the server, `/srv/easycms` holds:
 | | |
 |---|---|
 | `compose.yaml`, `Caddyfile` | copied from `deploy/` on every deploy |
+| `studio/`, `studio.caddy` | Studio's files and site blocks, from the Easy CMS repo's releases |
 | `.env` | the production variables, written by hand (mode 600, never committed) |
 | `data/cms.db` | the database |
 | `uploads/` | uploaded files |
@@ -86,6 +87,17 @@ The server's `.env`:
 | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | Google sign-in for the admin and Drive backups |
 | `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile on the contact form |
 | `EASY_CMS_BACKUP_KEY` | optional: encrypts backups |
+
+### Studio
+
+Studio (`studio.easycms.dev`, its sandbox at `sandbox.easycms.dev`) is built in the Easy CMS
+repo: its release workflow copies the files to `/srv/easycms/studio/` and its site blocks, with
+their headers, to `/srv/easycms/studio.caddy`, which the Caddyfile imports, then reloads Caddy.
+Here it needs only DNS records for `studio` and `sandbox` pointing at this server.
+
+The sandbox runs code from shared links on a subdomain of this site. Its session cookies are
+`__Host-` cookies, which subdomains never get; keep it that way: no cookie with
+`Domain=easycms.dev` on this site.
 
 Day to day, from the server (`ssh deploy@<host>`, `cd /srv/easycms`):
 
