@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { GITHUB_URL, localeOf, NAV, otherLanguagePath, VERSION } from '@/lib/site'
+import { DEMO_URL, GITHUB_URL, localeOf, NAV, otherLanguagePath, TRY_ONLINE, VERSION } from '@/lib/site'
 import { GitHubIcon, Logo } from './icons'
 import { SearchDialog } from './search-dialog'
 import { ThemeToggle } from './theme-toggle'
@@ -12,7 +12,7 @@ import { WhyMenu } from './why/why-menu'
 export function SiteHeader() {
   const pathname = usePathname()
   const locale = localeOf(pathname)
-  // Below 900px the menu folds behind a button; it closes on a new page and on Escape.
+  // Below 1100px the menu folds behind a button; it closes on a new page and on Escape.
   const [open, setOpen] = useState(false)
   const [shownFor, setShownFor] = useState(pathname)
   if (shownFor !== pathname) {
@@ -34,6 +34,12 @@ export function SiteHeader() {
           Easy CMS <span className="ver">v{VERSION}</span>
         </Link>
         <nav className="nav" id="main-nav" aria-label={locale === 'th' ? 'เมนูหลัก' : 'Main'}>
+          {/* Below 1100px, where the header has no room for the button, Studio leads the menu. */}
+          {DEMO_URL && (
+            <a className="nav-try" href={DEMO_URL} data-umami-event="open-studio" data-umami-event-from="nav-menu">
+              {TRY_ONLINE[locale]}
+            </a>
+          )}
           <WhyMenu key={pathname} locale={locale} pathname={pathname} />
           {NAV[locale].map((item) => (
             <Link key={item.href} href={item.href} aria-current={pathname.startsWith(item.href) ? 'page' : undefined}>
@@ -56,6 +62,11 @@ export function SiteHeader() {
             <GitHubIcon />
             <span>GitHub</span>
           </a>
+          {DEMO_URL && (
+            <a className="try-pill" href={DEMO_URL} data-umami-event="open-studio" data-umami-event-from="nav">
+              {TRY_ONLINE[locale]}
+            </a>
+          )}
           <button
             type="button"
             className="menu-btn"

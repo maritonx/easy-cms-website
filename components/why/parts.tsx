@@ -95,7 +95,7 @@ export function WhyCta({ locale, from }: { locale: Locale; from: string }) {
               {t.docs} <ArrowIcon />
             </Link>
             {DEMO_URL && (
-              <a className="btn" href={DEMO_URL} data-umami-event="open-demo" data-umami-event-from={from}>
+              <a className="btn" href={DEMO_URL} data-umami-event="open-studio" data-umami-event-from={from}>
                 {t.demo}
               </a>
             )}

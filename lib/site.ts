@@ -18,6 +18,8 @@ export const DEPLOY_NETLIFY_URL =
  * "Try the demo" buttons link here; null hides them.
  */
 export const DEMO_URL: string | null = 'https://studio.easycms.dev'
+/** The header's button to Studio, and its first item in the folded menu (counted as open-studio). */
+export const TRY_ONLINE = { en: 'Try online', th: 'ลองออนไลน์' } as const
 
 /**
  * Umami Cloud (cookieless, so no consent banner). It only counts visits on the live host, not

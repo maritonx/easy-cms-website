@@ -104,9 +104,15 @@ code, kbd, pre { font-family: var(--font-mono); }
 .icon-btn svg { width: 18px; height: 18px; }
 .gh-pill { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border-radius: 8px; border: 1px solid var(--line); font-size: 13.5px; }
 .gh-pill svg { width: 16px; height: 16px; }
-@media (max-width: 1180px) { .gh-pill span { display: none; } .site-header .wrap { gap: 20px; } }
-@media (max-width: 1240px) { .search-btn { min-width: 0; } .search-btn span, .search-btn kbd { display: none; } }
-@media (max-width: 900px) {
+/* Easy CMS Studio: the header's one filled button. Below 1100px it leads the folded menu instead. */
+.try-pill { display: inline-flex; align-items: center; height: 36px; padding: 0 14px; border-radius: 8px; background: var(--accent); color: var(--accent-ink); font-size: 13.5px; font-weight: 500; white-space: nowrap; transition: background 0.15s; }
+.try-pill:hover { background: var(--accent-hi); }
+.nav .nav-try { display: none; }
+/* The header folds its menu below 1100px, and keeps the full search box and GitHub label for wide
+   screens: with the Studio button, anything less overflows (longest in Thai). */
+@media (max-width: 1360px) { .gh-pill span { display: none; } .site-header .wrap { gap: 20px; } }
+@media (max-width: 1480px) { .search-btn { min-width: 0; } .search-btn span, .search-btn kbd { display: none; } }
+@media (max-width: 1099px) {
   .site-header .wrap { flex-wrap: wrap; height: auto; padding-block: 10px; row-gap: 6px; }
   .nav { order: 3; width: 100%; overflow-x: auto; margin-inline: -8px; }
   .gh-pill span { display: none; }
@@ -507,7 +513,7 @@ code, kbd, pre { font-family: var(--font-mono); }
 .why-panel .why-panel-all { display: inline-block; margin-top: 10px; padding: 0; font-size: 13.5px; color: var(--muted); }
 :lang(th) .why-panel-title { letter-spacing: 0; font-family: var(--font-body); font-size: 12.5px; }
 .why-panel .why-panel-all:hover { color: var(--accent); }
-@media (max-width: 900px) {
+@media (max-width: 1099px) {
   /* The menu wraps instead of scrolling, and the panel opens below it like an accordion. */
   .nav { flex-wrap: wrap; overflow: visible; }
   .why-menu { display: contents; }
@@ -888,7 +894,7 @@ h2 em.accent { font-style: normal; color: var(--accent); }
 .site-header.open .menu-btn .m1 { transform: translateY(5px) rotate(45deg); }
 .site-header.open .menu-btn .m2 { opacity: 0; }
 .site-header.open .menu-btn .m3 { transform: translateY(-5px) rotate(-45deg); }
-@media (max-width: 900px) {
+@media (max-width: 1099px) {
   .site-header .wrap { flex-wrap: nowrap; height: var(--header-h); padding-block: 0; }
   .site-header .header-tools { margin-left: auto; }
   .menu-btn { display: inline-grid; }
@@ -896,6 +902,8 @@ h2 em.accent { font-style: normal; color: var(--accent); }
     flex-direction: column; gap: 2px; padding: 8px 16px 16px; background: var(--bg); border-bottom: 1px solid var(--line); box-shadow: 0 24px 40px -28px rgba(0,0,0,.35); }
   .site-header.open .nav { display: flex; animation: menu-in .18s var(--ease-out); }
   .site-header .nav a { font-size: 16px; padding: 12px; }
+  .try-pill { display: none; }
+  .site-header .nav .nav-try { display: block; color: var(--accent); font-weight: 500; }
 }
 @keyframes menu-in { from { opacity: 0; transform: translateY(-6px); } }
 
