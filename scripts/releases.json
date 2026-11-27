@@ -1,5 +1,21 @@
 [
   {
+    "version": "1.56.2",
+    "title": "Ready for the Nuxt modules list",
+    "date": "2026-11-27",
+    "kind": "patch",
+    "summary": "`@easy-cms/nuxt` and `@easy-cms/next` describe Easy CMS as the code-first CMS and app backend that runs inside your app, and a Nuxt app without a config gets a warning that says how to set it up.",
+    "changes": [
+      "The npm descriptions of `@easy-cms/nuxt` and `@easy-cms/next` say \"Code-first CMS and app backend that runs inside your app\" (no longer \"headless CMS\").",
+      "When a Nuxt app has the module but no `easy-cms.config.ts` (as after `nuxi module add easy-cms`, which installs only the module), the warning lists the packages to install, a short config to start from and the `EASY_CMS_SECRET` to set."
+    ],
+    "packages": [
+      "@easy-cms/nuxt",
+      "@easy-cms/next"
+    ],
+    "needsMigration": false
+  },
+  {
     "version": "1.56.1",
     "title": "Fixes from code scanning",
     "date": "2026-11-25",
