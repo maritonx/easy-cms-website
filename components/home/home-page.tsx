@@ -6,7 +6,7 @@ import { getRoadmapLevels, getSite } from '@/lib/cms'
 import { highlight } from '@/lib/highlight'
 import { HOME_COPY, type Locale } from '@/lib/home-copy'
 import { npmDownloadsTotal } from '@/lib/npm-downloads'
-import { GITHUB_URL, NPM_URL, SITE_REPO_URL, VERSION } from '@/lib/site'
+import { DEMO_URL, GITHUB_URL, NPM_URL, SITE_REPO_URL, VERSION } from '@/lib/site'
 import { type Brand, BrandLogo } from '../brand-logo'
 import { CompareMatrix } from '../compare-matrix'
 import { LevelsStrip } from '../levels-strip'
@@ -244,6 +244,11 @@ export async function HomePage({ locale }: { locale: Locale }) {
               <Link className="btn primary" href={docs('getting-started')}>
                 {t.hero.start} <ArrowIcon />
               </Link>
+              {DEMO_URL && (
+                <a className="btn" href={DEMO_URL} data-umami-event="open-studio" data-umami-event-from={`hero-${locale}`}>
+                  {t.hero.studio}
+                </a>
+              )}
               <a className="btn" href={GITHUB_URL}>
                 <GitHubIcon /> {t.hero.star}
               </a>

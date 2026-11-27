@@ -16,7 +16,7 @@ export const COMPARED = ['Easy CMS', 'Payload', 'Strapi', 'Directus', 'WordPress
 export type HomeCopy = {
   meta: { title: string; description: string }
   docs: string
-  hero: { title: string; accent: string; lede: string; start: string; star: string; meta: readonly string[] }
+  hero: { title: string; accent: string; lede: string; start: string; studio: string; star: string; meta: readonly string[] }
   stack: {
     label: string
     /** Under the logos: what each number is. */
@@ -129,6 +129,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
       accent: 'A whole backend.',
       lede: 'Define data, access and logic in `easy-cms.config.ts`. You get a database, a typed API and REST, sign-in, files, jobs and an admin at `/admin`.',
       start: 'Get started',
+      studio: 'Try in your browser',
       star: 'Star on GitHub',
       meta: ['MIT licensed', 'Next.js · Nuxt · Standalone', 'Admin in English & ไทย'],
     },
@@ -319,6 +320,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
       accent: 'ได้ backend ครบ',
       lede: 'กำหนดข้อมูล สิทธิ์ และ logic ใน `easy-cms.config.ts` แล้วได้ฐานข้อมูล API ที่มี type และ REST การล็อกอิน ไฟล์ งานเบื้องหลัง และหน้า admin ที่ `/admin`',
       start: 'เริ่มใช้งาน',
+      studio: 'ลองในเบราว์เซอร์',
       star: 'ให้ดาวบน GitHub',
       meta: ['MIT license', 'Next.js · Nuxt · Standalone', 'Admin ภาษาไทยและอังกฤษ'],
     },
