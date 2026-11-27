@@ -13,8 +13,11 @@ export const DEPLOY_VERCEL_URL =
 /** The same starter on the visitor's own Netlify (docs/one-click-deploy). */
 export const DEPLOY_NETLIFY_URL =
   'https://app.netlify.com/start/deploy?repository=https://github.com/maritonx/easy-cms&create_from_path=templates/next-starter'
-/** The public admin demo; null until it is up, which hides the "Try the demo" buttons. */
-export const DEMO_URL: string | null = null
+/**
+ * Easy CMS Studio: write a config and use its admin in the browser (easy-cms ADR-0074). The
+ * "Try the demo" buttons link here; null hides them.
+ */
+export const DEMO_URL: string | null = 'https://studio.easycms.dev'
 
 /**
  * Umami Cloud (cookieless, so no consent banner). It only counts visits on the live host, not
