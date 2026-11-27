@@ -60,7 +60,11 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           printf '%s\n' "${{ secrets.DEPLOY_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
       - name: Copy compose.yaml and Caddyfile
-        run: scp deploy/compose.yaml deploy/Caddyfile deploy@${{ secrets.DEPLOY_HOST }}:/srv/easycms/
+        run: |
+          scp deploy/compose.yaml deploy/Caddyfile deploy@${{ secrets.DEPLOY_HOST }}:/srv/easycms/
+          # Studio's files and site blocks come from the Easy CMS repo; until its first release,
+          # an empty studio.caddy (Caddy imports it) and an empty folder.
+          ssh deploy@${{ secrets.DEPLOY_HOST }} "cd /srv/easycms && touch studio.caddy && mkdir -p studio"
       - name: Pull and restart
         run: |
           # The job's token reads the image, whether the package is public or private, and expires

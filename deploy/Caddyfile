@@ -6,3 +6,7 @@
 	redir @www https://easycms.dev{uri} permanent
 	reverse_proxy web:3000
 }
+
+# Studio (studio.easycms.dev and its sandbox): its site blocks and headers come with it, written by
+# the Easy CMS repo's release workflow next to this file (empty until the first Studio release).
+import /etc/caddy/studio.caddy
