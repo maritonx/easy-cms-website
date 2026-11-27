@@ -1,6 +1,7 @@
 /**
  * Fills an empty database with the site's starting content: releases from the Easy CMS
- * changelog, blog posts, showcase entries, the roadmap's levels and the home page announcement.
+ * changelog, blog posts, showcase entries, the roadmap's levels and the home page announcement
+ * (from the latest minor release, unless an admin wrote one).
  *
  *   pnpm seed            releases missing from the changelog; posts and showcase if empty;
  *                        roadmap levels that are missing
@@ -1268,14 +1269,28 @@ if (!analytics.privacy) {
   console.log('analytics: privacy page set')
 }
 
-await cms.updateGlobal('site', {
-  siteName: 'Easy CMS',
-  announcement: {
-    badge: '1.45',
-    label: 'Now runs on Cloudflare Workers, Bun and Deno',
-    href: '/docs/deploy/cloudflare-workers',
-  },
-})
-console.log('site: announcement set')
+// The home page badge follows the latest minor (or major) release. One an admin wrote
+// (Globals → Site) is kept: the seed replaces only an empty badge, one it set for a release,
+// or the hand-written 1.45 one it used to set.
+type Announcement = { badge?: string | null; label?: string | null; href?: string | null }
+const site = (await cms.findGlobal('site')) as { announcement?: Announcement | null }
+const current = site.announcement ?? {}
+const releaseHref = (version: string) => `/changelog#v${version}`
+const setBySeed =
+  !current.label ||
+  current.label === 'Now runs on Cloudflare Workers, Bun and Deno' ||
+  releases.some((r) => r.title === current.label && current.href === releaseHref(r.version))
+const latest = releases.find((r) => r.kind !== 'patch')
+if (setBySeed && latest) {
+  const announcement = {
+    badge: latest.version.split('.').slice(0, 2).join('.'),
+    label: latest.title,
+    href: releaseHref(latest.version),
+  }
+  await cms.updateGlobal('site', { siteName: 'Easy CMS', announcement })
+  console.log(`site: announcement is ${announcement.badge} ${announcement.label}`)
+} else {
+  console.log('site: announcement kept (written in the admin)')
+}
 
 await cms.destroy()
