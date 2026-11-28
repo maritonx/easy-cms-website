@@ -73,7 +73,9 @@ On the server, `/srv/easycms` holds:
 
 `.github/workflows/deploy.yml` deploys every push to `main`: it builds the image on an arm64
 runner, pushes it to `ghcr.io/maritonx/easy-cms-website` (tagged `latest` and the commit), and
-the server pulls it and restarts `web`, which runs `easy-cms migrate` before it serves. It needs
+the server pulls it and restarts `web`, which runs `easy-cms migrate` before it serves. Once `web`
+is healthy it removes images no container uses (old deploys filled the 38 GB disk on 2026-11-28,
+and SQLite stopped with `SQLITE_IOERR`), and warns in the run when the disk is 80% used. It needs
 the repository secrets `DEPLOY_HOST`, `DEPLOY_SSH_KEY` (the `deploy` user's key) and
 `DEPLOY_KNOWN_HOSTS` (`ssh-keyscan <host>`).
 
