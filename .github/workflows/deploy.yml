@@ -82,3 +82,11 @@ jobs:
             sleep 6
           done
           echo "web did not become healthy"; exit 1
+      # Each deploy pulls a new image and keeps the old ones: on 2026-11-28 they filled the disk
+      # (38 GB, 100%), SQLite couldn't write (SQLITE_IOERR) and the site went down. Once the new
+      # one is healthy, images no container uses go: a rollback pulls its tag again from ghcr.io.
+      - name: Remove unused images
+        run: |
+          ssh deploy@${{ secrets.DEPLOY_HOST }} "docker image prune -af >/dev/null && df -h / | tail -1" | tee disk.txt
+          used=$(awk '{gsub("%", "", $5); print $5}' disk.txt)
+          if [ "$used" -ge 80 ]; then echo "::warning title=Server disk::${used}% of the server's disk is used"; fi
